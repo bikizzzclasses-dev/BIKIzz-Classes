@@ -102,10 +102,18 @@ def upload_profile():
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+# app.py mein jahan db.init_app(app) hai, wahan ye karein:
+
 db.init_app(app)
+
+# --- ISSE GLOBAL SCOPE MEIN DALEIN ---
+with app.app_context():
+    db.create_all() 
+    print("✅ Database tables created/checked")
+# -------------------------------------
+
 app.register_blueprint(student_bp)
 app.register_blueprint(admin_bp)
-
 # ================= HOME =================
 
 
