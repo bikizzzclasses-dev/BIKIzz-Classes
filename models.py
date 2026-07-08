@@ -151,3 +151,16 @@ class Test(db.Model):
     option4 = db.Column(db.String(200), nullable=False)
 
     answer = db.Column(db.String(200), nullable=False)
+
+    # ==========================================================
+# ACTIVE SESSION MODEL (2-DEVICE LIMIT)
+# FILE: models.py
+# ==========================================================
+
+class ActiveSession(db.Model):
+    __tablename__ = "active_session"
+
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
+    session_token = db.Column(db.String(100), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)

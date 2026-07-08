@@ -33,7 +33,8 @@ from models import (
     LoginAttempt,
     Notes,
     LiveClass,
-    Test
+    Test,
+    ActiveSession  # <-- Yeh yahan add karein
 )
 
 app = Flask(__name__)
@@ -125,11 +126,17 @@ def profile():
     return render_template("profile.html", student=student)
 
 
-# ================= LOGOUT =================
+# ================= LOGOUT (UPDATED FOR 2-DEVICE LIMIT) =================
 
 @app.route("/logout")
 def logout():
 
+    # Agar session mein token hai, toh database se delete karein
+    if "session_token" in session:
+        ActiveSession.query.filter_by(session_token=session["session_token"]).delete()
+        db.session.commit()
+
+    # Flask session clear karein
     session.clear()
 
     flash("Logged Out Successfully")

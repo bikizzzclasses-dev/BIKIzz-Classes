@@ -1,9 +1,6 @@
-# ==========================================================
-# STUDENT IMPORTS
-# FILE: student.py
-# ==========================================================
-
-import os
+#import os
+import random  # secrets ke sath iska bhi use hai
+import secrets  # <-- Yeh naya add kiya unique session tokens banane ke liye
 
 from flask import (
     Blueprint,
@@ -23,7 +20,6 @@ from werkzeug.security import (
 from werkzeug.utils import secure_filename
 
 from random import randint
-
 from flask_mail import Message
 
 from models import (
@@ -33,7 +29,8 @@ from models import (
     LiveClass,
     Notice,
     Test,
-    PasswordResetOTP
+    PasswordResetOTP,
+    ActiveSession  # <-- Yeh naya model humne yahan import kiya
 )
 
 # ==========================================================
@@ -88,9 +85,8 @@ def register():
 
     return render_template("register.html")
 
-
 # ==========================================================
-# STUDENT LOGIN
+# STUDENT LOGIN (WITH 2-DEVICE LIMIT)
 # FILE: student.py
 # ==========================================================
 
@@ -106,8 +102,27 @@ def login():
 
         if student and check_password_hash(student.password, password):
 
+            # 1. Check karein ki is student ke pehle se kitne active devices/sessions hain
+            active_devices_count = ActiveSession.query.filter_by(student_id=student.id).count()
+
+            if active_devices_count >= 2:
+                flash("Login Failed! Yeh account pehle se hi 2 devices par active hai. Kisi ek se logout kijiye.")
+                return redirect("/login")
+
+            # 2. Agar 2 se kam hain, toh ek secure unique session token banayein
+            token = secrets.token_hex(16)
+
+            new_session = ActiveSession(
+                student_id=student.id,
+                session_token=token
+            )
+            db.session.add(new_session)
+            db.session.commit()
+
+            # 3. Flask session mein details aur token save karein
             session["student_id"] = student.id
             session["student_name"] = student.name
+            session["session_token"] = token  # Isse device track hoga logout ke waqt
 
             flash("Login Successful")
 
