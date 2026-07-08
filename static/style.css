@@ -1,0 +1,1634 @@
+/* ===========================
+   RESET
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#071a2f;
+    color:white;
+    overflow-x:hidden;
+}
+
+.container{
+    width:90%;
+    max-width:1300px;
+    margin:auto;
+}
+
+/* ===========================
+   TOP BAR
+=========================== */
+
+.top-bar{
+    background:#00bfff;
+    color:white;
+    padding:10px 0;
+}
+
+.top-bar .container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.top-bar a{
+    color:white;
+    text-decoration:none;
+    background:#071a2f;
+    padding:10px 20px;
+    border-radius:30px;
+    font-weight:600;
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:999;
+    background:rgba(7,26,47,.85);
+    backdrop-filter:blur(15px);
+}
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 0;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo img{
+    width:60px;
+    height:60px;
+    object-fit:contain;
+}
+
+.logo h2{
+    font-size:26px;
+}
+
+.logo span{
+    color:#9fdcff;
+    font-size:13px;
+}
+
+nav{
+    display:flex;
+    gap:35px;
+}
+
+nav a{
+    text-decoration:none;
+    color:white;
+    transition:.3s;
+}
+
+nav a:hover,
+nav .active{
+    color:#00d4ff;
+}
+
+.nav-btn{
+    display:flex;
+    gap:15px;
+}
+
+.login-btn,
+.register-btn{
+
+    text-decoration:none;
+    padding:12px 28px;
+    border-radius:40px;
+    font-weight:600;
+
+}
+
+.login-btn{
+
+    color:white;
+    border:2px solid #00d4ff;
+
+}
+
+.register-btn{
+
+    background:#00d4ff;
+    color:white;
+
+}
+
+.register-btn:hover{
+
+    background:white;
+    color:#071a2f;
+
+}
+
+/* ===========================
+   HERO
+=========================== */
+
+.hero{
+
+    position:relative;
+
+    min-height:95vh;
+
+    background:url("../static/images/hero-bg.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    display:flex;
+
+    align-items:center;
+
+}
+background:url("images/hero-bg.jpg")
+
+.hero-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(7,26,47,.70);
+
+}
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.hero-left{
+
+    width:55%;
+
+}
+
+.hero-right img{
+
+    width:100%;
+    max-width:600px;
+
+}
+
+.badge{
+
+    display:inline-block;
+
+    background:#0d3556;
+
+    color:#00d4ff;
+
+    padding:10px 20px;
+
+    border-radius:30px;
+
+    margin-bottom:25px;
+
+}
+
+.hero h1{
+
+    font-size:70px;
+
+    line-height:1.15;
+
+    margin-bottom:20px;
+
+}
+
+.hero h1 span{
+
+    color:#00d4ff;
+
+}
+
+.hero p{
+
+    font-size:20px;
+
+    line-height:1.8;
+
+    color:#d7d7d7;
+
+    margin-bottom:35px;
+
+}
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+.primary-btn{
+
+    background:#00d4ff;
+
+    color:white;
+
+    padding:16px 35px;
+
+    text-decoration:none;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+}
+
+.secondary-btn{
+
+    border:2px solid white;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:16px 35px;
+
+    border-radius:50px;
+
+}
+
+.primary-btn:hover{
+
+    background:white;
+
+    color:#071a2f;
+
+}
+
+.secondary-btn:hover{
+
+    background:white;
+
+    color:#071a2f;
+
+}
+
+.hero-stats{
+
+    display:flex;
+
+    gap:60px;
+
+    margin-top:50px;
+
+}
+
+.hero-stats h2{
+
+    color:#00d4ff;
+
+    font-size:40px;
+
+}
+
+.hero-stats p{
+
+    font-size:16px;
+
+    margin-top:5px;
+
+}
+
+
+
+/* ================= COURSE ================= */
+
+.course{
+
+padding:100px 0;
+
+background:white;
+
+color:#222;
+
+}
+
+.section-title{
+
+text-align:center;
+
+font-size:45px;
+
+color:#071A2F;
+
+margin-bottom:15px;
+
+}
+
+.section-subtitle{
+
+text-align:center;
+
+color:#666;
+
+margin-bottom:60px;
+
+font-size:18px;
+
+}
+
+.course-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:30px;
+
+}
+
+.course-card{
+
+background:#f8fbff;
+
+padding:35px;
+
+border-radius:20px;
+
+text-align:center;
+
+transition:.35s;
+
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+}
+
+.course-card:hover{
+
+transform:translateY(-12px);
+
+}
+
+.course-card i{
+
+font-size:48px;
+
+color:#00BFFF;
+
+margin-bottom:20px;
+
+}
+
+.course-card h3{
+
+margin-bottom:15px;
+
+}
+
+/* ================= WHY ================= */
+
+.why{
+
+padding:100px 0;
+
+background:#071A2F;
+
+}
+
+.why-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+gap:30px;
+
+}
+
+.why-box{
+
+background:#102C48;
+
+padding:35px;
+
+text-align:center;
+
+border-radius:20px;
+
+transition:.35s;
+
+}
+
+.why-box:hover{
+
+background:#00BFFF;
+
+transform:translateY(-10px);
+
+}
+
+.why-box i{
+
+font-size:45px;
+
+margin-bottom:20px;
+
+}
+
+.why-box h3{
+
+margin-bottom:15px;
+
+}
+
+/* ================= FACULTY ================= */
+
+.faculty{
+
+padding:100px 0;
+
+background:white;
+
+color:#222;
+
+}
+
+.faculty-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+gap:35px;
+
+}
+
+.faculty-card{
+
+background:#f8fbff;
+
+padding:35px;
+
+border-radius:20px;
+
+text-align:center;
+
+box-shadow:0 15px 30px rgba(0,0,0,.08);
+
+transition:.35s;
+
+}
+
+.faculty-card:hover{
+
+transform:translateY(-10px);
+
+}
+
+.faculty-card img{
+
+width:180px;
+
+height:180px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+margin-bottom:20px;
+
+border:6px solid #00BFFF;
+
+}
+
+.faculty-card h3{
+
+margin-bottom:10px;
+
+color:#071A2F;
+
+}
+
+/* ================= DEMO ================= */
+
+.demo{
+padding:100px 0;
+background:#eef6fd;
+}
+
+.video-box{
+overflow:hidden;
+border-radius:20px;
+box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+/* ================= ENROLL ================= */
+
+.enroll{
+padding:100px 0;
+background:white;
+color:#222;
+}
+
+.steps{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+}
+
+.step{
+background:#f8fbff;
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.step:hover{
+transform:translateY(-10px);
+}
+
+/* ================= FAQ ================= */
+
+.faq-box {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px 0;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.faq-question h3 {
+    margin: 0;
+}
+
+.arrow {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+/* Shuruat me saare answers chipe rahenge */
+.faq-answer {
+    display: none;
+    padding: 10px;
+    color: #555;
+}
+
+/* Jab active hoga toh arrow ghum jayega aur answer dikhega */
+.faq-box.active .faq-answer {
+    display: block;
+}
+
+.faq-box.active .arrow {
+    transform: rotate(180deg); /* Arrow up ho jayega */
+}
+
+/* ================= CONTACT ================= */
+
+.footer{
+    background:#081826;
+    padding:70px 0 20px;
+    color:#fff;
+}
+
+.footer .row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:35px;
+    align-items:flex-start;
+}
+
+.footer img{
+    width:90px;
+    margin-bottom:15px;
+}
+
+.footer h3,
+.footer h4{
+    margin-bottom:20px;
+    font-weight:700;
+}
+
+.footer p{
+    color:#d6d6d6;
+    line-height:28px;
+}
+
+.footer-links{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.footer-links li{
+    margin:14px 0;
+}
+
+.footer-links a{
+    color:#fff;
+    text-decoration:none;
+}
+
+.footer-links a:hover{
+    color:#00d4ff;
+}
+
+/* Social icons container */
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* Har icon ka button style */
+.social-icons a {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Circle banane ke liye */
+    background: rgba(255, 255, 255, 0.1); /* Halka background */
+    color: white;
+    font-size: 20px;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+/* Hover karne par color wahi rahega jo aapne define kiya hai */
+.social-icons a:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Icon specific colors (aapne jo HTML mein diye hain wo yahan override ho jayenge) */
+.social-icons a.instagram { color: #e1306c; }
+.social-icons a.youtube { color: #ff0000; }
+.social-icons a.telegram { color: #0088cc; }
+.social-icons a.whatsapp { color: #25d366; }
+
+.footer hr{
+    margin:40px 0 20px;
+}
+
+.text-center{
+    text-align:center;
+}
+
+@media(max-width:991px){
+
+.footer .row{
+    grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:600px){
+
+.footer .row{
+    grid-template-columns:1fr;
+    text-align:center;
+}
+
+.social-icons{
+    justify-content:center;
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:991px){
+
+.about-hero-container,
+.about-container,
+.founder-container{
+    flex-direction:column;
+    text-align:center;
+}
+
+.about-right,
+.founder-image{
+    text-align:center;
+}
+
+.about-left h1{
+    font-size:42px;
+}
+
+.about-features{
+    grid-template-columns:1fr;
+}
+
+.mission-grid,
+.footer-container{
+    grid-template-columns:1fr;
+}
+
+.stats{
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+background:#05111d;
+padding:25px;
+text-align:center;
+}
+
+/* ================= WHATSAPP ================= */
+
+.whatsapp{
+position:fixed;
+bottom:25px;
+right:25px;
+width:60px;
+height:60px;
+background:#25D366;
+color:white;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:30px;
+text-decoration:none;
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+z-index:999;
+}
+
+.contact-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+    margin-top:60px;
+}
+
+.contact-card{
+    background:#18314F;
+    border-radius:20px;
+    padding:35px 25px;
+    text-align:center;
+    transition:.3s;
+}
+
+.contact-card:hover{
+    transform:translateY(-8px);
+    background:#204066;
+}
+
+.contact-icon{
+    width:70px;
+    height:70px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    color:#fff;
+    background:linear-gradient(45deg,#E1306C,#F77737,#FCAF45);
+}
+
+.contact-card h3{
+    color:#fff;
+    margin-bottom:15px;
+    font-size:24px;
+}
+
+.contact-card p{
+    color:#d6d6d6;
+    margin-bottom:20px;
+}
+
+.insta-btn{
+    display:inline-block;
+    padding:10px 22px;
+    border-radius:30px;
+    background:#E1306C;
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.insta-btn:hover{
+    background:#C82361;
+}
+
+
+/* ================= PROFILE PAGE ================= */
+
+.profile-card{
+    max-width:600px;
+    margin:60px auto;
+    background:#102C48;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+.profile-card h2{
+    color:#00CFFF;
+    margin-bottom:20px;
+}
+
+.profile-card p{
+    color:#fff;
+    font-size:18px;
+    margin:15px 0;
+}
+
+.profile-card strong{
+    color:#00CFFF;
+}
+
+.profile-card .register-btn{
+    margin-top:20px;
+    display:inline-block;
+}
+
+/* ================= PROFILE PHOTO ================= */
+
+.profile-photo{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid #00CFFF;
+    display:block;
+    margin:0 auto 25px;
+    box-shadow:0 10px 30px rgba(0,212,255,.35);
+}
+
+/* ===========================
+AUTH PAGE
+=========================== */
+
+.auth-page{
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:linear-gradient(135deg,#071A2F,#0D2F4E);
+
+padding:30px;
+
+}
+
+.auth-card{
+
+width:420px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.15);
+
+padding:45px;
+
+border-radius:25px;
+
+text-align:center;
+
+box-shadow:0 20px 60px rgba(0,0,0,.35);
+
+}
+
+.auth-icon{
+
+width:90px;
+
+height:90px;
+
+margin:auto;
+
+margin-bottom:25px;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:linear-gradient(135deg,#00CFFF,#008CFF);
+
+font-size:38px;
+
+color:white;
+
+}
+
+.auth-card h2{
+
+font-size:32px;
+
+margin-bottom:12px;
+
+}
+
+.auth-card p{
+
+color:#d4d4d4;
+
+line-height:1.7;
+
+margin-bottom:30px;
+
+}
+
+.auth-card input{
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+outline:none;
+
+border-radius:12px;
+
+font-size:16px;
+
+margin-bottom:20px;
+
+background:white;
+
+}
+
+.auth-card button{
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:12px;
+
+background:linear-gradient(135deg,#00CFFF,#0094FF);
+
+color:white;
+
+font-size:17px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.auth-card button:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 10px 25px rgba(0,212,255,.45);
+
+}
+
+.back-link{
+
+display:block;
+
+margin-top:25px;
+
+color:#00CFFF;
+
+text-decoration:none;
+
+font-weight:600;
+
+}
+
+.back-link:hover{
+
+color:white;
+
+}
+
+@media(max-width:500px){
+
+.auth-card{
+
+width:100%;
+
+padding:30px;
+
+}
+
+}
+.developer{
+    margin-top:12px;
+    font-size:14px;
+    color:#b8c7d9;
+    letter-spacing:0.5px;
+}
+
+.developer strong{
+    color:#00d4ff;
+    font-weight:700;
+}
+
+.developer strong:hover{
+    color:#ffffff;
+    transition:0.3s;
+}
+/* ================= PROFILE PHOTO UPLOAD ================= */
+
+.profile-image-box{
+    position:relative;
+    width:180px;
+    height:180px;
+    margin:0 auto 25px;
+}
+
+.profile-photo{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid #00CFFF;
+    box-shadow:0 10px 30px rgba(0,212,255,.35);
+}
+
+.edit-photo{
+    position:absolute;
+    bottom:8px;
+    right:8px;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#00CFFF;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    font-size:18px;
+    border:3px solid #102C48;
+    transition:.3s;
+}
+
+.edit-photo:hover{
+    transform:scale(1.1);
+    background:#009fd6;
+}
+
+#photo{
+    display:none;
+}
+
+
+/* ================= LOADER ================= */
+
+#loader{
+    position:fixed;
+    inset:0;
+    background:#071A2F;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    transition:opacity .6s ease, visibility .6s;
+}
+
+.loader-content{
+    text-align:center;
+}
+
+.loader-content img{
+    width:110px;
+    animation:logoSpin 2s infinite ease-in-out;
+}
+
+.loader-content h2{
+    margin-top:20px;
+    color:#fff;
+    font-size:34px;
+    letter-spacing:1px;
+}
+
+.loader-bar{
+    width:240px;
+    height:8px;
+    background:#18314F;
+    border-radius:30px;
+    margin:30px auto 0;
+    overflow:hidden;
+}
+
+.loader-bar span{
+    display:block;
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#00CFFF,#0094FF);
+    animation:loading 2s linear forwards;
+}
+
+@keyframes loading{
+
+    0%{
+        width:0%;
+    }
+
+    100%{
+        width:100%;
+    }
+
+}
+
+@keyframes logoSpin{
+
+    0%{
+        transform:scale(1) rotate(0deg);
+    }
+
+    50%{
+        transform:scale(1.08) rotate(180deg);
+    }
+
+    100%{
+        transform:scale(1) rotate(360deg);
+    }
+
+}
+
+.loader-hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media (max-width:768px){
+
+.container{
+    width:95%;
+}
+
+/* Navbar */
+
+.navbar{
+    flex-direction:column;
+    gap:20px;
+    padding:15px 0;
+}
+
+nav{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+}
+
+.nav-btn{
+    flex-direction:column;
+    width:100%;
+}
+
+.login-btn,
+.register-btn{
+    width:100%;
+    text-align:center;
+}
+
+/* Hero */
+
+.hero{
+    min-height:auto;
+    padding:70px 0;
+}
+
+.hero-left{
+    width:100%;
+    text-align:center;
+}
+
+.hero h1{
+    font-size:38px;
+}
+
+.hero p{
+    font-size:16px;
+}
+
+.hero-buttons{
+    flex-direction:column;
+}
+
+.hero-stats{
+    flex-direction:column;
+    gap:20px;
+    text-align:center;
+}
+
+/* Sections */
+
+.section-title{
+    font-size:32px;
+}
+
+/* Grid */
+
+.course-grid,
+.why-grid,
+.faculty-grid,
+.steps{
+    grid-template-columns:1fr;
+}
+
+/* Demo Video */
+
+.video-box iframe{
+    height:220px;
+}
+
+/* Footer */
+
+.footer .row{
+    grid-template-columns:1fr;
+    text-align:center;
+}
+
+.social-icons{
+    justify-content:center;
+}
+}
+
+/* ================= MOBILE NAVBAR ================= */
+
+.menu-toggle{
+    display:none;
+    font-size:30px;
+    cursor:pointer;
+    color:#fff;
+}
+
+@media(max-width:768px){
+
+.navbar{
+    position:relative;
+}
+
+.menu-toggle{
+    display:block;
+}
+
+nav{
+    display:none;
+    flex-direction:column;
+    position:absolute;
+    top:80px;
+    left:0;
+    width:100%;
+    background:#071A2F;
+    padding:20px;
+    border-radius:0 0 15px 15px;
+    box-shadow:0 10px 20px rgba(0,0,0,.3);
+}
+
+nav.active{
+    display:flex;
+}
+
+.nav-btn{
+    display:none;
+}
+
+}
+
+/* ================= TOP BUTTON ================= */
+
+#topBtn{
+
+    position:fixed;
+
+    bottom:30px;
+
+    right:30px;
+
+    width:55px;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#00CFFF;
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    display:none;
+
+    z-index:999;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.3);
+
+    transition:.3s;
+
+}
+
+#topBtn:hover{
+
+    background:#0094ff;
+
+    transform:translateY(-5px);
+
+}
+
+nav a.active{
+    color:#00d4ff;
+    font-weight:700;
+}
+
+nav a{
+    transition:.3s;
+}
+
+/* ========================================================== */
+/* COHESIVE MOBILE STYLING & DROPDOWN LAYOUT ARCHITECTURE     */
+/* ========================================================== */
+
+/* Base Header Layout */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: #051426; /* Dark background matching your theme */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 9999;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* 1. Left Hamburger Control Button */
+.nav-toggle-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 2. Center Branding Text */
+.brand-logo-zone {
+    text-decoration: none;
+    text-align: center;
+}
+.brand-main-text {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+/* 3. Right Action Login Button */
+.pw-style-btn {
+    background: #00d4ff; 
+    color: #051426;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease-in-out;
+    display: inline-block;
+}
+.pw-style-btn:hover {
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+}
+
+/* 4. Dropdown Menu Overlay */
+.mobile-overlay-menu {
+    position: absolute;
+    top: 70px; 
+    left: 0;
+    width: 100%;
+    background: #051426;
+    display: none; 
+    flex-direction: column;
+    padding: 10px 0;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid #00d4ff;
+}
+
+.mobile-overlay-menu.active {
+    display: flex !important;
+}
+
+.menu-link-item {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.2s ease;
+}
+.menu-link-item:hover, .menu-link-item.active {
+    background: rgba(0, 212, 255, 0.1);
+    color: #00d4ff;
+}
+
+body {
+    padding-top: 70px !important;
+}
+
+@media screen and (min-width: 769px) {
+    .nav-toggle-btn {
+        display: none; 
+    }
+    .mobile-overlay-menu {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        width: auto;
+        box-shadow: none;
+        border-bottom: none;
+        background: transparent;
+        padding: 0;
+    }
+    .menu-link-item {
+        padding: 0 15px;
+        border-bottom: none;
+    }
+}
+
+/* ========================================================== */
+/* DISCONNECTING DESKTOP & MOBILE CONFLICTS (style.css FIX)  */
+/* ========================================================== */
+
+/* --- 1. GLOBAL LAYOUT AND OVERRIDES --- */
+body {
+    padding-top: 70px !important; /* Fixed header ke liye spaces setup */
+    margin: 0;
+    overflow-x: hidden; /* Mobile par horizontal scroll/screws block karne ke liye */
+}
+
+/* Base Responsive Header Configuration */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: #051426;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 9999;
+}
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* --- 2. DESKTOP VIEW LAYOUT (Jab screen 769px se badi ho) --- */
+@media screen and (min-width: 769px) {
+    /* Desktop par hamburger menu button chupa do */
+    .nav-toggle-btn {
+        display: none !important;
+    }
+
+    /* Desktop Links layout horizontal row banado */
+    .mobile-overlay-menu {
+        position: static !important;
+        display: flex !important;
+        flex-direction: row !important;
+        width: auto !important;
+        box-shadow: none !important;
+        border-bottom: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+    }
+
+    .menu-link-item {
+        color: #ffffff !important;
+        padding: 0 15px !important;
+        border-bottom: none !important;
+        font-size: 15px !important;
+    }
+    
+    .menu-link-item:hover {
+        background: transparent !important;
+        color: #00d4ff !important;
+    }
+}
+
+/* --- 3. MOBILE VIEW LAYOUT (Jab screen 768px ya choti ho) --- */
+@media screen and (max-width: 768px) {
+    /* Mobile par hamburger button dikhao */
+    .nav-toggle-btn {
+        display: flex !important;
+    }
+
+    /* Mobile standard font adjustment */
+    .brand-main-text {
+        font-size: 18px !important;
+    }
+
+    /* Mobile par links ko vertical grid dropdown banao */
+    .mobile-overlay-menu {
+        position: absolute !important;
+        top: 70px !important;
+        left: 0 !important;
+        width: 100% !important;
+        background: #051426 !important;
+        display: none; /* Dropdown active class se trigger hoga */
+        flex-direction: column !important;
+        padding: 10px 0 !important;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3) !important;
+        border-bottom: 2px solid #00d4ff !important;
+    }
+
+    /* Target open condition */
+    .mobile-overlay-menu.active {
+        display: flex !important;
+    }
+
+    .menu-link-item {
+        width: 100% !important;
+        box-sizing: border-box;
+        padding: 14px 24px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    /* Hero section components stack layout inside mobile screens */
+    .hero-content {
+        padding: 40px 20px !important;
+        text-align: center !important;
+    }
+    .hero-buttons {
+        display: flex;
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+    .hero-buttons a {
+        width: 100% !important;
+        text-align: center;
+    }
+}

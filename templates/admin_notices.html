@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="admin-logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo-img">
+        <h2>BIKIzz Admin</h2>
+    </div>
+    <a href="/admin">🏠 Dashboard</a>
+    <a href="/students">👨 Students</a>
+    <a href="/payments">💳 Payments</a>
+    <a href="/live-class">🎥 Live Class</a>
+    <a href="/upload-notes">📚 Notes</a>
+    <a href="/manage-test">📝 Test</a>
+    <a href="/admin/notices" class="active">📢 Notice</a>
+    <a href="/admin-logout">🚪 Logout</a>
+</div>
+
+<div class="content">
+    <div class="notice-container">
+        <h1>📢 Notice Management</h1>
+        <p class="subtitle">Create and publish official notices for the student dashboard.</p>
+        
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div style="background: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; color: #2ecc71; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px;">
+                  {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="/admin/notices" method="POST" class="notice-form">
+            <div class="form-group">
+                <label for="notice_title">Notice Title</label>
+                <input type="text" id="notice_title" name="title" placeholder="e.g., Live Class Rescheduled Today" required>
+            </div>
+
+            <div class="form-group">
+                <label for="notice_date">Publish Date</label>
+                <input type="date" id="notice_date" name="date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="notice_desc">Notice Description</label>
+                <textarea id="notice_desc" name="description" rows="5" placeholder="Type the complete notice description or important instructions here..." required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-notice-btn">Add & Publish Notice</button>
+        </form>
+
+        <h2 style="margin-top: 40px; margin-bottom: 20px; font-size: 22px; color: #00d4ff;">📋 Published Notices</h2>
+        
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            {% for notice in notices %}
+            <div style="background: #0d2648; padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <h3 style="color: #fff; font-size: 18px; margin: 0;">{{ notice.title }}</h3>
+                    <span style="font-size: 12px; color: #a0aec0; background: #07192f; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(0, 212, 255, 0.2);">
+                        📅 {{ notice.created_at.strftime('%d %b %Y') if notice.created_at else 'Recent' }}
+                    </span>
+                </div>
+                <p style="color: #cbd5e0; font-size: 14px; line-height: 1.5; margin: 0; white-space: pre-wrap;">{{ notice.description }}</p>
+            </div>
+            {% else %}
+            <div style="color: #a0aec0; font-size: 14px; background: #0d2648; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05);">
+                No notices published yet. Use the form above to add one!
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Automatic date handler execution
+    document.getElementById('notice_date').valueAsDate = new Date();
+</script>
+
+</body>
+</html>

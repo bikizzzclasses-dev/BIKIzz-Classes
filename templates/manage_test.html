@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Management</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+
+<div class="sidebar">
+
+    <h2>BIKIzz Admin</h2>
+
+    <a href="/admin">🏠 Dashboard</a>
+    <a href="/live-class">🎥 Live Class</a>
+    <a href="/upload-notes">📚 Upload Notes</a>
+    <a href="/manage-test">📝 Test Management</a>
+    <a href="/admin-logout">🚪 Logout</a>
+
+</div>
+
+<div class="content">
+
+<h1>📝 Test Management</h1>
+
+<form method="POST">
+
+    <input type="text" name="question"
+           placeholder="Question" required>
+
+    <input type="text" name="option1"
+           placeholder="Option 1" required>
+
+    <input type="text" name="option2"
+           placeholder="Option 2" required>
+
+    <input type="text" name="option3"
+           placeholder="Option 3" required>
+
+    <input type="text" name="option4"
+           placeholder="Option 4" required>
+
+    <input type="text" name="answer"
+           placeholder="Correct Answer" required>
+
+    <button type="submit">
+        Add Question
+    </button>
+
+</form>
+
+<h2>All Questions</h2>
+
+<table>
+
+<tr>
+    <th>ID</th>
+    <th>Question</th>
+    <th>Answer</th>
+</tr>
+
+{% for q in questions %}
+
+<tr>
+
+    <td>{{ q.id }}</td>
+
+    <td>{{ q.question }}</td>
+
+    <td>{{ q.answer }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

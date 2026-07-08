@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='admin.css') }}">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="admin-logo">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-img">
+    <h2>BIKIzz Admin</h2>
+</div>
+
+<a href="/admin">🏠 Dashboard</a>
+<a href="/students">👨 Students</a>
+<a href="/payments">💳 Payments</a>
+<a href="#">📊 Reports</a>
+<a href="/live-class" class="admin-btn">
+    🎥 Live Class Management
+</a>
+<a href="/upload-notes">📄 Notes Management</a>
+
+<a href="/manage-test">📝 Test Management</a>
+
+<a href="/admin/notices">📢Manage Notice</a>
+
+<a href="/admin-logout">🚪 Logout</a>
+</div>
+
+<div class="content">
+
+<div class="dashboard-header">
+
+    <div>
+        <h1>Welcome Admin 👋</h1>
+        <p>BIKIzz' Classes Management System</p>
+    </div>
+
+    <div>
+        <a href="/admin-logout" class="logout-btn">
+            Logout
+        </a>
+    </div>
+
+</div>
+<div class="dashboard-stats">
+
+    <div class="stat-card">
+        <h2>{{ total_students }}</h2>
+        <p>👨 Total Students</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ approved_students }}</h2>
+        <p>✅ Approved</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ pending_students }}</h2>
+        <p>⏳ Pending</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ rejected_students }}</h2>
+        <p>❌ Rejected</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ total_notes }}</h2>
+        <p>📚 Notes</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ total_tests }}</h2>
+        <p>📝 Tests</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ total_notices }}</h2>
+        <p>📢 Notices</p>
+    </div>
+
+</div>
+
+
+</div>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+
+</body>
+</html>

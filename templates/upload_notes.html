@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Notes | Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="admin-logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo-img">
+        <h2>BIKIzz Admin</h2>
+    </div>
+    <a href="/admin">🏠 Dashboard</a>
+    <a href="/live-class">🎥 Live Class</a>
+    <a href="/upload-notes" class="active">📚 Upload Notes</a>
+    <a href="/admin-logout">🚪 Logout</a>
+</div>
+
+<div class="content">
+    <h1>📚 Upload Study Notes</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="text" name="subject" placeholder="Subject" required>
+        <br><br>
+        <input type="text" name="chapter" placeholder="Chapter Name" required>
+        <br><br>
+        <input type="date" name="upload_date" id="main_upload_date" required>
+        <br><br>
+        <input type="file" name="pdf" accept=".pdf" required>
+        <br><br>
+        <button type="submit">Upload PDF</button>
+    </form>
+
+    <hr><br>
+
+    <h2>Uploaded Notes</h2>
+
+    <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; text-align: left;">
+        <tr style="background-color: #00d4ff; color: #051426;">
+            <th>Subject</th>
+            <th>Chapter</th>
+            <th>Date</th>
+            <th>PDF</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for note in notes %}
+        <tr>
+            <td>{{ note.subject }}</td>
+            <td>{{ note.chapter }}</td>
+            <td>{{ note.upload_date }}</td>
+            <td>
+                <a href="{{ url_for('static', filename='uploads/' + note.pdf_file) }}" target="_blank" style="color: #00d4ff;">
+                    View PDF
+                </a>
+            </td>
+            <td style="white-space: nowrap; background: transparent;">
+    <button type="button" onclick="openEditModal('{{ note.id }}')" style="background: #f1c40f; color: #051426; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-right: 8px; font-family: 'Poppins', sans-serif;">
+        Edit
+    </button>
+    
+    <form action="/admin/notes/delete/{{ note.id }}" method="POST" style="display: inline !important; margin: 0 !important; padding: 0 !important; background: transparent !important; border: none !important; box-shadow: none !important;">
+        <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; display: inline-block;">
+            Delete
+        </button>
+    </form>
+</td>
+        </tr>
+
+        <div id="editModal-{{ note.id }}" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999; justify-content: center; align-items: center;">
+            <div style="background: #07192f; border: 1px solid #00d4ff; padding: 30px; border-radius: 12px; width: 400px; box-shadow: 0 0 15px rgba(0,212,255,0.3); font-family: 'Poppins', sans-serif;">
+                <h3 style="color: #fff; margin-top: 0;">✏️ Edit Study Note</h3>
+                
+                <form action="/admin/notes/edit/{{ note.id }}" method="POST" enctype="multipart/form-data">
+                    <div style="margin-bottom: 15px;">
+                        <label style="color: #00d4ff; display: block; margin-bottom: 5px; font-size: 14px;">Subject</label>
+                        <input type="text" name="subject" value="{{ note.subject }}" style="width: 100%; padding: 10px; background: #0d2648; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; box-sizing: border-box;" required>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="color: #00d4ff; display: block; margin-bottom: 5px; font-size: 14px;">Chapter Name</label>
+                        <input type="text" name="chapter" value="{{ note.chapter }}" style="width: 100%; padding: 10px; background: #0d2648; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; box-sizing: border-box;" required>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="color: #00d4ff; display: block; margin-bottom: 5px; font-size: 14px;">Upload Date</label>
+                        <input type="date" name="upload_date" value="{{ note.upload_date }}" style="width: 100%; padding: 10px; background: #0d2648; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; box-sizing: border-box;" required>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="color: #00d4ff; display: block; margin-bottom: 5px; font-size: 14px;">Change PDF <small style="color: #a0aec0;">(Keep blank to retain current)</small></label>
+                        <input type="file" name="pdf" accept=".pdf" style="color: #fff;">
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                        <button type="button" onclick="closeEditModal('{{ note.id }}')" style="background: #34495e; color: #fff; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600;">Cancel</button>
+                        <button type="submit" style="background: #00d4ff; color: #051426; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 700; cursor: pointer;">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </table>
+</div>
+
+<script>
+    // Automatic current date filler for the main form
+    document.getElementById('main_upload_date').valueAsDate = new Date();
+
+    function openEditModal(id) {
+        document.getElementById('editModal-' + id).style.display = 'flex';
+    }
+    
+    function closeEditModal(id) {
+        document.getElementById('editModal-' + id).style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

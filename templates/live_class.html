@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Class Management</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+
+<body>
+
+<div class="container" style="max-width:700px; margin:50px auto;">
+
+    <h1>🎥 Live Class Management</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color:lime;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <label>Google Meet Link</label><br><br>
+
+        <input type="text"
+               name="meet_link"
+               value="{{ live.meet_link if live else '' }}"
+               style="width:100%;padding:12px;"><br><br>
+
+        <label>Class Date</label><br><br>
+
+        <input type="text"
+               name="class_date"
+               placeholder="05 July 2026"
+               value="{{ live.class_date if live else '' }}"
+               style="width:100%;padding:12px;"><br><br>
+
+        <label>Class Time</label><br><br>
+
+        <input type="text"
+               name="class_time"
+               placeholder="7:00 PM"
+               value="{{ live.class_time if live else '' }}"
+               style="width:100%;padding:12px;"><br><br>
+
+        <button type="submit"
+                style="padding:12px 30px;
+                       background:#00cfff;
+                       border:none;
+                       color:white;
+                       border-radius:8px;
+                       font-size:18px;">
+
+            Save Live Class
+
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

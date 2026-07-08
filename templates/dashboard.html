@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    
+    <style>
+        .notice-neon-banner {
+            background: linear-gradient(90deg, #0d2648 0%, #07192f 100%);
+            border: 1px solid #00d4ff;
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            width: 100%;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .notice-banner-icon {
+            font-size: 18px;
+            padding-right: 15px;
+            z-index: 2;
+            background: #0d2648;
+        }
+
+        .marquee-container {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .marquee-text {
+            white-space: nowrap;
+            padding-left: 100%;
+            display: inline-block;
+            color: #ffffff;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            animation: smoothScroll 18s linear infinite;
+        }
+
+        .marquee-text strong {
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        .marquee-container:hover .marquee-text {
+            animation-play-state: paused;
+        }
+
+        .notice-banner-close {
+            background: #07192f;
+            border: none;
+            color: #a0aec0;
+            font-size: 24px;
+            cursor: pointer;
+            line-height: 1;
+            padding-left: 15px;
+            z-index: 2;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .notice-banner-close:hover {
+            color: #ffffff;
+            transform: scale(1.15);
+        }
+
+        @keyframes smoothScroll {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="BIKIzz Logo" class="logo-img">
+            <span>BIKIzz' Classes</span>
+        </div>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </div>
+</header>
+
+<section class="student-dashboard">
+    <div class="container">
+
+        {% if notices and notices|length > 0 %}
+        <div class="notice-neon-banner" id="dashboardNotice">
+            <span class="notice-banner-icon">📢</span>
+            
+            <div class="marquee-container">
+                <div class="marquee-text">
+                    <strong>{{ notices[0].title }}:</strong> {{ notices[0].description or notices[0].message }}
+                </div>
+            </div>
+            
+            <button class="notice-banner-close" onclick="document.getElementById('dashboardNotice').style.display='none'">&times;</button>
+        </div>
+        {% endif %}
+
+        <h1>Welcome {{ name }}</h1>
+        <p class="subtitle">Your Learning Dashboard</p>
+
+        <div class="dashboard-grid">
+
+            <div class="dashboard-card">
+                <h2>📚 My Course</h2>
+                <p>HSLC 2027 Mathematics Crash Course</p>
+                <div class="status-indicator">Status: <strong>{{ status }}</strong></div>
+            </div>
+
+            {% if status != "Approved" %}
+            <div class="dashboard-card payment-card pending">
+                <div class="payment-header">
+                    <div class="payment-icon">💳</div>
+                    <span class="payment-badge-alert">Action Required</span>
+                </div>
+                <div class="payment-body">
+                    <h3>Complete Payment</h3>
+                    <p class="course-price">Fee: <span>₹999</span> <small>/ full course</small></p>
+                    <p class="payment-desc">Unlock live classes, premium notes, weekly test series, and personalized 1-on-1 mentorship instantly.</p>
+                </div>
+                <div class="payment-footer">
+                    <a href="/payment" class="btn-pay-now">
+                        Proceed to Payment <span class="arrow">→</span>
+                    </a>
+                    <div class="secure-text">🔒 256-Bit Secure SSL Checkout</div>
+                </div>
+            </div>
+            {% else %}
+            <div class="dashboard-card payment-card approved">
+                <h2>💳 Payment Status</h2>
+                <div class="success-status">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Payment Approved & Verified</span>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="dashboard-card {% if status != 'Approved' %}locked{% endif %}">
+                {% if status != 'Approved' %}<div class="lock-overlay"></div>{% endif %}
+                <h2>🎥 Today's Live Class</h2>
+                {% if live %}
+                    <p><strong>Date:</strong> {{ live.class_date }}</p>
+                    <p><strong>Time:</strong> {{ live.class_time }}</p>
+                    <br>
+                    {% if status == "Approved" %}
+                        <a href="{{ live.meet_link }}" target="_blank" class="pay-btn">🎥 Join Live Class</a>
+                    {% endif %}
+                {% else %}
+                    <p>No Live Class Available Today.</p>
+                {% endif %}
+            </div>
+
+             <div class="dashboard-card {% if status != 'Approved' %}locked{% endif %}">
+    {% if status != 'Approved' %}<div class="lock-overlay"></div>{% endif %}
+    <h2>📄 Study Notes</h2>
+    
+    <p>Access your premium formulas, handwritten e-books, and chapter-wise PYQs.</p>
+    <br>
+    
+    <a href="/all-notes" class="pay-btn" style="text-align: center; display: block;">📥 View All Notes</a>
+</div>
+
+            <div class="dashboard-card {% if status != 'Approved' %}locked{% endif %}">
+                {% if status != 'Approved' %}<div class="lock-overlay"></div>{% endif %}
+                <h2>📊 Progress</h2>
+                <p>0% Completed</p>
+            </div>
+
+            <div class="dashboard-card {% if status != 'Approved' %}locked{% endif %}">
+                {% if status != 'Approved' %}<div class="lock-overlay"></div>{% endif %}
+                <h2>💬 WhatsApp Group</h2>
+                {% if status == "Approved" %}
+                    <a href="https://chat.whatsapp.com/KkJztYSy3lU7rM5eOX9sMq" target="_blank" class="pay-btn">Join Group</a>
+                {% endif %}
+            </div>
+
+            <div class="dashboard-card {% if status != 'Approved' %}locked{% endif %}">
+                {% if status != 'Approved' %}<div class="lock-overlay"></div>{% endif %}
+                <h2>📝 Online Test</h2>
+                <p>Practice MCQ Test</p>
+                {% if status == "Approved" %}
+                    <a href="/student-test" class="pay-btn">Start Test</a>
+                {% endif %}
+            </div>
+
+            <div class="dashboard-card">
+                <h2>📢 Latest Notices</h2>
+                {% if notices %}
+                    {% for notice in notices %}
+                        <div class="notice-item">
+                            <strong>{{ notice.title }}</strong><br>
+                            <small>{{ notice.created_at.strftime('%d %b %Y') if notice.created_at else notice.date }}</small>
+                            <p style="margin-top: 5px; line-height: 1.4;">{{ notice.description or notice.message }}</p>
+                            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.08); margin: 10px 0;">
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No Notice Available.</p>
+                {% endif %}
+            </div>
+
+            <a href="/profile" class="dashboard-card profile-card">
+                <h2>👤 Profile</h2>
+                <p class="profile-name">{{ name }}</p>
+                <span class="card-btn">View Profile →</span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

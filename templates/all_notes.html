@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Study Notes - BIKIzz' Classes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #051426 !important;
+            color: #ffffff !important;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #0a192f;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #00d4ff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+        .notes-page-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .back-btn {
+            color: #00d4ff;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            color: #fff;
+            transform: translateX(-3px);
+        }
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .note-file-card {
+            background: #0d2648;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+            box-sizing: border-box;
+        }
+        .note-icon-box {
+            font-size: 40px;
+            color: #ff4757;
+            margin-bottom: 15px;
+        }
+        .note-info h3 {
+            margin: 0 0 6px 0;
+            color: #fff;
+            font-size: 18px;
+        }
+        .note-info p {
+            margin: 0 0 20px 0;
+            color: #a0aec0;
+            font-size: 14px;
+        }
+        .download-btn-active {
+            background: #00d4ff;
+            color: #051426;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            display: block;
+            transition: all 0.2s ease;
+        }
+        .download-btn-active:hover {
+            background: #ffffff;
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+        }
+        .download-btn-locked {
+            background: #1b2d42;
+            color: #5c6b73;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            display: block;
+            cursor: not-allowed;
+            border: 1px dashed rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="BIKIzz Logo" class="logo-img">
+            <span>BIKIzz' Classes</span>
+        </div>
+        <nav>
+            <a href="/dashboard" style="color: #ffffff; text-decoration: none; margin-right: 20px;">Dashboard</a>
+            <a href="/logout" style="color: #ff4757; text-decoration: none;">Logout</a>
+        </nav>
+    </div>
+</header>
+
+<div class="notes-page-container">
+    <a href="/dashboard" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    
+    <h1 style="color: #fff; margin: 0; font-size: 28px;">📚 Premium Study Notes</h1>
+    <p style="color: #a0aec0; margin: 6px 0 0 0; font-size: 15px;">Download your batch resource books and class assignments</p>
+
+    <div class="notes-grid">
+        {% if notes %}
+            {% for note in notes %}
+            <div class="note-file-card">
+                <div>
+                    <div class="note-icon-box"><i class="fas fa-file-pdf"></i></div>
+                    <div class="note-info">
+                        <h3>{{ note.subject }}</h3>
+                        <p>{{ note.chapter }}</p>
+                    </div>
+                </div>
+                
+                {% if status == "Approved" %}
+                    <a href="{{ url_for('static', filename='uploads/' + note.pdf_file) }}" target="_blank" class="download-btn-active">
+                        <i class="fas fa-cloud-download-alt"></i> Download PDF
+                    </a>
+                {% else %}
+                    <div class="download-btn-locked"><i class="fas fa-lock"></i> Locked (Verification Pending)</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <div style="grid-column: 1/-1; text-align: center; color: #a0aec0; padding: 60px 0; background: #0d2648; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.05);">
+                <i class="fas fa-folder-open" style="font-size: 40px; color: #34495e; margin-bottom: 10px;"></i>
+                <p style="margin: 0;">No premium study notes uploaded for this batch yet.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
