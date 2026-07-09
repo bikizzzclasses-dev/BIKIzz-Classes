@@ -1,6 +1,7 @@
-#import os
+import os
 import random  # secrets ke sath iska bhi use hai
 import secrets  # <-- Yeh naya add kiya unique session tokens banane ke liye
+import requests  # <-- BREVO API KE LIYE NAYA IMPORT
 
 from flask import (
     Blueprint,
@@ -20,7 +21,7 @@ from werkzeug.security import (
 from werkzeug.utils import secure_filename
 
 from random import randint
-from flask_mail import Message
+# from flask_mail import Message # <-- Isko hata diya kyunki ab API use ho rahi hai
 
 from models import (
     db,
@@ -32,19 +33,6 @@ from models import (
     PasswordResetOTP,
     ActiveSession  # <-- Yeh naya model humne yahan import kiya
 )
-
-# ==========================================================
-# OTP IMPORTS
-# FILE: student.py
-# ==========================================================
-
-import random
-
-from flask_mail import Message
-
-from extensions import mail
-
-from models import PasswordResetOTP
 
 student_bp = Blueprint("student", __name__)
 
@@ -131,24 +119,20 @@ def login():
         flash("Invalid Email or Password")
 
     return render_template("login.html")
+
 # ==========================================================
-# FORGOT PASSWORD
+# FORGOT PASSWORD (SAFE VERSION - NO HARDCODED KEY)
 # FILE: student.py
 # ==========================================================
-
 @student_bp.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
 
     if request.method == "POST":
-
         email = request.form["email"].strip().lower()
-
         student = Student.query.filter_by(email=email).first()
 
         if not student:
-
             flash("Email not found!")
-
             return redirect("/forgot-password")
 
         # Generate 6-digit OTP
@@ -166,34 +150,43 @@ def forgot_password():
         db.session.add(reset)
         db.session.commit()
 
-        # Send Email
-        msg = Message(
-            subject="BIKIzz Classes Password Reset OTP",
-            recipients=[email]
-        )
+        # --- BREVO EMAIL API LOGIC WITH ENVIRONMENT VARIABLE ---
+        url = "https://api.brevo.com/v3/smtp/email"
+        
+        headers = {
+            # Yeh line ab Render ke environment se automatic key utha legi
+            "api-key": os.environ.get("BREVO_API_KEY"), 
+            "content-type": "application/json"
+        }
 
-        msg.body = f"""
-Hello {student.name},
+        payload = {
+            "sender": {
+                "email": "bikizzzclasses@gmail.com",  # Jo email aapne Brevo par verify ki hai
+                "name": "BIKIzz Classes"
+            },
+            "to": [{"email": email}],
+            "subject": "BIKIzz Classes Password Reset OTP",
+            "textContent": f"Hello {student.name},\n\nYour Password Reset OTP is: {otp}\n\nThis OTP is valid for 10 minutes.\n\nBIKIzz Classes"
+        }
 
-Your Password Reset OTP is:
-
-{otp}
-
-This OTP is valid for 10 minutes.
-
-BIKIzz Classes
-"""
-
-        mail.send(msg)
-
-        session["reset_email"] = email
-
-        flash("OTP Sent Successfully!")
-
-        return redirect("/verify-otp")
+        try:
+            response = requests.post(url, json=payload, headers=headers)
+            
+            if response.status_code == 201:
+                session["reset_email"] = email
+                flash("OTP Sent Successfully!")
+                return redirect("/verify-otp")
+            else:
+                print("Brevo API Error:", response.text)
+                flash("Email service currently unavailable.")
+                return redirect("/forgot-password")
+                
+        except Exception as e:
+            print("Connection Error:", str(e))
+            flash("Something went wrong while sending email.")
+            return redirect("/forgot-password")
 
     return render_template("forgot_password.html")
-
 # ==========================================================
 # VERIFY OTP
 # FILE: student.py
@@ -289,8 +282,6 @@ def reset_password():
 # STUDENT DASHBOARD
 # FILE: student.py
 # ==========================================================
-from flask import session, redirect, render_template, flash
-from models import db, Student, LiveClass, Notes, Notice, Test
 
 @student_bp.route("/dashboard")
 def dashboard():
@@ -307,8 +298,6 @@ def dashboard():
 
     live = LiveClass.query.first()
     
-    # FIX: Dashboard par ab saare notes load karne ki zaroorat nahi hai.
-    # Isse query load kam hoga aur dashboard fast chalega.
     notes = Notes.query.order_by(Notes.id.desc()).all()
 
     notices = Notice.query.order_by(
@@ -331,7 +320,6 @@ def dashboard():
 # ==========================================================
 @student_bp.route("/all-notes")
 def all_notes():
-    # Strict validation session check
     if "student_id" not in session:
         return redirect("/login")
 
@@ -342,19 +330,18 @@ def all_notes():
         flash("Please login again.")
         return redirect("/login")
 
-    # Database query rendering safety fallback
     try:
         notes = Notes.query.order_by(Notes.id.desc()).all()
     except Exception as e:
         notes = []
 
-    # Static index structure testing variables pass karke render karein
     return render_template(
         "all_notes.html",
         notes=notes,
         status=student.payment_status,
         name=student.name
     )
+
 # ==========================================================
 # STUDENT TEST
 # FILE: student.py
