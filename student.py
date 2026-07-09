@@ -46,16 +46,19 @@ def home():
     return render_template("index.html")
 
 # ==========================================================
-# STUDENT REGISTER
+# STUDENT REGISTER (UPDATED WITH DUPLICATE CHECK)
 # FILE: student.py
 # ==========================================================
-
 @student_bp.route("/register", methods=["GET", "POST"])
 def register():
 
     if request.method == "POST":
-
         email = request.form["email"].strip().lower()
+
+        existing_student = Student.query.filter_by(email=email).first()
+        if existing_student:
+            flash("Account already exists with this email!")
+            return redirect("/register")
 
         student = Student(
             name=request.form["name"],
@@ -67,8 +70,7 @@ def register():
         db.session.add(student)
         db.session.commit()
 
-        flash("Registration Successful!")
-
+        flash("Registration Successful! Please Login.")
         return redirect("/login")
 
     return render_template("register.html")

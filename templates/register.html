@@ -1,56 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | BIKIzz' Classes</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Register | BIKIzz' Classes</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <style>
+        .flash-messages {
+            width: 100%;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .flash {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            display: block;
+        }
+        /* Account Already Exists / Incorrect ke liye Red Card */
+        .flash.error {
+            background-color: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #f87171;
+        }
+        /* Success ke liye Green Card */
+        .flash.success {
+            background-color: rgba(16, 185, 129, 0.15);
+            border: 1px solid #10b981;
+            color: #10b981;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
+    <div class="card">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo">
+        <h2>Create Account</h2>
 
-<div class="card">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for message in messages %}
+                <div class="flash {% if 'Successful' in message or 'Success' in message %}success{% else %}error{% endif %}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
 
-<img src="{{ url_for('static', filename='images/logo.png') }}" class="logo">
+        <form method="POST" action="/register">
+            <input type="text" name="name" placeholder="Full Name" required>
 
-<h2>Create Account</h2>
+            <input type="tel"
+                   name="mobile"
+                   placeholder="Mobile Number"
+                   pattern="[0-9]{10}"
+                   maxlength="10"
+                   required>
 
-<form method="POST">
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="password" name="password" placeholder="Password" required>
 
-<input type="text" name="name" placeholder="Full Name" required>
+            <button type="submit">Register</button>
+        </form>
 
-<input type="tel"
-       name="mobile"
-       placeholder="Mobile Number"
-       pattern="[0-9]{10}"
-       maxlength="10"
-       required>
-
-<input type="email" name="email" placeholder="Email Address" required>
-
-<input type="password" name="password" placeholder="Password" required>
-
-    <button type="submit">Register</button>
-</form>
-
-<p>
-
-Already have an account?
-
-<a href="/login">Login</a>
-
-</p>
-
-</div>
-
+        <p>Already have an account? <a href="/login">Login</a></p>
+    </div>
 </div>
 
 </body>
