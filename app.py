@@ -99,23 +99,31 @@ def upload_profile():
 
     return redirect("/profile")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+
+# ================= DATABASE CONFIGURATION (UPDATED FOR POSTGRESQL) =================
+
+# Render ke Postgres se connect karega, agar nahi mila toh local SQLite chalayega
+db_uri = os.environ.get("DATABASE_URL")
+
+if db_uri and db_uri.startswith("postgres://"):
+    db_uri = db_uri.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = db_uri or "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-# app.py mein jahan db.init_app(app) hai, wahan ye karein:
-
+# Database initialize karein
 db.init_app(app)
 
-# --- ISSE GLOBAL SCOPE MEIN DALEIN ---
+# --- GLOBAL SCOPE MEIN TABLES BANANE KA LOGIC ---
 with app.app_context():
     db.create_all() 
-    print("✅ Database tables created/checked")
-# -------------------------------------
+    print("✅ Database tables checked/created in the current database")
+# -------------------------------------------------
 
 app.register_blueprint(student_bp)
 app.register_blueprint(admin_bp)
-# ================= HOME =================
 
+# ================= HOME =================
 
 @app.route("/about")
 def about():
