@@ -83,6 +83,16 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 
+# ==========================================================
+# FILE VALIDATION CONFIGURATION 
+# ==========================================================
+# Sirf in photo formats ko allow karenge
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 # ================= PROFILE PHOTO UPLOAD =================
 
 @app.route("/upload-profile", methods=["POST"])
@@ -91,10 +101,21 @@ def upload_profile():
     if "student_id" not in session:
         return redirect("/login")
 
+    # Check 1: Kya request mein file aayi hai?
+    if "photo" not in request.files:
+        flash("No file part found!")
+        return redirect("/profile")
+
     file = request.files["photo"]
 
     if file and file.filename != "":
+        
+        # ✅ Check 2: Security Check - Kya file ek genuine photo hai?
+        if not allowed_file(file.filename):
+            flash("Khatra! Only images (png, jpg, jpeg, gif) are allowed!")
+            return redirect("/profile")
 
+        # Filename ko secure banayein (path traversal attack se bachne ke liye)
         filename = secure_filename(file.filename)
 
         filepath = os.path.join(
@@ -111,6 +132,9 @@ def upload_profile():
         db.session.commit()
 
         flash("Profile Photo Uploaded Successfully!")
+
+    else:
+        flash("Please select a file to upload.")
 
     return redirect("/profile")
 
@@ -197,10 +221,21 @@ def payment():
 
     if request.method == "POST":
 
+        # Check 1: Kya request mein file field maujood hai?
+        if "payment" not in request.files:
+            flash("No file part found!")
+            return redirect("/payment")
+
         file = request.files["payment"]
 
         if file and file.filename != "":
 
+            # ✅ Security Check: Kya file sirf ek image (png, jpg, jpeg) hai?
+            if not allowed_file(file.filename):
+                flash("Security Alert! Only images (png, jpg, jpeg, gif) are allowed as payment screenshots!")
+                return redirect("/payment")
+
+            # Filename ko secure banayein
             filename = secure_filename(file.filename)
 
             filepath = os.path.join(
@@ -210,7 +245,8 @@ def payment():
 
             file.save(filepath)
 
-            student = Student.query.get(session["student_id"])
+            # SQLAlchemy ke naye standards ke mutabik db.session.get use karna zyada sahi hai
+            student = db.session.get(Student, session["student_id"])
 
             student.payment_image = filename
 
@@ -219,9 +255,12 @@ def payment():
             flash("Payment Screenshot Uploaded Successfully!")
 
             return redirect("/dashboard")
+        
+        else:
+            flash("Please select a file before clicking upload.")
+            return redirect("/payment")
 
     return render_template("payment.html")
-
 # ================= RUN =================
 
 if __name__ == "__main__":
