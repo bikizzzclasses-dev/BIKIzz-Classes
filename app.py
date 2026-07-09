@@ -40,7 +40,7 @@ from models import (
 app = Flask(__name__)
 
 # ==========================================================
-# EMAIL CONFIGURATION
+# EMAIL CONFIGURATION (SECURED WITH ENV VARIABLES)
 # FILE: app.py
 # ==========================================================
 
@@ -49,14 +49,16 @@ app.config["MAIL_PORT"] = 465
 app.config["MAIL_USE_TLS"] = False
 app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USERNAME"] = "bikizzzclasses@gmail.com"
-app.config["MAIL_PASSWORD"] = "izyvhkuoakvckqtn"
+# ✅ Ab aapka password Render Environment se safe uthayega, GitHub par leak nahi hoga
+app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
 app.config["MAIL_DEFAULT_SENDER"] = "bikizzzclasses@gmail.com"
 mail.init_app(app)
 
 
 import secrets
 
-app.secret_key = secrets.token_hex(32)
+# ✅ Stable Secret Key setup - Isse server sleep mode se jagne par students log out nahi honge
+app.secret_key = os.environ.get("SECRET_KEY", "biki_fallback_secret_key_2026")
 
 app.config["MAX_LOGIN_ATTEMPTS"] = 5
 app.config["LOCK_TIME"] = 10   # minutes
