@@ -59,6 +59,9 @@ import secrets
 
 # ✅ Stable Secret Key
 app.secret_key = os.environ.get("SECRET_KEY", "biki_fallback_secret_key_2026")
+
+# app.py mein security
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=15)
 # ==========================================================
 # SECURITY CONFIGURATIONS (SESSION PROTECTION)
 # ==========================================================
@@ -264,5 +267,4 @@ def payment():
 # ================= RUN =================
 
 if __name__ == "__main__":
-    # Local laptop par run karne ke liye ekdum clean run block
     app.run(host="0.0.0.0", port=5105, debug=True)

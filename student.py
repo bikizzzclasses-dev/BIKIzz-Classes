@@ -76,7 +76,7 @@ def register():
     return render_template("register.html")
 
 # ==========================================================
-# STUDENT LOGIN (WITH 2-DEVICE LIMIT)
+# STUDENT LOGIN (UPDATED WITH 15-MIN TIMEOUT & AUTO-CLEANUP)
 # FILE: student.py
 # ==========================================================
 
@@ -92,14 +92,20 @@ def login():
 
         if student and check_password_hash(student.password, password):
 
-            # 1. Check karein ki is student ke pehle se kitne active devices/sessions hain
-            active_devices_count = ActiveSession.query.filter_by(student_id=student.id).count()
+            # 🛠️ STEP 2: Flask ko batayein ki is session par 15-min ka rule lagana hai
+            session.permanent = True
 
-            if active_devices_count >= 2:
-                flash("Login Failed! Yeh account pehle se hi 2 devices par active hai. Kisi ek se logout kijiye.")
-                return redirect("/login")
+            # 🛠️ STEP 3: Database se purane sessions check aur clean karein
+            # Sabse pehle is student ke saare active sessions purane se naye ke order (Ascending) mein nikalein
+            active_sessions = ActiveSession.query.filter_by(student_id=student.id).order_by(ActiveSession.id.asc()).all()
 
-            # 2. Agar 2 se kam hain, toh ek secure unique session token banayein
+            # Smart Auto-Kick: Agar pehle se 2 ya usse zyada sessions database mein phanse hain,
+            # toh sabse purane waale session ko automatic delete (kick) kar do. Isse koi lock nahi hoga!
+            if len(active_sessions) >= 2:
+                db.session.delete(active_sessions[0])
+                db.session.commit()
+
+            # Ab naye device ke liye ek secure unique session token banayein
             token = secrets.token_hex(16)
 
             new_session = ActiveSession(
@@ -109,7 +115,7 @@ def login():
             db.session.add(new_session)
             db.session.commit()
 
-            # 3. Flask session mein details aur token save karein
+            # Flask session mein details aur token save karein
             session["student_id"] = student.id
             session["student_name"] = student.name
             session["session_token"] = token  # Isse device track hoga logout ke waqt
@@ -189,6 +195,7 @@ def forgot_password():
             return redirect("/forgot-password")
 
     return render_template("forgot_password.html")
+
 # ==========================================================
 # VERIFY OTP
 # FILE: student.py
