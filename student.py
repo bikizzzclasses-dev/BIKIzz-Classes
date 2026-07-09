@@ -1,7 +1,7 @@
 import os
-import random  # secrets ke sath iska bhi use hai
-import secrets  # <-- Yeh naya add kiya unique session tokens banane ke liye
-import requests  # <-- BREVO API KE LIYE NAYA IMPORT
+import random 
+import secrets  
+import requests  # <-- BREVO API
 
 from flask import (
     Blueprint,
@@ -21,7 +21,7 @@ from werkzeug.security import (
 from werkzeug.utils import secure_filename
 
 from random import randint
-# from flask_mail import Message # <-- Isko hata diya kyunki ab API use ho rahi hai
+# from flask_mail import Message 
 
 from models import (
     db,

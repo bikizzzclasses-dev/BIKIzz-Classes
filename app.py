@@ -114,11 +114,23 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # Database initialize karein
 db.init_app(app)
 
-# --- GLOBAL SCOPE MEIN TABLES BANANE KA LOGIC ---
+# --- GLOBAL SCOPE MEIN TABLES AUR DEFAULT ADMIN BANANE KA LOGIC ---
 with app.app_context():
     db.create_all() 
     print("✅ Database tables checked/created in the current database")
-# -------------------------------------------------
+    
+    # Gunicorn startup par cloud database mein admin check aur create karega
+    admin = Admin.query.filter_by(email="bikizzzclasses@gmail.com").first()
+    if not admin:
+        admin = Admin(
+            name="BIKIzz Admin",
+            email="bikizzzclasses@gmail.com",
+            password=generate_password_hash("BIKI2488@")
+        )
+        db.session.add(admin)
+        db.session.commit()
+        print("✅ Default Admin Created Successfully on Cloud Database")
+# -----------------------------------------------------------------
 
 app.register_blueprint(student_bp)
 app.register_blueprint(admin_bp)
@@ -198,27 +210,5 @@ def payment():
 # ================= RUN =================
 
 if __name__ == "__main__":
-
-    with app.app_context():
-
-        db.create_all()
-
-        # Create Default Admin (Only First Time)
-        admin = Admin.query.filter_by(
-            email="bikizzzclasses@gmail.com"
-        ).first()
-
-        if not admin:
-
-            admin = Admin(
-                name="BIKIzz Admin",
-                email="bikizzzclasses@gmail.com",
-                password=generate_password_hash("BIKI2488@")
-            )
-
-            db.session.add(admin)
-            db.session.commit()
-
-            print("✅ Default Admin Created")
-
+    # Local laptop par run karne ke liye ekdum clean run block
     app.run(host="0.0.0.0", port=5105, debug=True)
