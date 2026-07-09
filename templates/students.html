@@ -37,57 +37,38 @@ href="{{ url_for('static', filename='admin.css') }}">
 <h1>👨 Registered Students</h1>
 
 <table>
+    <tr>
+        <th>Profile</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Email</th>
+        <th>Action</th> </tr>
 
-<tr>
-
-<th>Profile</th>
-
-<th>Name</th>
-
-<th>Mobile</th>
-
-<th>Email</th>
-
-</tr>
-
-{% for student in students %}
-
-<tr>
-
-<td>
-
-{% if student.profile_image %}
-
-<img src="{{ url_for('static',
-filename='uploads/' + student.profile_image) }}"
-width="60"
-height="60"
-style="border-radius:50%;object-fit:cover;">
-
-{% else %}
-
-<img src="{{ url_for('static',
-filename='images/default.png') }}"
-width="60"
-height="60"
-style="border-radius:50%;">
-
-{% endif %}
-
-</td>
-
-<td>{{ student.name }}</td>
-
-<td>{{ student.mobile }}</td>
-
-<td>{{ student.email }}</td>
-
-</tr>
-
-{% endfor %}
-
+    {% for student in students %}
+    <tr>
+        <td>
+            {% if student.profile_image %}
+                <img src="{{ url_for('static', filename='uploads/' + student.profile_image) }}" 
+                     width="60" height="60" style="border-radius:50%;object-fit:cover;">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/default.png') }}" 
+                     width="60" height="60" style="border-radius:50%;">
+            {% endif %}
+        </td>
+        <td>{{ student.name }}</td>
+        <td>{{ student.mobile }}</td>
+        <td>{{ student.email }}</td>
+        
+        <td>
+            <a href="/delete/{{ student.id }}" 
+               onclick="return confirm('Kya aap sure hain ki is student ko delete karna chahte hain?')"
+               style="background-color: #ff4d4d; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; font-size: 14px;">
+               Delete
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
 </table>
-
 </div>
 
 </body>
