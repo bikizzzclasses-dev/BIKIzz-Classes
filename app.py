@@ -57,9 +57,22 @@ mail.init_app(app)
 
 import secrets
 
-# ✅ Stable Secret Key setup - Isse server sleep mode se jagne par students log out nahi honge
+# ✅ Stable Secret Key
 app.secret_key = os.environ.get("SECRET_KEY", "biki_fallback_secret_key_2026")
+# ==========================================================
+# SECURITY CONFIGURATIONS (SESSION PROTECTION)
+# ==========================================================
 
+
+app.config["SESSION_COOKIE_SECURE"] = True  
+
+
+app.config["SESSION_COOKIE_HTTPONLY"] = True  
+
+
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"  
+
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=1)
 app.config["MAX_LOGIN_ATTEMPTS"] = 5
 app.config["LOCK_TIME"] = 10   # minutes
 
