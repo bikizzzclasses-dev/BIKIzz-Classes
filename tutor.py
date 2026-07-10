@@ -5,10 +5,11 @@ import google.generativeai as genai
 
 tutor_bp = Blueprint('tutor', __name__)
 
-# Render ke Environment Variable se API key uthayega
+# Render ke Environment Variable se API key uthayega aur stable v1 endpoint set karega
 api_key = os.getenv("GEMINI_API_KEY")
 if api_key:
-    genai.configure(api_key=api_key)
+    # 🔥 Yahan hum force kar rahe hain stable version v1 use karne ke liye
+    genai.configure(api_key=api_key, client_options={"api_version": "v1"})
 else:
     print("⚠️ WARNING: GEMINI_API_KEY environment variable nahi mila!")
 
@@ -73,9 +74,7 @@ def ask_ai():
         return jsonify({'response': response.text})
 
     except Exception as e:
-        # 🔥 DEBUGGER: Yeh Render Logs mein bhi dikhayega aur chat screen par bhi error print karendga
         error_msg = f"🚨 AI ERROR: {str(e)}"
         print(f"\n{'='*40}\n{error_msg}\n{'='*40}\n")
         
-        # Temporarily return the error as a successful response response taaki aap UI par exact error padh sakein
         return jsonify({'response': f"❌ **Backend Error:** {str(e)}\n\n*Fix hone ke baad yeh message nahi dikhega.*"})
