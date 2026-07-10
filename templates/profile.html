@@ -16,18 +16,19 @@
     <div class="profile-card">
 
         <div class="profile-image-box">
-            
-            {% if student.profile_image %}
-                <img src="data:image/jpeg;base64,{{ student.profile_image }}" class="profile-photo" alt="Profile Photo">
-            {% else %}
-                <img src="{{ url_for('static', filename='images/default.png') }}" class="profile-photo" alt="Default Photo">
-            {% endif %}
+    
+    {% if student.profile_image %}
+        <!-- 🔥 Yahan se hardcoded prefix hata diya, kyunki backend khud laga kar bhej raha hai -->
+        <img src="{{ student.profile_image }}" class="profile-photo" alt="Profile Photo">
+    {% else %}
+        <img src="{{ url_for('static', filename='images/default.png') }}" class="profile-photo" alt="Default Photo">
+    {% endif %}
 
-            <label for="photo-upload" class="edit-photo">
-                <i class="fas fa-pen"></i>
-            </label>
+    <label for="photo-upload" class="edit-photo">
+        <i class="fas fa-pen"></i>
+    </label>
 
-        </div>
+</div>
 
         <h2>{{ student.name }}</h2>
 

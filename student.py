@@ -363,7 +363,7 @@ def profile():
 
 
 # ==========================================================
-# PROFILE PHOTO UPLOAD (NEW BASE64 ROUTE)
+# PROFILE PHOTO UPLOAD (FIXED BASE64 ROUTE WITH PREFIX)
 # FILE: student.py
 # ==========================================================
 @student_bp.route("/upload-profile", methods=["POST"])
@@ -371,8 +371,9 @@ def upload_profile():
     if "student_id" not in session:
         return redirect("/login")
 
+    # 💡 Tip: Agar ye flash trigger ho, toh samajh jana HTML mein name="photo" nahi hai!
     if "photo" not in request.files:
-        flash("No file part found!")
+        flash("No file part found! Apne HTML input mein name='photo' check karein.")
         return redirect("/profile")
 
     file = request.files["photo"]
@@ -382,12 +383,16 @@ def upload_profile():
             flash("Khatra! Only images (png, jpg, jpeg, gif) are allowed!")
             return redirect("/profile")
 
-        # 🔥 Puraani file system hata kar direct text conversion
+        # File data read karein
         file_data = file.read()
+        mime_type = file.mimetype # Browser se image ka exact format (png/jpeg) nikalega
         base64_string = base64.b64encode(file_data).decode("utf-8")
 
+        # 🔥 Browser ke render karne ke liye direct proper Data-URI string format banaya
+        full_base64_uri = f"data:{mime_type};base64,{base64_string}"
+
         student = db.session.get(Student, session["student_id"])
-        student.profile_image = base64_string
+        student.profile_image = full_base64_uri # Database mein perfect string save hogi
         db.session.commit()
 
         flash("Profile Photo Uploaded Successfully!")
