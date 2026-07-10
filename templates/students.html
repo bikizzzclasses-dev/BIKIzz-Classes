@@ -7,8 +7,7 @@
 
 <title>Students</title>
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='admin.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
 
 </head>
 
@@ -42,19 +41,26 @@ href="{{ url_for('static', filename='admin.css') }}">
         <th>Name</th>
         <th>Mobile</th>
         <th>Email</th>
-        <th>Action</th> </tr>
+        <th>Action</th> 
+    </tr>
 
     {% for student in students %}
     <tr>
         <td>
             {% if student.profile_image %}
-                <img src="{{ url_for('static', filename='uploads/' + student.profile_image) }}" 
-                     width="60" height="60" style="border-radius:50%;object-fit:cover;">
+                {% if '.' in student.profile_image %}
+                    <img src="{{ url_for('static', filename='uploads/' + student.profile_image) }}" 
+                         width="60" height="60" style="border-radius:50%; object-fit:cover; border: 1px solid #ccc;">
+                {% else %}
+                    <img src="data:image/jpeg;base64,{{ student.profile_image }}" 
+                         width="60" height="60" style="border-radius:50%; object-fit:cover; border: 1px solid #ccc;">
+                {% endif %}
             {% else %}
                 <img src="{{ url_for('static', filename='images/default.png') }}" 
                      width="60" height="60" style="border-radius:50%;">
             {% endif %}
         </td>
+        
         <td>{{ student.name }}</td>
         <td>{{ student.mobile }}</td>
         <td>{{ student.email }}</td>
