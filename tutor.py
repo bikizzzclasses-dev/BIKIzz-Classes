@@ -5,11 +5,10 @@ import google.generativeai as genai
 
 tutor_bp = Blueprint('tutor', __name__)
 
-# Render ke Environment Variable se API key uthayega aur stable v1 endpoint set karega
+# Render ke Environment Variable se API key uthayega
 api_key = os.getenv("GEMINI_API_KEY")
 if api_key:
-    # 🔥 Yahan hum force kar rahe hain stable version v1 use karne ke liye
-    genai.configure(api_key=api_key, client_options={"api_version": "v1"})
+    genai.configure(api_key=api_key)
 else:
     print("⚠️ WARNING: GEMINI_API_KEY environment variable nahi mila!")
 
@@ -41,13 +40,12 @@ def ask_ai():
         return jsonify({'error': 'Kuch toh poochiye bhai!'}), 400
 
     try:
-        # Check agar API Key load hi nahi hui
         if not os.getenv("GEMINI_API_KEY"):
             raise ValueError("API Key backend tak nahi pahunch rahi hai. Render Environment check karein.")
 
-        # Multimodal AI Model configuration
+        # 🔥 Yahan humne naya aur sabse stable model 'gemini-2.0-flash' use kiya hai
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-2.0-flash",
             system_instruction=SYSTEM_PROMPT
         )
         
@@ -76,5 +74,4 @@ def ask_ai():
     except Exception as e:
         error_msg = f"🚨 AI ERROR: {str(e)}"
         print(f"\n{'='*40}\n{error_msg}\n{'='*40}\n")
-        
         return jsonify({'response': f"❌ **Backend Error:** {str(e)}\n\n*Fix hone ke baad yeh message nahi dikhega.*"})
