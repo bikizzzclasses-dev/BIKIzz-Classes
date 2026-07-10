@@ -1,80 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Students</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
 </head>
-
 <body>
 
 <div class="sidebar">
-
-<div class="admin-logo">
-    <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo-img">
-    <h2>BIKIzz Admin</h2>
-</div>
-
-<a href="/admin">🏠 Dashboard</a>
-<a href="/students">👨 Students</a>
-<a href="/payments">💳 Payments</a>
-<a href="/live-class">🎥 Live Class</a>
-<a href="/upload-notes">📚 Notes</a>
-<a href="/manage-test">📝 Test</a>
-<a href="/manage-notice">📢 Notice</a>
-<a href="/admin-logout">🚪 Logout</a>
-
+    <div class="admin-logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo-img">
+        <h2>BIKIzz Admin</h2>
+    </div>
+    <a href="/admin">🏠 Dashboard</a>
+    <a href="/students">👨 Students</a>
+    <a href="/payments">💳 Payments</a>
+    <a href="/live-class">🎥 Live Class</a>
+    <a href="/upload-notes">📚 Notes</a>
+    <a href="/manage-test">📝 Test</a>
+    <a href="/manage-notice">📢 Notice</a>
+    <a href="/admin-logout">🚪 Logout</a>
 </div>
 
 <div class="content">
+    <h1>👨 Registered Students</h1>
 
-<h1>👨 Registered Students</h1>
+    <table>
+        <tr>
+            <th>Profile</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Action</th> 
+        </tr>
 
-<table>
-    <tr>
-        <th>Profile</th>
-        <th>Name</th>
-        <th>Mobile</th>
-        <th>Email</th>
-        <th>Action</th> 
-    </tr>
-
-    {% for student in students %}
-    <tr>
-        <td>
-            {% if student.profile_image %}
-                {% if '.' in student.profile_image %}
-                    <img src="{{ url_for('static', filename='uploads/' + student.profile_image) }}" 
-                         width="60" height="60" style="border-radius:50%; object-fit:cover; border: 1px solid #ccc;">
+        {% for student in students %}
+        <tr>
+            <td>
+                {% if student.profile_image %}
+                    <!-- 1. 🔥 Naya Data Fix: Agar data URI ke saath full base64 save hai -->
+                    {% if student.profile_image.startswith('data:') %}
+                        <img src="{{ student.profile_image }}" 
+                             width="60" height="60" style="border-radius:50%; object-fit:cover; border: 1px solid #ccc;">
+                    
+                    <!-- 2. Purana Data Fix: Agar filename (.jpg/.png) save hai -->
+                    {% elif '.' in student.profile_image %}
+                        <img src="{{ url_for('static', filename='uploads/' + student.profile_image) }}" 
+                             width="60" height="60" style="border-radius:50%; object-fit:cover; border: 1px solid #ccc;">
+                    
+                    <!-- 3. Purana Data Fix: Agar sirf raw base64 bina prefix ke save hai -->
+                    {% else %}
+                        <img src="data:image/jpeg;base64,{{ student.profile_image }}" 
+                             width="60" height="60" style="border-radius:50%; object-fit:cover; border: 1px solid #ccc;">
+                    {% endif %}
                 {% else %}
-                    <img src="data:image/jpeg;base64,{{ student.profile_image }}" 
-                         width="60" height="60" style="border-radius:50%; object-fit:cover; border: 1px solid #ccc;">
+                    <!-- 4. Default Photo -->
+                    <img src="{{ url_for('static', filename='images/default.png') }}" 
+                         width="60" height="60" style="border-radius:50%;">
                 {% endif %}
-            {% else %}
-                <img src="{{ url_for('static', filename='images/default.png') }}" 
-                     width="60" height="60" style="border-radius:50%;">
-            {% endif %}
-        </td>
-        
-        <td>{{ student.name }}</td>
-        <td>{{ student.mobile }}</td>
-        <td>{{ student.email }}</td>
-        
-        <td>
-            <a href="/delete/{{ student.id }}" 
-               onclick="return confirm('Kya aap sure hain ki is student ko delete karna chahte hain?')"
-               style="background-color: #ff4d4d; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; font-size: 14px;">
-               Delete
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+            </td>
+            
+            <td>{{ student.name }}</td>
+            <td>{{ student.mobile }}</td>
+            <td>{{ student.email }}</td>
+            
+            <td>
+                <!-- 🔥 Delete Action URL match kiya aapke link ke mutabik -->
+                <a href="/delete/{{ student.id }}" 
+                   onclick="return confirm('Kya aap sure hain ki is student ko delete karna chahte hain?')"
+                   style="background-color: #ff4d4d; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; font-size: 14px; display: inline-block;">
+                   Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 
 </body>

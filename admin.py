@@ -1,5 +1,5 @@
 # ==========================================================
-# FILE: admin.py
+# FILE: admin.py (FIXED FOR STUDENT DELETION & SESSIONS)
 # AUTHOR: BIKIzz' Classes Setup
 # ==========================================================
 import os
@@ -25,7 +25,8 @@ from models import (
     Notes,
     LiveClass,
     Notice,
-    Test
+    Test,
+    ActiveSession  
 )
 
 admin_bp = Blueprint("admin", __name__)
@@ -113,7 +114,7 @@ def admin_dashboard():
 
 
 # ==========================================================
-# STUDENT MANAGEMENT
+# STUDENT MANAGEMENT (FIXED CASCASED DELETE COMMAND)
 # ==========================================================
 @admin_bp.route("/students")
 def students():
@@ -129,10 +130,22 @@ def delete(id):
     if "admin" not in session:
         return redirect("/admin-login")
 
-    student = Student.query.get_or_404(id)
-    db.session.delete(student)
-    db.session.commit()
-    flash("Student Deleted Successfully!")
+    try:
+        # 1. 🔥 Sabse pehle ActiveSession table se student ka record delete karo varna constraint block karega
+        ActiveSession.query.filter_by(student_id=id).delete()
+        db.session.commit()
+
+        # 2. Ab main Student row ko safely delete karo
+        student = Student.query.get_or_404(id)
+        db.session.delete(student)
+        db.session.commit()
+        flash("Student aur uske active sessions successfully delete ho gaye hain! 🎉")
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"🚨 DATABASE ERROR DURING DELETE: {str(e)}")
+        flash(f"Delete karne mein dikkat aayi: {str(e)}")
+
     return redirect("/students")
 
 
