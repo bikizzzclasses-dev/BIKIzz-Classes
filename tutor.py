@@ -9,6 +9,8 @@ tutor_bp = Blueprint('tutor', __name__)
 api_key = os.getenv("GEMINI_API_KEY")
 if api_key:
     genai.configure(api_key=api_key)
+else:
+    print("⚠️ WARNING: GEMINI_API_KEY environment variable nahi mila!")
 
 SYSTEM_PROMPT = """
 You are 'BIKIzz AI Tutor', a strict yet highly engaging and helpful personal learning assistant for BIKIzz Classes.
@@ -23,7 +25,6 @@ Your job is to help students solve academic questions (Math, Science, English, e
 def ai_tutor_page():
     if 'student_id' not in session:
         return "Bhai, pehle student login zaroori hai!", 403
-    # Aapka student dashboard ka login session data pass karne ke liye
     return render_template('ai_tutor.html', student_name=session.get('name', 'Student'))
 
 @tutor_bp.route('/ask-ai', methods=['POST'])
@@ -39,6 +40,10 @@ def ask_ai():
         return jsonify({'error': 'Kuch toh poochiye bhai!'}), 400
 
     try:
+        # Check agar API Key load hi nahi hui
+        if not os.getenv("GEMINI_API_KEY"):
+            raise ValueError("API Key backend tak nahi pahunch rahi hai. Render Environment check karein.")
+
         # Multimodal AI Model configuration
         model = genai.GenerativeModel(
             model_name="gemini-1.5-flash",
@@ -68,4 +73,9 @@ def ask_ai():
         return jsonify({'response': response.text})
 
     except Exception as e:
-        return jsonify({'error': f"AI Service temporary busy: {str(e)}"}), 500
+        # 🔥 DEBUGGER: Yeh Render Logs mein bhi dikhayega aur chat screen par bhi error print karendga
+        error_msg = f"🚨 AI ERROR: {str(e)}"
+        print(f"\n{'='*40}\n{error_msg}\n{'='*40}\n")
+        
+        # Temporarily return the error as a successful response response taaki aap UI par exact error padh sakein
+        return jsonify({'response': f"❌ **Backend Error:** {str(e)}\n\n*Fix hone ke baad yeh message nahi dikhega.*"})
