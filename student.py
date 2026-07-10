@@ -2,6 +2,7 @@ import os
 import random 
 import secrets  
 import requests  # <-- BREVO API
+import base64    # 🔥 Base64 image conversion ke liye jod diya
 
 from flask import (
     Blueprint,
@@ -19,9 +20,7 @@ from werkzeug.security import (
 )
 
 from werkzeug.utils import secure_filename
-
 from random import randint
-# from flask_mail import Message 
 
 from models import (
     db,
@@ -31,10 +30,17 @@ from models import (
     Notice,
     Test,
     PasswordResetOTP,
-    ActiveSession  # <-- Yeh naya model humne yahan import kiya
+    ActiveSession  
 )
 
 student_bp = Blueprint("student", __name__)
+
+# 🔥 ONLY IMAGES ALLOWED FILTER
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 # ==========================================================
 # HOME PAGE
@@ -92,20 +98,14 @@ def login():
 
         if student and check_password_hash(student.password, password):
 
-            # 🛠️ STEP 2: Flask ko batayein ki is session par 15-min ka rule lagana hai
             session.permanent = True
 
-            # 🛠️ STEP 3: Database se purane sessions check aur clean karein
-            # Sabse pehle is student ke saare active sessions purane se naye ke order (Ascending) mein nikalein
             active_sessions = ActiveSession.query.filter_by(student_id=student.id).order_by(ActiveSession.id.asc()).all()
 
-            # Smart Auto-Kick: Agar pehle se 2 ya usse zyada sessions database mein phanse hain,
-            # toh sabse purane waale session ko automatic delete (kick) kar do. Isse koi lock nahi hoga!
             if len(active_sessions) >= 2:
                 db.session.delete(active_sessions[0])
                 db.session.commit()
 
-            # Ab naye device ke liye ek secure unique session token banayein
             token = secrets.token_hex(16)
 
             new_session = ActiveSession(
@@ -115,10 +115,9 @@ def login():
             db.session.add(new_session)
             db.session.commit()
 
-            # Flask session mein details aur token save karein
             session["student_id"] = student.id
             session["student_name"] = student.name
-            session["session_token"] = token  # Isse device track hoga logout ke waqt
+            session["session_token"] = token  
 
             flash("Login Successful")
 
@@ -143,13 +142,10 @@ def forgot_password():
             flash("Email not found!")
             return redirect("/forgot-password")
 
-        # Generate 6-digit OTP
         otp = str(random.randint(100000, 999999))
 
-        # Delete old OTP
         PasswordResetOTP.query.filter_by(email=email).delete()
 
-        # Save new OTP
         reset = PasswordResetOTP(
             email=email,
             otp=otp
@@ -158,18 +154,16 @@ def forgot_password():
         db.session.add(reset)
         db.session.commit()
 
-        # --- BREVO EMAIL API LOGIC WITH ENVIRONMENT VARIABLE ---
         url = "https://api.brevo.com/v3/smtp/email"
         
         headers = {
-            # Yeh line ab Render ke environment se automatic key utha legi
             "api-key": os.environ.get("BREVO_API_KEY"), 
             "content-type": "application/json"
         }
 
         payload = {
             "sender": {
-                "email": "bikizzzclasses@gmail.com",  # Jo email aapne Brevo par verify ki hai
+                "email": "bikizzzclasses@gmail.com",  
                 "name": "BIKIzz Classes"
             },
             "to": [{"email": email}],
@@ -215,27 +209,20 @@ def verify_otp():
             email=session["reset_email"]
         ).first()
 
-        # DEBUG
         print("Session Email:", session.get("reset_email"))
         print("DB OTP:", reset.otp if reset else "No OTP Found")
         print("User OTP:", user_otp)
 
         if not reset:
-
             flash("OTP Expired!")
-
             return redirect("/forgot-password")
 
         if reset.otp != user_otp:
-
             flash("Invalid OTP!")
-
             return redirect("/verify-otp")
 
         session["otp_verified"] = True
-
         flash("OTP Verified Successfully!")
-
         return redirect("/reset-password")
 
     return render_template("verify_otp.html")
@@ -260,9 +247,7 @@ def reset_password():
         confirm = request.form["confirm_password"]
 
         if password != confirm:
-
             flash("Passwords do not match!")
-
             return redirect("/reset-password")
 
         student = Student.query.filter_by(
@@ -281,7 +266,6 @@ def reset_password():
         session.pop("otp_verified", None)
 
         flash("Password Changed Successfully!")
-
         return redirect("/login")
 
     return render_template("reset_password.html")
@@ -306,12 +290,8 @@ def dashboard():
         return redirect("/login")
 
     live = LiveClass.query.first()
-    
     notes = Notes.query.order_by(Notes.id.desc()).all()
-
-    notices = Notice.query.order_by(
-        Notice.created_at.desc()
-    ).limit(5).all()
+    notices = Notice.query.order_by(Notice.created_at.desc()).limit(5).all()
 
     return render_template(
         "dashboard.html",
@@ -367,3 +347,92 @@ def student_test():
         "student_test.html",
         questions=questions
     )
+
+
+# ==========================================================
+# STUDENT PROFILE VIEW (NEW BASE64 ROUTE)
+# FILE: student.py
+# ==========================================================
+@student_bp.route("/profile")
+def profile():
+    if "student_id" not in session:
+        return redirect("/login")
+
+    student = db.session.get(Student, session["student_id"])
+    return render_template("profile.html", student=student)
+
+
+# ==========================================================
+# PROFILE PHOTO UPLOAD (NEW BASE64 ROUTE)
+# FILE: student.py
+# ==========================================================
+@student_bp.route("/upload-profile", methods=["POST"])
+def upload_profile():
+    if "student_id" not in session:
+        return redirect("/login")
+
+    if "photo" not in request.files:
+        flash("No file part found!")
+        return redirect("/profile")
+
+    file = request.files["photo"]
+
+    if file and file.filename != "":
+        if not allowed_file(file.filename):
+            flash("Khatra! Only images (png, jpg, jpeg, gif) are allowed!")
+            return redirect("/profile")
+
+        # 🔥 Puraani file system hata kar direct text conversion
+        file_data = file.read()
+        base64_string = base64.b64encode(file_data).decode("utf-8")
+
+        student = db.session.get(Student, session["student_id"])
+        student.profile_image = base64_string
+        db.session.commit()
+
+        flash("Profile Photo Uploaded Successfully!")
+    else:
+        flash("Please select a file to upload.")
+
+    return redirect("/profile")
+
+
+# ==========================================================
+# COURSE PAYMENT (NEW BASE64 ROUTE + JINJA FIX)
+# FILE: student.py
+# ==========================================================
+@student_bp.route("/payment", methods=["GET", "POST"])
+def payment():
+    if "student_id" not in session:
+        return redirect("/login")
+
+    student = db.session.get(Student, session["student_id"])
+
+    if request.method == "POST":
+        if "payment" not in request.files:
+            flash("No file part found!")
+            return redirect("/payment")
+
+        file = request.files["payment"]
+
+        if file and file.filename != "":
+            if not allowed_file(file.filename):
+                flash("Security Alert! Only images are allowed as payment screenshots!")
+                return redirect("/payment")
+
+            # 🔥 Screnshot ko direct base64 text string banaya
+            file_data = file.read()
+            base64_string = base64.b64encode(file_data).decode("utf-8")
+
+            student.payment_image = base64_string
+            student.payment_status = "Pending"  
+            db.session.commit()
+
+            flash("Payment Screenshot Uploaded Successfully!")
+            return redirect("/payment")
+        else:
+            flash("Please select a file before clicking upload.")
+            return redirect("/payment")
+
+    # 🔥 Pass kar rahe hain 'student=student' taaki Jinja error na aaye
+    return render_template("payment.html", student=student)

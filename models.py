@@ -5,7 +5,7 @@ from datetime import datetime
 db = SQLAlchemy()
 
 # ==========================================================
-# STUDENT MODEL
+# STUDENT MODEL (UPDATED FOR BASE64 IMAGES)
 # ==========================================================
 
 class Student(db.Model):
@@ -20,16 +20,15 @@ class Student(db.Model):
 
     password = db.Column(db.String(255), nullable=False)
 
-    payment_image = db.Column(db.String(200))
+    # 🛠️ String se badal kar db.Text kiya taaki Base64 string save ho sake
+    payment_image = db.Column(db.Text)
 
     payment_status = db.Column(db.String(20), default="Pending")
 
-    profile_image = db.Column(
-        db.String(200),
-        default="default.png"
-    )
+    # 🛠️ String se badal kar db.Text kiya aur default hata kar nullable kiya
+    profile_image = db.Column(db.Text, nullable=True)
 
-    # ==========================================================
+# ==========================================================
 # PASSWORD RESET OTP MODEL
 # FILE: models.py
 # ==========================================================
@@ -49,7 +48,7 @@ class PasswordResetOTP(db.Model):
         default=datetime.utcnow
     )
 
-    # ==========================================================
+# ==========================================================
 # ADMIN MODEL
 # FILE: models.py
 # ==========================================================
@@ -66,7 +65,7 @@ class Admin(db.Model):
 
     password = db.Column(db.String(255), nullable=False)
 
-    # ==========================================================
+# ==========================================================
 # LIVE CLASS MODEL
 # FILE: models.py
 # ==========================================================
@@ -83,7 +82,7 @@ class LiveClass(db.Model):
 
     class_time = db.Column(db.String(50))
 
-     # ================= NOTES =================
+# ================= NOTES =================
 
 class Notes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -96,7 +95,7 @@ class Notes(db.Model):
 
     upload_date = db.Column(db.String(50))
 
-    # ==========================================================
+# ==========================================================
 # NOTICE MODEL
 # FILE: models.py
 # ==========================================================
@@ -116,7 +115,7 @@ class Notice(db.Model):
         default=db.func.current_timestamp()
     )
 
-    # ==========================================================
+# ==========================================================
 # LOGIN ATTEMPT MODEL
 # FILE: models.py
 # ==========================================================
@@ -132,7 +131,8 @@ class LoginAttempt(db.Model):
     attempts = db.Column(db.Integer, default=0)
 
     locked_until = db.Column(db.DateTime)
-    # ==========================================================
+
+# ==========================================================
 # TEST MODEL
 # FILE: models.py
 # ==========================================================
@@ -152,7 +152,7 @@ class Test(db.Model):
 
     answer = db.Column(db.String(200), nullable=False)
 
-    # ==========================================================
+# ==========================================================
 # ACTIVE SESSION MODEL (2-DEVICE LIMIT)
 # FILE: models.py
 # ==========================================================

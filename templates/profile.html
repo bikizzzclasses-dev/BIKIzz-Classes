@@ -2,72 +2,62 @@
 <html>
 
 <head>
-
     <title>My Profile</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>My Profile</h1>
+    <h1>My Profile</h1>
 
-<div class="profile-card">
+    <div class="profile-card">
 
-    <div class="profile-image-box">
+        <div class="profile-image-box">
+            
+            {% if student.profile_image %}
+                <img src="data:image/jpeg;base64,{{ student.profile_image }}" class="profile-photo" alt="Profile Photo">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/default.png') }}" class="profile-photo" alt="Default Photo">
+            {% endif %}
 
-        <img
-        src="{{ url_for('static', filename='uploads/' + (student.profile_image if student.profile_image else 'default.png')) }}"
-        class="profile-photo">
+            <label for="photo-upload" class="edit-photo">
+                <i class="fas fa-pen"></i>
+            </label>
 
-        <label for="photo-upload" class="edit-photo">
-            <i class="fas fa-pen"></i>
-        </label>
+        </div>
 
-    </div>
+        <h2>{{ student.name }}</h2>
 
-    <h2>{{ student.name }}</h2>
+        <p><strong>Mobile:</strong> {{ student.mobile }}</p>
 
-    <p><strong>Mobile:</strong> {{ student.mobile }}</p>
+        <p><strong>Email:</strong> {{ student.email }}</p>
 
-    <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Payment Status:</strong> {{ student.payment_status }}</p>
 
-    <p><strong>Payment Status:</strong> {{ student.payment_status }}</p>
-
-    <form action="/upload-profile"
-          method="POST"
-          enctype="multipart/form-data">
-
-        <input
-            type="file"
-            id="photo-upload"
-            name="photo"
-            accept="image/*"
-            hidden
-            required>
+        <form action="/upload-profile" method="POST" enctype="multipart/form-data">
+            <input
+                type="file"
+                id="photo-upload"
+                name="photo"
+                accept="image/*"
+                hidden
+                required>
+            <br>
+            <button type="submit" class="register-btn">
+                Upload Photo
+            </button>
+        </form>
 
         <br>
 
-        <button type="submit" class="register-btn">
-            Upload Photo
-        </button>
+        <a href="/dashboard" class="register-btn">
+            Back to Dashboard
+        </a>
 
-    </form>
-
-    <br>
-
-    <a href="/dashboard" class="register-btn">
-        Back to Dashboard
-    </a>
-
-</div>
+    </div>
 
 </div>
 

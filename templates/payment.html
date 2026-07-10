@@ -2,49 +2,37 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Course Payment</title>
-
-<link rel="stylesheet"
-href="{{ url_for('static', filename='payment.css') }}">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Payment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='payment.css') }}">
 </head>
 
 <body>
 
 <div class="payment-box">
 
-<h1>Complete Your Payment</h1>
+    <h1>Complete Your Payment</h1>
 
-<p>
+    <p>Course Fee : <strong>₹999</strong></p>
 
-Course Fee : <strong>₹999</strong>
+    <img src="{{ url_for('static', filename='images/qr.png') }}" class="qr">
 
-</p>
+    {% if student and student.payment_image %}
+        <div style="margin: 15px 0;">
+            <p style="font-size: 14px; color: #555;">Uploaded Screenshot:</p>
+            <img src="data:image/jpeg;base64,{{ student.payment_image }}" style="max-width: 100%; max-height: 150px; border-radius: 5px;">
+        </div>
+    {% endif %}
 
-<img src="{{ url_for('static', filename='images/qr.png') }}" class="qr">
-
-<form method="POST" enctype="multipart/form-data">
-
-<input
-type="file"
-name="payment"
-accept="image/*"
-required>
-
-<button type="submit">
-
-Upload Screenshot
-
-</button>
-
-</form>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="payment" accept="image/*" required>
+        <button type="submit">
+            Upload Screenshot
+        </button>
+    </form>
 
 </div>
 
 </body>
-
 </html>
