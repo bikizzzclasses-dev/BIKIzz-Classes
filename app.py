@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 from flask_mail import Message
 from extensions import mail
+from tutor import tutor_bp
 
 # ==========================================================
 # PROJECT IMPORTS
@@ -41,9 +42,11 @@ mail.init_app(app)
 # ==========================================================
 app.secret_key = os.environ.get("SECRET_KEY", "biki_fallback_secret_key_2026")
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=1)
-app.config["SESSION_COOKIE_SECURE"] = True  
-app.config["SESSION_COOKIE_HTTPONLY"] = True  
-app.config["SESSION_COOKIE_SAMESITE"] = "Lax"  
+
+# Agar Render par hai toh True, local par hai toh False automatically ho jayega
+app.config['SESSION_COOKIE_SECURE'] = False if os.getenv('DEBUG', 'False') == 'True' or not os.getenv('RENDER') else True
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' 
 app.config["MAX_LOGIN_ATTEMPTS"] = 5
 app.config["LOCK_TIME"] = 10   # minutes
 
@@ -86,6 +89,7 @@ with app.app_context():
 # Blueprints Registration
 app.register_blueprint(student_bp)
 app.register_blueprint(admin_bp)
+app.register_blueprint(tutor_bp)
 
 # ================= ABOUT =================
 @app.route("/about")

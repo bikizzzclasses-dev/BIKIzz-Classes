@@ -166,15 +166,13 @@
                 {% endif %}
             </div>
 
-             <div class="dashboard-card {% if status != 'Approved' %}locked{% endif %}">
-    {% if status != 'Approved' %}<div class="lock-overlay"></div>{% endif %}
-    <h2>📄 Study Notes</h2>
-    
-    <p>Access your premium formulas, handwritten e-books, and chapter-wise PYQs.</p>
-    <br>
-    
-    <a href="/all-notes" class="pay-btn" style="text-align: center; display: block;">📥 View All Notes</a>
-</div>
+            <div class="dashboard-card {% if status != 'Approved' %}locked{% endif %}">
+                {% if status != 'Approved' %}<div class="lock-overlay"></div>{% endif %}
+                <h2>📄 Study Notes</h2>
+                <p>Access your premium formulas, handwritten e-books, and chapter-wise PYQs.</p>
+                <br>
+                <a href="/all-notes" class="pay-btn" style="text-align: center; display: block;">📥 View All Notes</a>
+            </div>
 
             <div class="dashboard-card {% if status != 'Approved' %}locked{% endif %}">
                 {% if status != 'Approved' %}<div class="lock-overlay"></div>{% endif %}
@@ -199,21 +197,30 @@
                 {% endif %}
             </div>
 
-            <div class="dashboard-card">
-                <h2>📢 Latest Notices</h2>
-                {% if notices %}
-                    {% for notice in notices %}
-                        <div class="notice-item">
-                            <strong>{{ notice.title }}</strong><br>
-                            <small>{{ notice.created_at.strftime('%d %b %Y') if notice.created_at else notice.date }}</small>
-                            <p style="margin-top: 5px; line-height: 1.4;">{{ notice.description or notice.message }}</p>
-                            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.08); margin: 10px 0;">
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p>No Notice Available.</p>
+            <div class="dashboard-card {% if status != 'Approved' %}locked{% endif %}">
+                {% if status != 'Approved' %}<div class="lock-overlay"></div>{% endif %}
+                <h2>🤖 AI Tutor <span style="font-size: 11px; background: #3a86ff; color: white; padding: 2px 8px; border-radius: 20px; font-weight: normal; margin-left: 5px;">Beta</span></h2>
+                <p>Apne kisi bhi subject ke doubts poochhein ya handwritten question ki photo upload karke step solutions payein.</p>
+                <br>
+                {% if status == "Approved" %}
+                    <a href="/ai-tutor" class="pay-btn" style="text-align: center; display: block;">Ask AI Tutor 🚀</a>
                 {% endif %}
             </div>
+
+            <div class="dashboard-card">
+    <h2>📢 Latest Notices</h2>
+    {% if notices %}
+        {% for notice in notices %}  <div class="notice-item">
+                <strong>{{ notice.title }}</strong><br>
+                <small>{{ notice.created_at.strftime('%d %b %Y') if notice.created_at else notice.date }}</small>
+                <p style="margin-top: 5px; line-height: 1.4;">{{ notice.description or notice.message }}</p>
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.08); margin: 10px 0;">
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No Notice Available.</p>
+    {% endif %}
+</div>
 
             <a href="/profile" class="dashboard-card profile-card">
                 <h2>👤 Profile</h2>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor - BIKIzz Classes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <style>
+        .chat-container { max-width: 900px; margin: 30px auto; background: #0b1329; border-radius: 12px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); font-family: 'Poppins', sans-serif; }
+        .chat-box { height: 450px; overflow-y: auto; border: 1px solid #1c2541; padding: 20px; margin-bottom: 20px; background: #0a0f1d; border-radius: 10px; }
+        .message { margin-bottom: 20px; padding: 12px 16px; border-radius: 8px; max-width: 75%; line-height: 1.6; font-size: 15px; }
+        .user-msg { background: #1d4ed8; color: white; margin-left: auto; border-bottom-right-radius: 2px; text-align: left; }
+        .bot-msg { background: #1e293b; color: #f1f5f9; margin-right: auto; border-bottom-left-radius: 2px; white-space: pre-wrap; }
+        .input-area { display: flex; gap: 12px; background: #1c2541; padding: 10px; border-radius: 8px; align-items: center; }
+        .input-area input[type="text"] { flex: 1; padding: 12px; border: none; background: transparent; color: white; font-size: 15px; outline: none; }
+        .input-area button { padding: 12px 24px; background: #3a86ff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .input-area button:hover { background: #00b4d8; }
+        .input-area button:disabled { background: #64748b; cursor: not-allowed; }
+        .file-btn { background: #475569 !important; padding: 12px 16px !important; }
+        #previewContainer { display: none; background: #1e293b; padding: 8px; border-radius: 6px; margin-bottom: 10px; color: #38bdf8; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <h2 style="color: white; margin-top: 0;">🤖 BIKIzz AI Tutor <span style="font-size: 12px; background: #3a86ff; padding: 3px 8px; border-radius: 20px;">Beta</span></h2>
+    <p style="color: #94a3b8; font-size: 14px; margin-bottom: 20px;">Welcome {{ student_name }}! Apna academic doubt type karein ya handwritten question ki photo upload karein.</p>
+    
+    <div class="chat-box" id="chatBox">
+        <div class="message bot-msg">Hello! Main aapka personal AI Tutor hoon. Mathematics, Physics, Chemistry, ya English—kisi bhi sawaal ka step-by-step solution paane ke liye yahan poochiye! 😊</div>
+    </div>
+
+    <div id="previewContainer">
+        📸 Sawaal ki photo select ho gayi hai! Ready to send.
+    </div>
+
+    <div class="input-area">
+        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleFileSelect()">
+        <button class="file-btn" onclick="document.getElementById('imageInput').click()">📁 Photo</button>
+        <input type="text" id="userInput" placeholder="Type your question here...">
+        <button id="sendBtn" onclick="sendDoubt()">Poochhein 🚀</button>
+    </div>
+</div>
+
+<script>
+let encodedImage = null;
+
+function handleFileSelect() {
+    const file = document.getElementById('imageInput').files[0];
+    if (file) {
+        document.getElementById('previewContainer').style.display = 'block';
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            encodedImage = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+async function sendDoubt() {
+    const inputElement = document.getElementById('userInput');
+    const queryText = inputElement.value.trim();
+    if (!queryText && !encodedImage) return;
+
+    const chatBox = document.getElementById('chatBox');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // User message render karein
+    if (queryText) chatBox.innerHTML += `<div class="message user-msg">${queryText}</div>`;
+    if (encodedImage) chatBox.innerHTML += `<div class="message user-msg">📷 <i>[Attached Image Question]</i></div>`;
+    
+    // UI clean aur lock karein
+    inputElement.value = '';
+    sendBtn.disabled = true;
+    sendBtn.innerText = "Thinking... 🤔";
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+        const res = await fetch('/ask-ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: queryText, image: encodedImage })
+        });
+        const data = await res.json();
+
+        // Reset image variables
+        encodedImage = null;
+        document.getElementById('imageInput').value = '';
+        document.getElementById('previewContainer').style.display = 'none';
+
+        if (data.response) {
+            chatBox.innerHTML += `<div class="message bot-msg">${data.response}</div>`;
+        } else {
+            chatBox.innerHTML += `<div class="message bot-msg" style="color: #ef4444;">Sorry, solution nahi mil paya. Dobara koshish karein.</div>`;
+        }
+    } catch (error) {
+        chatBox.innerHTML += `<div class="message bot-msg" style="color: #ef4444;">Network issue! Server response nahi de raha.</div>`;
+    }
+
+    sendBtn.disabled = false;
+    sendBtn.innerText = "Poochhein 🚀";
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+</script>
+</body>
+</html>
