@@ -1,6 +1,6 @@
-/* ==========================================================
+/* ===========================
    RESET
-========================================================== */
+=========================== */
 
 *{
     margin:0;
@@ -22,65 +22,20 @@ body{
     margin:auto;
 }
 
-/* ==========================================================
-   🔥 PREMIUM ANIMATIONS & KEYFRAMES SETUP
-========================================================== */
-
-/* 1. Subdued Elegant Entry Effect */
-@keyframes premiumFadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(35px);
-        filter: blur(4px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-        filter: blur(0);
-    }
-}
-
-/* 2. Seamless Infinite Marquee Text Scroll */
-@keyframes continuousScroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
-}
-
-/* ==========================================================
-   TOP BAR (ANIMATED MARQUEE INTEGRATION)
-========================================================== */
+/* ===========================
+   TOP BAR
+=========================== */
 
 .top-bar{
     background:#00bfff;
     color:white;
     padding:10px 0;
-    overflow: hidden; /* Elements strip ke baahar na dikhein */
 }
 
 .top-bar .container{
     display:flex;
     justify-content:space-between;
     align-items:center;
-}
-
-/* Continuously moving wrapper for your alerts */
-.marquee-wrapper {
-    display: flex;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-}
-
-.marquee-content {
-    display: inline-block;
-    padding-left: 100%;
-    animation: continuousScroll 18s linear infinite;
-    font-weight: 600;
-    letter-spacing: 0.5px;
 }
 
 .top-bar a{
@@ -155,341 +110,462 @@ nav .active{
 
 .login-btn,
 .register-btn{
+
     text-decoration:none;
     padding:12px 28px;
     border-radius:40px;
     font-weight:600;
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Interactive hover speed */
+
 }
 
 .login-btn{
+
     color:white;
     border:2px solid #00d4ff;
-}
 
-.login-btn:hover {
-    background: rgba(0, 212, 255, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.25);
 }
 
 .register-btn{
+
     background:#00d4ff;
     color:white;
+
 }
 
 .register-btn:hover{
+
     background:white;
     color:#071a2f;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+
 }
 
 /* ===========================
-   HERO (SEQUENTIAL LOAD ANIMATIONS APPLIED)
+   HERO
 =========================== */
 
 .hero{
+
     position:relative;
+
     min-height:95vh;
+
     background:url("../static/images/hero-bg.jpg");
+
     background-size:cover;
+
     background-position:center;
+
     background-repeat:no-repeat;
+
     display:flex;
+
     align-items:center;
+
 }
+background:url("images/hero-bg.jpg")
 
 .hero-overlay{
-    position:absolute;
-    inset:0;
-    background:rgba(7,26,47,.70);
-}
 
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(7,26,47,.70);
+
+}
 .hero-content{
+
     position:relative;
+
     z-index:2;
+
 }
 
 .hero-left{
+
     width:55%;
+
 }
 
 .hero-right img{
+
     width:100%;
     max-width:600px;
+
 }
 
-/* Badge entry animation */
 .badge{
+
     display:inline-block;
+
     background:#0d3556;
+
     color:#00d4ff;
+
     padding:10px 20px;
+
     border-radius:30px;
+
     margin-bottom:25px;
-    animation: premiumFadeInUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
 }
 
-/* Title entry animation */
 .hero h1{
+
     font-size:70px;
+
     line-height:1.15;
+
     margin-bottom:20px;
-    opacity: 0;
-    animation: premiumFadeInUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.15s;
+
 }
 
 .hero h1 span{
+
     color:#00d4ff;
+
 }
 
-/* Subtitle paragraph entry animation */
 .hero p{
+
     font-size:20px;
+
     line-height:1.8;
+
     color:#d7d7d7;
+
     margin-bottom:35px;
-    opacity: 0;
-    animation: premiumFadeInUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.35s;
+
 }
 
-/* Buttons Container entry animation */
 .hero-buttons{
-    display:flex;
-    gap:20px;
-    opacity: 0;
-    animation: premiumFadeInUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.55s;
-}
 
-.primary-btn, .secondary-btn {
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    display:flex;
+
+    gap:20px;
+
 }
 
 .primary-btn{
+
     background:#00d4ff;
+
     color:white;
+
     padding:16px 35px;
+
     text-decoration:none;
+
     border-radius:50px;
+
     font-weight:600;
+
 }
 
 .secondary-btn{
+
     border:2px solid white;
+
     color:white;
+
     text-decoration:none;
+
     padding:16px 35px;
+
     border-radius:50px;
+
 }
 
-/* Makkhan Hover Actions */
 .primary-btn:hover{
+
     background:white;
+
     color:#071a2f;
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(0, 212, 255, 0.45);
+
 }
 
 .secondary-btn:hover{
+
     background:white;
+
     color:#071a2f;
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25);
+
 }
 
-/* Stats Counter entry animation */
 .hero-stats{
+
     display:flex;
+
     gap:60px;
+
     margin-top:50px;
-    opacity: 0;
-    animation: premiumFadeInUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.75s;
+
 }
 
 .hero-stats h2{
+
     color:#00d4ff;
+
     font-size:40px;
+
 }
 
 .hero-stats p{
+
     font-size:16px;
+
     margin-top:5px;
+
 }
+
+
 
 /* ================= COURSE ================= */
 
 .course{
-    padding:100px 0;
-    background:white;
-    color:#222;
+
+padding:100px 0;
+
+background:white;
+
+color:#222;
+
 }
 
 .section-title{
-    text-align:center;
-    font-size:45px;
-    color:#071A2F;
-    margin-bottom:15px;
+
+text-align:center;
+
+font-size:45px;
+
+color:#071A2F;
+
+margin-bottom:15px;
+
 }
 
 .section-subtitle{
-    text-align:center;
-    color:#666;
-    margin-bottom:60px;
-    font-size:18px;
+
+text-align:center;
+
+color:#666;
+
+margin-bottom:60px;
+
+font-size:18px;
+
 }
 
 .course-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:30px;
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:30px;
+
 }
 
 .course-card{
-    background:#f8fbff;
-    padding:35px;
-    border-radius:20px;
-    text-align:center;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+background:#f8fbff;
+
+padding:35px;
+
+border-radius:20px;
+
+text-align:center;
+
+transition:.35s;
+
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+
 }
 
 .course-card:hover{
-    transform:translateY(-12px);
-    box-shadow: 0 20px 40px rgba(7, 26, 47, 0.15);
+
+transform:translateY(-12px);
+
 }
 
 .course-card i{
-    font-size:48px;
-    color:#00BFFF;
-    margin-bottom:20px;
+
+font-size:48px;
+
+color:#00BFFF;
+
+margin-bottom:20px;
+
 }
 
 .course-card h3{
-    margin-bottom:15px;
+
+margin-bottom:15px;
+
 }
 
 /* ================= WHY ================= */
 
 .why{
-    padding:100px 0;
-    background:#071A2F;
+
+padding:100px 0;
+
+background:#071A2F;
+
 }
 
 .why-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:30px;
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+gap:30px;
+
 }
 
 .why-box{
-    background:#102C48;
-    padding:35px;
-    text-align:center;
-    border-radius:20px;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+background:#102C48;
+
+padding:35px;
+
+text-align:center;
+
+border-radius:20px;
+
+transition:.35s;
+
 }
 
 .why-box:hover{
-    background:#00BFFF;
-    transform:translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 191, 255, 0.3);
+
+background:#00BFFF;
+
+transform:translateY(-10px);
+
 }
 
 .why-box i{
-    font-size:45px;
-    margin-bottom:20px;
+
+font-size:45px;
+
+margin-bottom:20px;
+
 }
 
 .why-box h3{
-    margin-bottom:15px;
+
+margin-bottom:15px;
+
 }
 
 /* ================= FACULTY ================= */
 
 .faculty{
-    padding:100px 0;
-    background:white;
-    color:#222;
+
+padding:100px 0;
+
+background:white;
+
+color:#222;
+
 }
 
 .faculty-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:35px;
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+gap:35px;
+
 }
 
 .faculty-card{
-    background:#f8fbff;
-    padding:35px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 15px 30px rgba(0,0,0,.08);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+background:#f8fbff;
+
+padding:35px;
+
+border-radius:20px;
+
+text-align:center;
+
+box-shadow:0 15px 30px rgba(0,0,0,.08);
+
+transition:.35s;
+
 }
 
 .faculty-card:hover{
-    transform:translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+
+transform:translateY(-10px);
+
 }
 
 .faculty-card img{
-    width:180px;
-    height:180px;
-    border-radius:50%;
-    object-fit:cover;
-    margin-bottom:20px;
-    border:6px solid #00BFFF;
+
+width:180px;
+
+height:180px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+margin-bottom:20px;
+
+border:6px solid #00BFFF;
+
 }
 
 .faculty-card h3{
-    margin-bottom:10px;
-    color:#071A2F;
+
+margin-bottom:10px;
+
+color:#071A2F;
+
 }
 
 /* ================= DEMO ================= */
 
 .demo{
-    padding:100px 0;
-    background:#eef6fd;
+padding:100px 0;
+background:#eef6fd;
 }
 
 .video-box{
-    overflow:hidden;
-    border-radius:20px;
-    box-shadow:0 20px 40px rgba(0,0,0,.15);
+overflow:hidden;
+border-radius:20px;
+box-shadow:0 20px 40px rgba(0,0,0,.15);
 }
 
 /* ================= ENROLL ================= */
 
 .enroll{
-    padding:100px 0;
-    background:white;
-    color:#222;
+padding:100px 0;
+background:white;
+color:#222;
 }
 
 .steps{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
 }
 
 .step{
-    background:#f8fbff;
-    padding:30px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+background:#f8fbff;
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.3s;
 }
 
 .step:hover{
-    transform:translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+transform:translateY(-10px);
 }
 
 /* ================= FAQ ================= */
@@ -517,18 +593,20 @@ nav .active{
     transition: transform 0.3s ease;
 }
 
+/* Shuruat me saare answers chipe rahenge */
 .faq-answer {
     display: none;
     padding: 10px;
     color: #555;
 }
 
+/* Jab active hoga toh arrow ghum jayega aur answer dikhega */
 .faq-box.active .faq-answer {
     display: block;
 }
 
 .faq-box.active .arrow {
-    transform: rotate(180deg);
+    transform: rotate(180deg); /* Arrow up ho jayega */
 }
 
 /* ================= CONTACT ================= */
@@ -581,31 +659,35 @@ nav .active{
     color:#00d4ff;
 }
 
+/* Social icons container */
 .social-icons {
     display: flex;
     gap: 15px;
     margin-top: 15px;
 }
 
+/* Har icon ka button style */
 .social-icons a {
     width: 45px;
     height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%; /* Circle banane ke liye */
+    background: rgba(255, 255, 255, 0.1); /* Halka background */
     color: white;
     font-size: 20px;
     transition: 0.3s;
     text-decoration: none;
 }
 
+/* Hover karne par color wahi rahega jo aapne define kiya hai */
 .social-icons a:hover {
     transform: translateY(-5px);
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* Icon specific colors (aapne jo HTML mein diye hain wo yahan override ho jayenge) */
 .social-icons a.instagram { color: #e1306c; }
 .social-icons a.youtube { color: #ff0000; }
 .social-icons a.telegram { color: #0088cc; }
@@ -620,75 +702,88 @@ nav .active{
 }
 
 @media(max-width:991px){
-    .footer .row{
-        grid-template-columns:1fr 1fr;
-    }
+
+.footer .row{
+    grid-template-columns:1fr 1fr;
+}
+
 }
 
 @media(max-width:600px){
-    .footer .row{
-        grid-template-columns:1fr;
-        text-align:center;
-    }
-    .social-icons{
-        justify-content:center;
-    }
+
+.footer .row{
+    grid-template-columns:1fr;
+    text-align:center;
 }
 
-/* MOBILE MEDIA QUERY */
+.social-icons{
+    justify-content:center;
+}
+
+}
+
+/* MOBILE */
+
 @media(max-width:991px){
-    .about-hero-container,
-    .about-container,
-    .founder-container{
-        flex-direction:column;
-        text-align:center;
-    }
-    .about-right,
-    .founder-image{
-        text-align:center;
-    }
-    .about-left h1{
-        font-size:42px;
-    }
-    .about-features{
-        grid-template-columns:1fr;
-    }
-    .mission-grid,
-    .footer-container{
-        grid-template-columns:1fr;
-    }
-    .stats{
-        flex-wrap:wrap;
-        justify-content:center;
-    }
+
+.about-hero-container,
+.about-container,
+.founder-container{
+    flex-direction:column;
+    text-align:center;
+}
+
+.about-right,
+.founder-image{
+    text-align:center;
+}
+
+.about-left h1{
+    font-size:42px;
+}
+
+.about-features{
+    grid-template-columns:1fr;
+}
+
+.mission-grid,
+.footer-container{
+    grid-template-columns:1fr;
+}
+
+.stats{
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
 }
 
 /* ================= FOOTER ================= */
 
 footer{
-    background:#05111d;
-    padding:25px;
-    text-align:center;
+background:#05111d;
+padding:25px;
+text-align:center;
 }
 
 /* ================= WHATSAPP ================= */
 
 .whatsapp{
-    position:fixed;
-    bottom:25px;
-    right:25px;
-    width:60px;
-    height:60px;
-    background:#25D366;
-    color:white;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:30px;
-    text-decoration:none;
-    box-shadow:0 10px 25px rgba(0,0,0,.25);
-    z-index:999;
+position:fixed;
+bottom:25px;
+right:25px;
+width:60px;
+height:60px;
+background:#25D366;
+color:white;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:30px;
+text-decoration:none;
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+z-index:999;
 }
 
 .contact-grid{
@@ -750,6 +845,7 @@ footer{
     background:#C82361;
 }
 
+
 /* ================= PROFILE PAGE ================= */
 
 .profile-card{
@@ -799,98 +895,168 @@ AUTH PAGE
 =========================== */
 
 .auth-page{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#071A2F,#0D2F4E);
-    padding:30px;
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:linear-gradient(135deg,#071A2F,#0D2F4E);
+
+padding:30px;
+
 }
 
 .auth-card{
-    width:420px;
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(18px);
-    border:1px solid rgba(255,255,255,.15);
-    padding:45px;
-    border-radius:25px;
-    text-align:center;
-    box-shadow:0 20px 60px rgba(0,0,0,.35);
+
+width:420px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.15);
+
+padding:45px;
+
+border-radius:25px;
+
+text-align:center;
+
+box-shadow:0 20px 60px rgba(0,0,0,.35);
+
 }
 
 .auth-icon{
-    width:90px;
-    height:90px;
-    margin:auto;
-    margin-bottom:25px;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#00CFFF,#008CFF);
-    font-size:38px;
-    color:white;
+
+width:90px;
+
+height:90px;
+
+margin:auto;
+
+margin-bottom:25px;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:linear-gradient(135deg,#00CFFF,#008CFF);
+
+font-size:38px;
+
+color:white;
+
 }
 
 .auth-card h2{
-    font-size:32px;
-    margin-bottom:12px;
+
+font-size:32px;
+
+margin-bottom:12px;
+
 }
 
 .auth-card p{
-    color:#d4d4d4;
-    line-height:1.7;
-    margin-bottom:30px;
+
+color:#d4d4d4;
+
+line-height:1.7;
+
+margin-bottom:30px;
+
 }
 
 .auth-card input{
-    width:100%;
-    padding:16px;
-    border:none;
-    outline:none;
-    border-radius:12px;
-    font-size:16px;
-    margin-bottom:20px;
-    background:white;
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+outline:none;
+
+border-radius:12px;
+
+font-size:16px;
+
+margin-bottom:20px;
+
+background:white;
+
 }
 
 .auth-card button{
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:12px;
-    background:linear-gradient(135deg,#00CFFF,#0094FF);
-    color:white;
-    font-size:17px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.3s;
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:12px;
+
+background:linear-gradient(135deg,#00CFFF,#0094FF);
+
+color:white;
+
+font-size:17px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.3s;
+
 }
 
 .auth-card button:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 25px rgba(0,212,255,.45);
+
+transform:translateY(-3px);
+
+box-shadow:0 10px 25px rgba(0,212,255,.45);
+
 }
 
 .back-link{
-    display:block;
-    margin-top:25px;
-    color:#00CFFF;
-    text-decoration:none;
-    font-weight:600;
+
+display:block;
+
+margin-top:25px;
+
+color:#00CFFF;
+
+text-decoration:none;
+
+font-weight:600;
+
 }
 
 .back-link:hover{
-    color:white;
+
+color:white;
+
 }
 
 @media(max-width:500px){
-    .auth-card{
-        width:100%;
-        padding:30px;
-    }
+
+.auth-card{
+
+width:100%;
+
+padding:30px;
+
 }
 
+}
 .developer{
     margin-top:12px;
     font-size:14px;
@@ -907,7 +1073,6 @@ AUTH PAGE
     color:#ffffff;
     transition:0.3s;
 }
-
 /* ================= PROFILE PHOTO UPLOAD ================= */
 
 .profile-image-box{
@@ -952,6 +1117,7 @@ AUTH PAGE
 #photo{
     display:none;
 }
+
 
 /* ================= LOADER ================= */
 
@@ -1000,14 +1166,31 @@ AUTH PAGE
 }
 
 @keyframes loading{
-    0%{ width:0%; }
-    100%{ width:100%; }
+
+    0%{
+        width:0%;
+    }
+
+    100%{
+        width:100%;
+    }
+
 }
 
 @keyframes logoSpin{
-    0%{ transform:scale(1) rotate(0deg); }
-    50%{ transform:scale(1.08) rotate(180deg); }
-    100%{ transform:scale(1) rotate(360deg); }
+
+    0%{
+        transform:scale(1) rotate(0deg);
+    }
+
+    50%{
+        transform:scale(1.08) rotate(180deg);
+    }
+
+    100%{
+        transform:scale(1) rotate(360deg);
+    }
+
 }
 
 .loader-hide{
@@ -1018,84 +1201,97 @@ AUTH PAGE
 /* ================= MOBILE RESPONSIVE ================= */
 
 @media (max-width:768px){
-    .container{
-        width:95%;
-    }
 
-    .navbar{
-        flex-direction:column;
-        gap:20px;
-        padding:15px 0;
-    }
+.container{
+    width:95%;
+}
 
-    nav{
-        flex-direction:column;
-        gap:15px;
-        text-align:center;
-    }
+/* Navbar */
 
-    .nav-btn{
-        flex-direction:column;
-        width:100%;
-    }
+.navbar{
+    flex-direction:column;
+    gap:20px;
+    padding:15px 0;
+}
 
-    .login-btn,
-    .register-btn{
-        width:100%;
-        text-align:center;
-    }
+nav{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+}
 
-    .hero{
-        min-height:auto;
-        padding:70px 0;
-    }
+.nav-btn{
+    flex-direction:column;
+    width:100%;
+}
 
-    .hero-left{
-        width:100%;
-        text-align:center;
-    }
+.login-btn,
+.register-btn{
+    width:100%;
+    text-align:center;
+}
 
-    .hero h1{
-        font-size:38px;
-    }
+/* Hero */
 
-    .hero p{
-        font-size:16px;
-    }
+.hero{
+    min-height:auto;
+    padding:70px 0;
+}
 
-    .hero-buttons{
-        flex-direction:column;
-    }
+.hero-left{
+    width:100%;
+    text-align:center;
+}
 
-    .hero-stats{
-        flex-direction:column;
-        gap:20px;
-        text-align:center;
-    }
+.hero h1{
+    font-size:38px;
+}
 
-    .section-title{
-        font-size:32px;
-    }
+.hero p{
+    font-size:16px;
+}
 
-    .course-grid,
-    .why-grid,
-    .faculty-grid,
-    .steps{
-        grid-template-columns:1fr;
-    }
+.hero-buttons{
+    flex-direction:column;
+}
 
-    .video-box iframe{
-        height:220px;
-    }
+.hero-stats{
+    flex-direction:column;
+    gap:20px;
+    text-align:center;
+}
 
-    .footer .row{
-        grid-template-columns:1fr;
-        text-align:center;
-    }
+/* Sections */
 
-    .social-icons{
-        justify-content:center;
-    }
+.section-title{
+    font-size:32px;
+}
+
+/* Grid */
+
+.course-grid,
+.why-grid,
+.faculty-grid,
+.steps{
+    grid-template-columns:1fr;
+}
+
+/* Demo Video */
+
+.video-box iframe{
+    height:220px;
+}
+
+/* Footer */
+
+.footer .row{
+    grid-template-columns:1fr;
+    text-align:center;
+}
+
+.social-icons{
+    justify-content:center;
+}
 }
 
 /* ================= MOBILE NAVBAR ================= */
@@ -1108,59 +1304,80 @@ AUTH PAGE
 }
 
 @media(max-width:768px){
-    .navbar{
-        position:relative;
-    }
 
-    .menu-toggle{
-        display:block;
-    }
+.navbar{
+    position:relative;
+}
 
-    nav{
-        display:none;
-        flex-direction:column;
-        position:absolute;
-        top:80px;
-        left:0;
-        width:100%;
-        background:#071A2F;
-        padding:20px;
-        border-radius:0 0 15px 15px;
-        box-shadow:0 10px 20px rgba(0,0,0,.3);
-    }
+.menu-toggle{
+    display:block;
+}
 
-    nav.active{
-        display:flex;
-    }
+nav{
+    display:none;
+    flex-direction:column;
+    position:absolute;
+    top:80px;
+    left:0;
+    width:100%;
+    background:#071A2F;
+    padding:20px;
+    border-radius:0 0 15px 15px;
+    box-shadow:0 10px 20px rgba(0,0,0,.3);
+}
 
-    .nav-btn{
-        display:none;
-    }
+nav.active{
+    display:flex;
+}
+
+.nav-btn{
+    display:none;
+}
+
 }
 
 /* ================= TOP BUTTON ================= */
 
 #topBtn{
+
     position:fixed;
+
     bottom:30px;
+
     right:30px;
+
     width:55px;
+
     height:55px;
+
     border:none;
+
     border-radius:50%;
+
     background:#00CFFF;
+
     color:white;
+
     font-size:22px;
+
     cursor:pointer;
+
     display:none;
+
     z-index:999;
+
     box-shadow:0 8px 20px rgba(0,0,0,.3);
+
     transition:.3s;
+
 }
 
 #topBtn:hover{
+
     background:#0094ff;
+
     transform:translateY(-5px);
+
 }
 
 nav a.active{
@@ -1176,13 +1393,14 @@ nav a{
 /* COHESIVE MOBILE STYLING & DROPDOWN LAYOUT ARCHITECTURE     */
 /* ========================================================== */
 
+/* Base Header Layout */
 .main-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 70px;
-    background: #051426;
+    background: #051426; /* Dark background matching your theme */
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 9999;
 }
@@ -1197,6 +1415,7 @@ nav a{
     padding: 0 16px;
 }
 
+/* 1. Left Hamburger Control Button */
 .nav-toggle-btn {
     background: transparent;
     border: none;
@@ -1209,11 +1428,11 @@ nav a{
     justify-content: center;
 }
 
+/* 2. Center Branding Text */
 .brand-logo-zone {
     text-decoration: none;
     text-align: center;
 }
-
 .brand-main-text {
     color: #ffffff;
     font-weight: 700;
@@ -1222,6 +1441,7 @@ nav a{
     letter-spacing: 0.5px;
 }
 
+/* 3. Right Action Login Button */
 .pw-style-btn {
     background: #00d4ff; 
     color: #051426;
@@ -1234,11 +1454,11 @@ nav a{
     transition: all 0.2s ease-in-out;
     display: inline-block;
 }
-
 .pw-style-btn:hover {
     box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
 }
 
+/* 4. Dropdown Menu Overlay */
 .mobile-overlay-menu {
     position: absolute;
     top: 70px; 
@@ -1266,7 +1486,6 @@ nav a{
     font-family: 'Poppins', sans-serif;
     transition: background 0.2s ease;
 }
-
 .menu-link-item:hover, .menu-link-item.active {
     background: rgba(0, 212, 255, 0.1);
     color: #00d4ff;
@@ -1300,12 +1519,14 @@ body {
 /* DISCONNECTING DESKTOP & MOBILE CONFLICTS (style.css FIX)  */
 /* ========================================================== */
 
+/* --- 1. GLOBAL LAYOUT AND OVERRIDES --- */
 body {
-    padding-top: 70px !important;
+    padding-top: 70px !important; /* Fixed header ke liye spaces setup */
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Mobile par horizontal scroll/screws block karne ke liye */
 }
 
+/* Base Responsive Header Configuration */
 .main-header {
     position: fixed;
     top: 0;
@@ -1316,7 +1537,6 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 9999;
 }
-
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -1327,11 +1547,14 @@ body {
     padding: 0 16px;
 }
 
+/* --- 2. DESKTOP VIEW LAYOUT (Jab screen 769px se badi ho) --- */
 @media screen and (min-width: 769px) {
+    /* Desktop par hamburger menu button chupa do */
     .nav-toggle-btn {
         display: none !important;
     }
 
+    /* Desktop Links layout horizontal row banado */
     .mobile-overlay-menu {
         position: static !important;
         display: flex !important;
@@ -1356,28 +1579,33 @@ body {
     }
 }
 
+/* --- 3. MOBILE VIEW LAYOUT (Jab screen 768px ya choti ho) --- */
 @media screen and (max-width: 768px) {
+    /* Mobile par hamburger button dikhao */
     .nav-toggle-btn {
         display: flex !important;
     }
 
+    /* Mobile standard font adjustment */
     .brand-main-text {
         font-size: 18px !important;
     }
 
+    /* Mobile par links ko vertical grid dropdown banao */
     .mobile-overlay-menu {
         position: absolute !important;
         top: 70px !important;
         left: 0 !important;
         width: 100% !important;
         background: #051426 !important;
-        display: none;
+        display: none; /* Dropdown active class se trigger hoga */
         flex-direction: column !important;
         padding: 10px 0 !important;
         box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3) !important;
         border-bottom: 2px solid #00d4ff !important;
     }
 
+    /* Target open condition */
     .mobile-overlay-menu.active {
         display: flex !important;
     }
@@ -1389,17 +1617,16 @@ body {
         border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
     }
 
+    /* Hero section components stack layout inside mobile screens */
     .hero-content {
         padding: 40px 20px !important;
         text-align: center !important;
     }
-    
     .hero-buttons {
         display: flex;
         flex-direction: column !important;
         gap: 12px !important;
     }
-    
     .hero-buttons a {
         width: 100% !important;
         text-align: center;
