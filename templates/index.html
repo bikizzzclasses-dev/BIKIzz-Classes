@@ -29,15 +29,16 @@
     </div>
 </div>
 
-<!-- ================= TOP BAR ================= -->
+<!-- ================= TOP BAR (PREMIUM MARQUEE EFFECT) ================= -->
 <div class="top-bar">
-    <div class="container">
-        <p>🎯 Admission Open for HSLC 2027 Mathematics Crash Course</p>
-        <a href="/register">Enroll Now</a>
+    <div class="marquee-wrapper">
+        <div class="marquee-content">
+            🎯 Admission Open for HSLC 2027 Mathematics Crash Course! Learn Mathematics Beyond Classroom! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🎯 Admission Open for HSLC 2027 Mathematics Crash Course! Learn Mathematics Beyond Classroom!
+        </div>
     </div>
 </div>
 
-<!-- ================= PREMIUM PW-STYLE RESPONISVE NAVBAR ================= -->
+<!-- ================= PREMIUM PW-STYLE RESPONSIVE NAVBAR ================= -->
 <header class="main-header">
     <div class="header-container">
         
@@ -52,17 +53,17 @@
             <span class="brand-main-text">BIKIzz' Classes</span>
         </a>
 
-        <!-- Desktop Navigation Links (Hidden on Mobile) -->
+        <!-- Desktop Navigation Links & Mobile Overlay Dropdown -->
         <nav id="navbar-menu" class="mobile-overlay-menu">
-    <a href="#home" class="menu-link-item active">Home</a>
-    <a href="/about">About</a>
-    <a href="#course" class="menu-link-item">Courses</a>
-    <a href="#contact" class="menu-link-item">Contact</a>
-</nav>
+            <a href="#home" class="menu-link-item active">Home</a>
+            <a href="/about" class="menu-link-item">About</a>
+            <a href="#course" class="menu-link-item">Courses</a>
+            <a href="#contact" class="menu-link-item">Contact</a>
+        </nav>
 
         <!-- Right Side: Action CTA Button -->
         <div class="header-action-area">
-            <a href="/login" class="pw-style-btn">Login/Register</a>
+            <a href="/login" class="pw-style-btn">Login / Register</a>
         </div>
 
     </div>
@@ -79,6 +80,17 @@
             <div class="hero-buttons">
                 <a href="/register" class="primary-btn">Start Learning</a>
                 <a href="#course" class="secondary-btn">Explore Course</a>
+            </div>
+            <!-- Stats Counters Included inside Hero Sequence Flow -->
+            <div class="hero-stats">
+                <div>
+                    <h2>500+</h2>
+                    <p>Students Trained</p>
+                </div>
+                <div>
+                    <h2>95%</h2>
+                    <p>Success Rate</p>
+                </div>
             </div>
         </div>
     </div>
@@ -117,25 +129,25 @@
 <!-- ================= WHY CHOOSE ================= -->
 <section class="why">
     <div class="container">
-        <h2 class="section-title">Why Choose BIKIzz' Classes?</h2>
+        <h2 class="section-title" style="color: white; margin-bottom: 50px;">Why Choose BIKIzz' Classes?</h2>
         <div class="why-grid">
             <div class="why-box">
-                <i class="fas fa-lightbulb"></i>
+                <i class="fas fa-lightbulb" style="color: #00d4ff;"></i>
                 <h3>Concept Learning</h3>
                 <p>Understand Mathematics from basic to advanced.</p>
             </div>
             <div class="why-box">
-                <i class="fas fa-user-graduate"></i>
+                <i class="fas fa-user-graduate" style="color: #00d4ff;"></i>
                 <h3>Personal Guidance</h3>
                 <p>Individual mentoring for every student.</p>
             </div>
             <div class="why-box">
-                <i class="fas fa-headset"></i>
+                <i class="fas fa-headset" style="color: #00d4ff;"></i>
                 <h3>24×7 Support</h3>
                 <p>WhatsApp doubt support anytime.</p>
             </div>
             <div class="why-box">
-                <i class="fas fa-award"></i>
+                <i class="fas fa-award" style="color: #00d4ff;"></i>
                 <h3>Exam Oriented</h3>
                 <p>Focused preparation for HSLC 2027.</p>
             </div>
@@ -149,21 +161,19 @@
         <h2 class="section-title">Meet Our Faculty</h2>
         <div class="faculty-grid">
             <div class="faculty-card">
-                <img src="{{ url_for('static', filename='images/biki.jpg') }}">
+                <img src="{{ url_for('static', filename='images/biki.jpg') }}" alt="Biki Bharali">
                 <h3>Biki Bharali</h3>
                 <p>M.Sc, Mathematics</p>
                 <span>Tezpur University</span>
             </div>
             <div class="faculty-card">
-                <div class="faculty-img">
-                    <img src="{{ url_for('static', filename='images/manash.png') }}" alt="Senior Faculty">
-                </div>
+                <img src="{{ url_for('static', filename='images/manash.png') }}" alt="Manash Pratim Kakati">
                 <h3>Manash Pratim Kakati</h3>
                 <p>M.Sc, Mathematics</p>
                 <span>Guwahati University</span>
             </div>
             <div class="faculty-card">
-                <img src="{{ url_for('static', filename='images/pranjal.jpg') }}">
+                <img src="{{ url_for('static', filename='images/pranjal.jpg') }}" alt="Pranjal Borah">
                 <h3>Pranjal Borah</h3>
                 <p>B.Tech, ECE</p>
                 <span>Tezpur University</span>
@@ -213,9 +223,10 @@
 </section>
 
 <!-- ================= FAQ ================= -->
-<section class="faq">
+<section class="faq" style="padding: 100px 0; background: #eef6fd; color: #222;">
     <div class="container">
         <h2 class="section-title">Frequently Asked Questions</h2>
+        
         <div class="faq-box">
             <div class="faq-question">
                 <h3>What is BIKIzz' Classes?</h3>
@@ -225,6 +236,7 @@
                 <p>BIKIzz' Classes is a Mathematics-focused learning platform committed to making Mathematics simple, engaging, and concept-oriented.</p>
             </div>
         </div>
+
         <div class="faq-box">
             <div class="faq-question">
                 <h3>Who is this crash course for?</h3>
@@ -234,6 +246,7 @@
                 <p>This course is specially designed for students appearing for the HSLC Examination 2027.</p>
             </div>
         </div>
+
         <div class="faq-box">
             <div class="faq-question">
                 <h3>What is the duration of the course?</h3>
@@ -243,6 +256,7 @@
                 <p>The course runs for 2 months.</p>
             </div>
         </div>
+
         <div class="faq-box">
             <div class="faq-question">
                 <h3>What is the course fee?</h3>
@@ -252,6 +266,7 @@
                 <p>The enrollment fee for the complete crash course is ₹999.</p>
             </div>
         </div>
+
         <div class="faq-box">
             <div class="faq-question">
                 <h3>Will the classes be live or recorded?</h3>
@@ -261,71 +276,79 @@
                 <p>The course includes both recorded concept videos and live Zoom sessions.</p>
             </div>
         </div>
+
     </div>
 </section>
 
 <!-- ================= CONTACT & FOOTER ================= -->
-<footer class="footer" id="contact" style="background: #051426; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 40px 20px 10px 20px;">
+<footer class="footer" id="contact" style="background: #051426; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 60px 20px 20px 20px;">
     <div class="container">
-        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
-            <div class="footer-col">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" width="90">
+        <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
+            
+            <div class="footer-col" style="flex: 1; min-width: 250px;">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" width="90" alt="Logo" style="margin-bottom: 15px;">
                 <h3>BIKIzz' Classes</h3>
-                <p>Learning Mathematics Beyond The Classroom.</p>
+                <p style="color: #b8c7d9;">Learning Mathematics Beyond The Classroom.</p>
             </div>
 
-            <div class="footer-col">
+            <div class="footer-col" style="flex: 1; min-width: 180px;">
                 <h4>Quick Links</h4>
                 <ul class="footer-links" style="list-style: none; padding: 0;">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#course">Courses</a></li>
-                    <li><a href="#faculty">Faculty</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li style="margin: 10px 0;"><a href="#home" style="color: white; text-decoration: none; transition: 0.3s;">Home</a></li>
+                    <li style="margin: 10px 0;"><a href="#course" style="color: white; text-decoration: none; transition: 0.3s;">Courses</a></li>
+                    <li style="margin: 10px 0;"><a href="#faculty" style="color: white; text-decoration: none; transition: 0.3s;">Faculty</a></li>
+                    <li style="margin: 10px 0;"><a href="#contact" style="color: white; text-decoration: none; transition: 0.3s;">Contact</a></li>
                 </ul>
             </div>
 
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <p>📞 +91 7099645014</p>
-                <p>✉ bikizzzclasses@gmail.com</p>
-                <p>📍 Assam, India</p>
+            <div class="footer-col" style="flex: 1; min-width: 220px;">
+                <h4>Contact Info</h4>
+                <p style="color: #b8c7d9; margin: 8px 0;">📞 +91 7099645014</p>
+                <p style="color: #b8c7d9; margin: 8px 0;">✉ bikizzzclasses@gmail.com</p>
+                <p style="color: #b8c7d9; margin: 8px 0;">📍 Assam, India</p>
             </div>
 
-            <div class="footer-col">
+            <div class="footer-col" style="flex: 1; min-width: 200px;">
                 <h4>Follow Us</h4>
-                <div class="social-icons" style="display: flex; gap: 15px; font-size: 20px;">
-                    <a href="https://www.instagram.com/bikizz_classes_official?igsh=Zmh2NXIwbDg4ZDI=" target="_blank" style="color: #e1306c;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://youtube.com/@bikizzclassesofficial?si=TP97JEv4XgXR7QvQ" target="_blank" style="color: #ff0000;"><i class="fab fa-youtube"></i></a>
-                    <a href="#" style="color: #0088cc;"><i class="fab fa-telegram"></i></a>
-                    <a href="https://wa.me/917099645014" target="_blank" rel="noopener noreferrer" style="color: #25d366;"><i class="fab fa-whatsapp"></i></a>
+                <div class="social-icons" style="display: flex; gap: 15px; margin-top: 10px;">
+                    <a href="https://www.instagram.com/bikizz_classes_official?igsh=Zmh2NXIwbDg4ZDI=" target="_blank" style="color: #e1306c; font-size: 24px; text-decoration: none;"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com/@bikizzclassesofficial?si=TP97JEv4XgXR7QvQ" target="_blank" style="color: #ff0000; font-size: 24px; text-decoration: none;"><i class="fab fa-youtube"></i></a>
+                    <a href="#" style="color: #0088cc; font-size: 24px; text-decoration: none;"><i class="fab fa-telegram"></i></a>
+                    <a href="https://wa.me/917099645014" target="_blank" rel="noopener noreferrer" style="color: #25d366; font-size: 24px; text-decoration: none;"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 20px 0; margin-top: 30px; text-align: center; font-family: 'Poppins', sans-serif;">
+    <!-- Copyright Section with Hearts & Dev Credits -->
+    <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 25px 0 10px 0; margin-top: 40px; text-align: center; font-family: 'Poppins', sans-serif;">
         <div class="credits-container">
-            <p style="color: #a0aec0; margin: 0; font-size: 14px; font-weight: 400;">
+            <p style="color: #a0aec0; margin: 0 0 5px 0; font-size: 14px; font-weight: 400;">
                 © 2026 <span style="color: #00d4ff; font-weight: 600;">BIKIzz' Classes</span> | All Rights Reserved
             </p>
-            <p style="color: #a0aec0; margin: 0; font-size: 14px; font-weight: 400; letter-spacing: 0.5px;">
-                Developed <span style="color: #e74c3c; font-size: 16px; display: inline-block; animation: pulse 1.5s infinite;"></span> by 
-                <span class="dev-name">Bitupan Bharali</span>
+            <p style="color: #a0aec0; margin: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.5px;">
+                Developed with <span style="color: #e74c3c; font-size: 14px; display: inline-block; animation: pulse 1.5s infinite;"><i class="fas fa-heart"></i></span> by 
+                <span style="color: #00d4ff; font-weight: 600;">Bitupan Bharali</span>
             </p>
         </div>
     </div>
 </footer>
 
+<!-- Floating WhatsApp Action Action -->
 <a href="https://wa.me/917099645014" class="whatsapp" target="_blank" rel="noopener noreferrer">
     <i class="fab fa-whatsapp"></i>
 </a>
 
+<!-- Smooth Back to Top Button -->
 <button id="topBtn">
     <i class="fas fa-arrow-up"></i>
 </button>
 
+<!-- ================= JAVASCRIPT CONNECTIVITY ================= -->
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 
+<!-- Heart Pulse Inline Keyframe Animation Rule -->
 <style>
     @keyframes pulse {
         0% { transform: scale(1); }
@@ -333,6 +356,28 @@
         100% { transform: scale(1); }
     }
 </style>
+
+<!-- Mobile Navigation Menu Toggle Script Trigger Logic -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const menuToggle = document.getElementById("menu-toggle");
+        const navbarMenu = document.getElementById("navbar-menu");
+
+        if (menuToggle && navbarMenu) {
+            menuToggle.addEventListener("click", function(e) {
+                e.stopPropagation();
+                navbarMenu.classList.toggle("active");
+            });
+
+            // Close responsive dropdown when clicking outside
+            document.addEventListener("click", function(e) {
+                if (!navbarMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                    navbarMenu.classList.remove("active");
+                }
+            });
+        }
+    });
+</script>
 
 </body>
 </html>
