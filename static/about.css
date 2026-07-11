@@ -6,7 +6,7 @@ header {
     background: #071A2F; /* Header background matching theme */
     padding: 10px 0;    /* Padding thodi kam ki taaki responsive lage */
     position: fixed;
-    top: 0;
+    top: 45px;          /* Adjusted to leave space for moving top-bar */
     left: 0;
     width: 100%;
     z-index: 1000;
@@ -124,10 +124,35 @@ header ul li a:hover {
 
 /* Mobile responsive navigation hidden setup */
 @media (max-width: 768px) {
-    header ul {
-        display: none; 
+    header {
+        position: fixed;
+        top: 45px;
+    }
+    header .container {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+    header ul, .nav-links {
+        display: flex !important;
+        gap: 15px;
+        justify-content: center;
+    }
+    header ul li a {
+        font-size: 14px;
+    }
+    .nav-auth {
+        gap: 10px;
+    }
+    .btn-login, .btn-register {
+        padding: 6px 16px;
+        font-size: 13px;
+    }
+    .about-hero {
+        padding-top: 180px;
     }
 }
+
 /* ==========================================
    ABOUT PAGE - MODEL 4 INTEGRATED
 ========================================== */
@@ -143,6 +168,53 @@ header ul li a:hover {
     0% { opacity: 0.12; }
     50% { opacity: 0.22; }
     100% { opacity: 0.12; }
+}
+
+/* TOP BAR CONTINUOUS MOVING MARQUEE SYSTEM */
+.top-bar {
+    background: #00bfff;
+    color: white;
+    padding: 12px 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2000;
+    height: 45px;
+    display: flex;
+    align-items: center;
+}
+.marquee-wrapper {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+.marquee-content {
+    display: inline-block;
+    animation: continuousScrollMarquee 25s linear infinite;
+    font-size: 14px;
+    font-weight: 600;
+    padding-left: 100%;
+}
+.marquee-content a {
+    color: #071A2F;
+    background: #ffffff;
+    padding: 2px 14px;
+    border-radius: 50px;
+    text-decoration: none;
+    margin-left: 10px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+.marquee-content a:hover {
+    background: #071A2F;
+    color: #ffffff;
+}
+@keyframes continuousScrollMarquee {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
 }
 
 .about-hero {
@@ -281,6 +353,31 @@ header ul li a:hover {
     font-weight: 500;
 }
 
+/* BUTTONS IN ABOUT HERO */
+.about-left .hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+.about-left .btn-blue, .about-left .btn-white {
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.about-left .btn-blue {
+    background: #00D4FF;
+    color: #071A2F !important;
+}
+.about-left .btn-white {
+    border: 2px solid #fff;
+    color: #fff !important;
+}
+.about-left .btn-blue:hover, .about-left .btn-white:hover {
+    transform: translateY(-3px);
+}
+
 /* ==========================================
    MISSION SECTION
 ========================================== */
@@ -387,8 +484,22 @@ header ul li a:hover {
     color: #1f42cc;
 }
 
+.founder-content .btn-blue {
+    padding: 14px 30px;
+    background: #00D4FF;
+    color: #071A2F !important;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.3s;
+}
+.founder-content .btn-blue:hover {
+    transform: translateY(-3px);
+}
+
 /* ==========================================
-   CTA SECTION
+   CTA SECTION (CYAN BANNER BUTTON ADJUSTMENT)
 ========================================== */
 .about-cta {
     padding: 90px 0;
@@ -408,8 +519,46 @@ header ul li a:hover {
     line-height: 1.9;
 }
 
+.about-cta .hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Buttons inside the cyan wrapper adjusted cleanly */
+.about-cta .btn-blue {
+    background: #071A2F;
+    color: #ffffff !important;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.about-cta .btn-blue:hover {
+    background: #112946;
+    transform: translateY(-3px);
+}
+
+.about-cta .btn-white {
+    background: transparent;
+    border: 2px solid #071A2F;
+    color: #071A2F !important;
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.about-cta .btn-white:hover {
+    background: #071A2F;
+    color: #ffffff !important;
+    transform: translateY(-3px);
+}
+
 /* ==========================================
-   FOOTER SECTION
+   FOOTER SECTION (CONTACT LOGOS & WHATSAPP)
 ========================================== */
 .footer {
     background: #081826;
@@ -438,6 +587,26 @@ header ul li a:hover {
 .footer p {
     color: #d6d6d6;
     line-height: 28px;
+}
+
+/* Contact List Icons Fixing Integration */
+.footer-contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-contact-list li {
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #d6d6d6;
+}
+.footer-contact-list i {
+    color: #00D4FF;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
 }
 
 .footer-links {
@@ -475,15 +644,21 @@ header ul li a:hover {
     color: #fff;
     font-size: 24px;
     text-decoration: none;
+    transition: transform 0.3s ease;
+}
+.social-icons a:hover {
+    transform: scale(1.1);
 }
 
 .social-icons a:nth-child(1) { background: #E1306C; }
 .social-icons a:nth-child(2) { background: #FF0000; }
 .social-icons a:nth-child(3) { background: #2CA5E0; }
-.social-icons a:nth-child(4) { background: #25D366; }
+.social-icons a:nth-child(4) { background: #25D366; } /* WhatsApp Perfect Green Background */
 
 .footer hr {
     margin: 40px 0 20px;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .text-center {
@@ -505,7 +680,7 @@ header ul li a:hover {
     }
     
     .about-glass-card {
-        padding: 30px 20px;
+        padding: 40px 20px;
         border-radius: 20px;
     }
 
@@ -518,9 +693,15 @@ header ul li a:hover {
     .about-right {
         order: -1; 
     }
+    .slider {
+        height: 280px; /* Daba na lage isliye standard adaptive aspect mobile control */
+    }
 
     .about-left h1 {
-        font-size: 38px;
+        font-size: 36px;
+    }
+    .about-left .hero-buttons {
+        justify-content: center;
     }
 
     .glass-badges {
@@ -546,5 +727,10 @@ header ul li a:hover {
     .social-icons {
         justify-content: center;
     }
+    .about-left h1 {
+        font-size: 30px;
+    }
+    .about-cta h2 {
+        font-size: 32px;
+    }
 }
-

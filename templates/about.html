@@ -11,46 +11,241 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
 
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Font Awesome Latest CDN for Solid & Brand Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<style>
+/* ================= TOP BAR CONTINUOUS MOVING MARQUEE EFFECT ================= */
+.top-bar {
+    background: #00bfff;
+    color: white;
+    padding: 10px 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+    height: 45px;
+    display: flex;
+    align-items: center;
+}
+.marquee-wrapper {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+.marquee-content {
+    display: inline-block;
+    animation: scrollText 20s linear infinite;
+    font-size: 15px;
+    font-weight: 600;
+}
+.marquee-content a {
+    color: #051426;
+    background: white;
+    padding: 3px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: 700;
+    display: inline-block;
+    transition: 0.3s;
+}
+@keyframes scrollText {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ================= HEADER / NAVBAR FIXED BACKDROP ================= */
+header {
+    background: #071A2F !important; /* Solid Background Lock */
+    padding: 12px 0;
+    position: fixed;
+    top: 45px; /* Top bar ke theek niche */
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+header .container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+header .logo-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+header .logo-group img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+/* ================= CYAN CTA BANNER BUTTONS ADJUSTMENT ================= */
+.about-cta {
+    background: #00bfff;
+    color: #051426;
+    padding: 80px 20px;
+    text-align: center;
+}
+.about-cta h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #051426 !important;
+}
+.about-cta p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #051426 !important;
+    opacity: 0.9;
+}
+.about-cta .hero-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.about-cta .btn-adjusted-dark {
+    background: #051426 !important;
+    color: white !important;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.about-cta .btn-adjusted-outline {
+    background: transparent !important;
+    border: 2px solid #051426 !important;
+    color: #051426 !important;
+    padding: 10px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.about-cta .btn-adjusted-dark:hover, .about-cta .btn-adjusted-outline:hover {
+    transform: translateY(-3px);
+}
+
+/* ================= FOOTER SOCIAL ICONS LOGO FIX ================= */
+.social-icons a {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.social-icons a i {
+    color: #ffffff !important; /* Force icons to be white */
+    font-size: 22px !important; /* Perfect visible size */
+    display: inline-block !important;
+}
+.social-icons a:nth-child(1) { background: #E1306C; }
+.social-icons a:nth-child(2) { background: #FF0000; }
+.social-icons a:nth-child(3) { background: #2CA5E0; }
+.social-icons a:nth-child(4) { background: #25D366; }
+
+/* Contact Section Alignment */
+.contact-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.contact-info-list li {
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #b8c7d9;
+}
+.contact-info-list i {
+    color: #00bfff !important;
+    font-size: 16px;
+    width: 20px;
+}
+
+/* ================= PERFECT RESPONSIVE MOBILE FIXES ================= */
+@media screen and (max-width: 768px) {
+    header {
+        top: 45px;
+        padding: 10px 0;
+    }
+    header .container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .nav-links {
+        display: flex;
+        gap: 15px;
+        padding: 0;
+    }
+    .nav-auth {
+        gap: 10px;
+    }
+    .about-hero {
+        padding-top: 160px !important; /* To avoid overlap under fixed header */
+    }
+    .about-hero-container {
+        flex-direction: column !important;
+        padding: 20px !important;
+    }
+    .about-right .slider {
+        height: 240px !important;
+        width: 100%;
+    }
+    .footer .row {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+    .contact-info-list li {
+        justify-content: center;
+    }
+}
+</style>
 
 </head>
 
 <body>
 
-<!-- ================= TOP BAR ================= -->
-
+<!-- ================= TOP BAR (CONTINUOUS SCROLLING BANNER) ================= -->
 <div class="top-bar">
-
-<div class="top-container">
-
-<div>
-
-📢 Admission Open For <strong>HSLC 2027 Mathematics Crash Course</strong>
-
-</div>
-
-<a href="/register">
-
-Enroll Now
-
-</a>
-
-</div>
-
+    <div class="marquee-wrapper">
+        <div class="marquee-content">
+            📢 Admission Open For <strong>HSLC 2027 Mathematics Crash Course</strong> <a href="/register">Enroll Now</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            📢 Admission Open For <strong>HSLC 2027 Mathematics Crash Course</strong> <a href="/register">Enroll Now</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
 </div>
 
 <!-- ================= NAVBAR ================= -->
-
 <header>
     <div class="container">
         <div class="logo-group">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="BIKIzz Logo">
-            
             <div class="logo-text">
                 <h2>BIKIzz' Classes</h2>
                 <p>Learning Beyond The Classroom</p>
@@ -70,11 +265,13 @@ Enroll Now
     </div>
 </header>
 
+<!-- ================= ABOUT HERO ================= -->
 <section class="about-hero">
     <div class="container about-hero-container about-glass-card">
         
         <div class="about-left">
-            <span class="section-tag">About BIKIzz' Classes</span> <h1>Learning Mathematics <span>Beyond The Classroom.</span></h1>
+            <span class="section-tag">About BIKIzz' Classes</span> 
+            <h1>Learning Mathematics <span>Beyond The Classroom.</span></h1>
             <p>BIKIzz' Classes is a Govt. of India MSME Registered Mathematics learning platform dedicated to making Mathematics simple, engaging, and concept-oriented. We provide quality study materials, PYQs, crash courses, and guided learning support to help students build confidence, strengthen problem-solving skills, and achieve academic success. Our mission is to inspire students to learn Mathematics with clarity, curiosity, and confidence.</p>
             
             <div class="glass-badges">
@@ -100,9 +297,6 @@ Enroll Now
                 <img src="{{ url_for('static', filename='images/about7.jpg') }}" class="slide">
                 <img src="{{ url_for('static', filename='images/about8.jpg') }}" class="slide">
                 <img src="{{ url_for('static', filename='images/about9.jpg') }}" class="slide">
-
-
-
             </div>
         </div>
 
@@ -110,319 +304,136 @@ Enroll Now
 </section>
 
 <!-- ================= MISSION ================= -->
-
 <section class="mission">
-
-<div class="container">
-
-<h2 class="center-title">
-
-Our Mission
-
-</h2>
-
-<div class="mission-grid">
-
-<div class="mission-card">
-
-<i class="fa-solid fa-book-open"></i>
-
-<h3>
-
-Quality Education
-
-</h3>
-
-<p>
-
-Providing high-quality Mathematics education with simple explanations.
-
-</p>
-
-</div>
-
-<div class="mission-card">
-
-<i class="fa-solid fa-users"></i>
-
-<h3>
-
-Student Success
-
-</h3>
-
-<p>
-
-Helping every student become confident and score better marks.
-
-</p>
-
-</div>
-
-<div class="mission-card">
-
-<i class="fa-solid fa-lightbulb"></i>
-
-<h3>
-
-Innovation
-
-</h3>
-
-<p>
-
-Using modern teaching methods with technology and live interaction.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
+    <div class="container">
+        <h2 class="center-title">Our Mission</h2>
+        <div class="mission-grid">
+            <div class="mission-card">
+                <i class="fa-solid fa-book-open"></i>
+                <h3>Quality Education</h3>
+                <p>Providing high-quality Mathematics education with simple explanations.</p>
+            </div>
+            <div class="mission-card">
+                <i class="fa-solid fa-users"></i>
+                <h3>Student Success</h3>
+                <p>Helping every student become confident and score better marks.</p>
+            </div>
+            <div class="mission-card">
+                <i class="fa-solid fa-lightbulb"></i>
+                <h3>Innovation</h3>
+                <p>Using modern teaching methods with technology and live interaction.</p>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- ================= FOUNDER ================= -->
-
 <section class="founder">
+    <div class="container founder-container">
+        <div class="founder-image">
+            <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="Founder">
+        </div>
+        <div class="founder-content">
+            <span class="section-tag">Meet Our Founder</span>
+            <h2>Biki Bharali</h2>
+            <h4>Founder & Mathematics Mentor</h4>
+            <p>Biki Bharali is the founder of BIKIzz' Classes, a Mathematics learning platform established with the vision of making Mathematics simple, engaging, and accessible to every student. Believing that Mathematics is more than just formulas and calculations, he founded the platform to help students overcome their fear of the subject, develop logical thinking, and build strong conceptual understanding.</p>
+            <p>Driven by a passion for teaching and mentoring, his goal is to create a collaborative learning environment where students can learn with confidence, ask questions freely, and discover the beauty of Mathematics. Through BIKIzz' Classes, he aims to inspire young minds and make quality Mathematics education accessible to all.</p>
 
-<div class="container founder-container">
-
-<div class="founder-image">
-
-<img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="Founder">
-
-</div>
-
-<div class="founder-content">
-
-<span class="section-tag">
-
-Meet Our Founder
-
-</span>
-
-<h2>
-
-Biki Bharali
-
-</h2>
-
-<h4>
-
-Founder & Mathematics Mentor
-
-</h4>
-
-<p>
-
-Biki Bharali is the founder of BIKIzz' Classes, a Mathematics learning
-platform established with the vision of making Mathematics simple
- engaging, and accessible to every student. Believing that Mathematics
- is more than just formulas and calculations, he founded the platform to help
- students overcome their fear of the subject, develop logical thinking, and
- build strong conceptual understanding. 
- Driven by a passion for teaching and mentoring, his goal is to create a collaborative
- learning environment where students can learn with confidence, ask questions 
- freely, and discover the beauty of Mathematics. Through BIKIzz' Classes, he aims to 
- inspire young minds and make quality Mathematics education accessible to all.
-
-</p>
-
-<div class="founder-info">
-
-<div class="info-box">
-
-<i class="fa-solid fa-user-graduate"></i>
-
-<div>
-
-<h3>Education</h3>
-
-<p>M.Sc. Mathematical Sciences<br>Tezpur University</p>
-
-</div>
-
-</div>
-
-<div class="info-box">
-
-<i class="fa-solid fa-chalkboard-user"></i>
-
-<div>
-
-<h3>Teaching Style</h3>
-
-<p>Concept-Based Learning with Practical Problem Solving</p>
-
-</div>
-
-</div>
-
-<div class="info-box">
-
-<i class="fa-solid fa-bullseye"></i>
-
-<div>
-
-<h3>Mission</h3>
-
-<p>Help Every HSLC Student Score Excellent Marks in Mathematics.</p>
-
-</div>
-
-</div>
-
-</div>
-
-<a href="/register" class="btn-blue">
-
-Join BIKIzz' Classes
-
-</a>
-
-</div>
-
-</div>
-
+            <div class="founder-info">
+                <div class="info-box">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <div>
+                        <h3>Education</h3>
+                        <p>M.Sc. Mathematical Sciences<br>Tezpur University</p>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <div>
+                        <h3>Teaching Style</h3>
+                        <p>Concept-Based Learning with Practical Problem Solving</p>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <div>
+                        <h3>Mission</h3>
+                        <p>Help Every HSLC Student Score Excellent Marks in Mathematics.</p>
+                    </div>
+                </div>
+            </div>
+            <a href="/register" class="btn-blue">Join BIKIzz' Classes</a>
+        </div>
+    </div>
 </section>
 
-
-
-<!-- ================= CALL TO ACTION ================= -->
-
+<!-- ================= CALL TO ACTION (CYAN BANNER ADJUSTED) ================= -->
 <section class="about-cta">
-
-<div class="container">
-
-<h2>
-
-Start Your Mathematics Journey Today
-
-</h2>
-
-<p>
-
-Join hundreds of students learning Mathematics with live classes,
-handwritten notes, weekly tests and personal mentorship.
-
-</p>
-
-<div class="hero-buttons">
-
-<a href="/register" class="btn-blue">
-
-Register Now
-
-</a>
-
-<a href="/login" class="btn-white">
-
-Student Login
-
-</a>
-
-</div>
-
-</div>
-
+    <div class="container">
+        <h2>Start Your Mathematics Journey Today</h2>
+        <p>Join hundreds of students learning Mathematics with live classes, handwritten notes, weekly tests and personal mentorship.</p>
+        
+        <div class="hero-buttons">
+            <a href="/register" class="btn-adjusted-dark">Register Now</a>
+            <a href="/login" class="btn-adjusted-outline">Student Login</a>
+        </div>
+    </div>
 </section>
 
 <!-- ================= FOOTER ================= -->
-
 <footer class="footer">
-
     <div class="container">
-
-        <div class="row g-4">
+        <div class="row g-4" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
 
             <!-- Logo -->
             <div class="col-lg-3 col-md-6">
-
-                <img src="{{ url_for('static', filename='images/logo.png') }}"
-                     width="90">
-
+                <img src="{{ url_for('static', filename='images/logo.png') }}" width="90" alt="BIKIzz Logo" style="display: block; margin-bottom: 10px;">
                 <h3>BIKIzz' Classes</h3>
-
-                <p>
-                    Learning Mathematics Beyond The Classroom.
-                </p>
-
+                <p style="color: #b8c7d9;">Learning Mathematics Beyond The Classroom.</p>
             </div>
 
             <!-- Quick Links -->
             <div class="col-lg-3 col-md-6">
-
                 <h4>Quick Links</h4>
-
-                <ul class="footer-links">
-
+                <ul class="footer-links" style="list-style: none; padding: 0;">
                     <li><a href="/">Home</a></li>
-
                     <li><a href="/about">About</a></li>
-
                     <li><a href="/courses">Courses</a></li>
-
                     <li><a href="/contact">Contact</a></li>
-
                 </ul>
-
             </div>
 
-            <!-- Contact -->
+            <!-- Contact Section -->
             <div class="col-lg-3 col-md-6">
-
                 <h4>Contact</h4>
-
-                <p>📞 +91 7099645014</p>
-
-                <p>✉ bikizzzclasses@gmail.com</p>
-
-                <p>📍 Assam, India</p>
-
+                <ul class="contact-info-list">
+                    <li><i class="fa-solid fa-phone"></i> +91 7099645014</li>
+                    <li><i class="fa-solid fa-envelope"></i> bikizzzclasses@gmail.com</li>
+                    <li><i class="fa-solid fa-location-dot"></i> Assam, India</li>
+                </ul>
             </div>
 
-            <!-- Follow -->
+            <!-- Follow Us Section (ROUND LOGOS FIXED INNER COLOR) -->
             <div class="col-lg-3 col-md-6">
-
                 <h4>Follow Us</h4>
-
                 <div class="social-icons">
-
-                    <a href="https://www.instagram.com/bikizz_classes_official?igsh=Zmh2NXIwbDg4ZDI=" target="_blank">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-
-                    <a href="https://youtube.com/@bikizzclassesofficial?si=TP97JEv4XgXR7QvQ" target="_blank">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-
-                    <a href="#">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-
-                    <a href="https://wa.me/917099645014" class="whatsapp" target="_blank" rel="noopener noreferrer">
-    <i class="fab fa-whatsapp"></i>
-</a>
-
-
+                    <a href="https://www.instagram.com/bikizz_classes_official?igsh=Zmh2NXIwbDg4ZDI=" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com/@bikizzclassesofficial?si=TP97JEv4XgXR7QvQ" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="https://wa.me/917099645014" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
                 </div>
-
             </div>
 
         </div>
 
-        <hr>
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0;">
 
-        <div class="text-center">
-
+        <div class="text-center" style="text-align: center; color: #b8c7d9;">
             © 2026 BIKIzz' Classes. All Rights Reserved.
-
         </div>
 
     </div>
-
 </footer>
 
 <script>
@@ -431,16 +442,14 @@ Student Login
     const totalSlides = slides.length;
 
     function showNextSlide() {
-        // Current active slide se class hatao
-        slides[currentSlide].classList.remove('active');
-        
-        // Agli slide ka index calculate karo
-        currentSlide = (currentSlide + 1) % totalSlides;
-        
-        // Nayi slide par active class lagao
-        slides[currentSlide].classList.add('active');
+        if(totalSlides > 0) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % totalSlides;
+            slides[currentSlide].classList.add('active');
+        }
     }
-
-    // Har 3 seconds (3000ms) me image badlegi
     setInterval(showNextSlide, 3000);
 </script>
+
+</body>
+</html>
