@@ -252,18 +252,39 @@ header .logo-group img {
             </div>
         </div>
 
-        <ul class="nav-links">
-            <li><a href="/#home">Home</a></li>
-            <li><a href="/#courses">Courses</a></li>
-            <li><a href="/#contact">Contact</a></li>
-        </ul>
+        <!-- Mobile Burger Icon (3 Lines) -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
 
-        <div class="nav-auth">
-            <a href="/login" class="btn-login">Login</a>
-            <a href="/register" class="btn-register">Register</a>
+        <!-- Nav Links and Auth Block -->
+        <div class="nav-menu-wrapper" id="nav-menu">
+            <ul class="nav-links">
+                <li><a href="/#home">Home</a></li>
+                <li><a href="/#courses">Courses</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-auth">
+                <a href="/login" class="btn-login">Login</a>
+                <a href="/register" class="btn-register">Register</a>
+            </div>
         </div>
     </div>
 </header>
+
+<!-- Is script ko page ke end mein </body> se pehle rakhna toggle chalane ke liye -->
+<script>
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+
+    mobileMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+</script>
 
 <!-- ================= ABOUT HERO ================= -->
 <section class="about-hero">
@@ -386,12 +407,16 @@ header .logo-group img {
     <div class="container">
         <div class="row g-4" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
 
-            <!-- Logo -->
-            <div class="col-lg-3 col-md-6">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" width="90" alt="BIKIzz Logo" style="display: block; margin-bottom: 10px;">
-                <h3>BIKIzz' Classes</h3>
-                <p style="color: #b8c7d9;">Learning Mathematics Beyond The Classroom.</p>
-            </div>
+            <!-- Logo & Brand Block -->
+<div class="col-lg-3 col-md-6 footer-brand-column">
+    <div class="footer-logo-group">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="BIKIzz Logo">
+        <div class="footer-logo-text">
+            <h3>BIKIzz' Classes</h3>
+        </div>
+    </div>
+    <p class="footer-tagline">Learning Mathematics Beyond The Classroom.</p>
+</div>
 
             <!-- Quick Links -->
             <div class="col-lg-3 col-md-6">
