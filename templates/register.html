@@ -3,78 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | BIKIzz' Classes</title>
+    <title>Register | BIKIzz Classes</title>
     
+    <!-- CSS and Fonts (Same as Login) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        .flash-messages {
-            width: 100%;
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        .flash {
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 10px;
-            font-weight: 500;
-            display: block;
-        }
-        /* Account Already Exists / Incorrect ke liye Red Card */
-        .flash.error {
-            background-color: rgba(239, 68, 68, 0.15);
-            border: 1px solid #ef4444;
-            color: #f87171;
-        }
-        /* Success ke liye Green Card */
-        .flash.success {
-            background-color: rgba(16, 185, 129, 0.15);
-            border: 1px solid #10b981;
-            color: #10b981;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
-
 <body>
 
-<div class="container">
-    <div class="card">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo">
-        <h2>Create Account</h2>
+<div class="login-wrapper">
+    <!-- Right Side: Translucent Glassmorphism Register Card -->
+    <div class="form-container">
+        <div class="login-card">
+            <!-- Branded Logo with Pulse Effect -->
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="card-logo" alt="Logo">
+            
+            <h2>Create Account 🚀</h2>
+            <p class="subtitle">Join us to start your learning journey.</p>
 
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
+            <!-- Flask Flash Messages -->
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
             <div class="flash-messages">
-              {% for message in messages %}
+                {% for message in messages %}
                 <div class="flash {% if 'Successful' in message or 'Success' in message %}success{% else %}error{% endif %}">
-                  {{ message }}
+                    {{ message }}
                 </div>
-              {% endfor %}
+                {% endfor %}
             </div>
-          {% endif %}
-        {% endwith %}
+            {% endif %}
+            {% endwith %}
 
-        <form method="POST" action="/register">
-            <input type="text" name="name" placeholder="Full Name" required>
+            <!-- Register Form -->
+            <form action="/register" method="POST" id="registerForm">
+                <!-- Full Name -->
+                <div class="input-box">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="name" placeholder="Full Name" required>
+                </div>
 
-            <input type="tel"
-                   name="mobile"
-                   placeholder="Mobile Number"
-                   pattern="[0-9]{10}"
-                   maxlength="10"
-                   required>
+                <!-- Mobile Number -->
+                <div class="input-box">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" name="mobile" placeholder="Mobile Number" pattern="[0-9]{10}" maxlength="10" required>
+                </div>
 
-            <input type="email" name="email" placeholder="Email Address" required>
-            <input type="password" name="password" placeholder="Password" required>
+                <!-- Email Address -->
+                <div class="input-box">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
 
-            <button type="submit">Register</button>
-        </form>
+                <!-- Password -->
+                <div class="input-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <span class="toggle-password" style="cursor: pointer;">
+                        <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
+                    </span>
+                </div>
 
-        <p>Already have an account? <a href="/login">Login</a></p>
+                <!-- Register Button with Loader -->
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span id="btnText">Register</span>
+                    <span id="btnLoader" style="display:none;">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Creating Account...
+                    </span>
+                </button>
+            </form>
+
+            <!-- Links -->
+            <div class="links" style="justify-content: center; gap: 8px;">
+                <span style="color: #94a3b8;">Already have an account?</span>
+                <a href="/login" style="color: #00b4d8; font-weight: 500;">Login</a>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Animated Background Elements -->
+<div class="floating-bg">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="cursor-glow"></div>
+
+<!-- JavaScript File (Same functionality works here) -->
+<script src="{{ url_for('static', filename='auth.js') }}"></script>
 
 </body>
 </html>

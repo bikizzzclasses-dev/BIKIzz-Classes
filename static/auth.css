@@ -1,130 +1,272 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+/* ==========================================
+   1. GLOBAL STYLES & RESETS
+   ========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
-
-height:100vh;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-background:linear-gradient(135deg,#071623,#0b4f8a,#00b4ff);
-
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #040814;
+    overflow: hidden;
+    color: #fff;
 }
 
-.container{
-
-width:100%;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
+/* ==========================================
+   2. MAIN WRAPPER (Full Background Image)
+   ========================================== */
+.login-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-end; /* Card ko screen ke right side push karne ke liye */
+    align-items: center;
+    padding-right: 10%; /* Right edge se premium spacing */
+    background: linear-gradient(rgba(4, 8, 20, 0.1), rgba(4, 8, 20, 0.4)), 
+                url("images/robot_banner.jpg") no-repeat center center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
 }
 
-.card{
-
-width:400px;
-
-background:rgba(255,255,255,.15);
-
-backdrop-filter:blur(18px);
-
-padding:40px;
-
-border-radius:25px;
-
-box-shadow:0 20px 50px rgba(0,0,0,.3);
-
-text-align:center;
-
+/* Mobile responsive ke liye centering */
+@media (max-width: 900px) {
+    .login-wrapper {
+        justify-content: center;
+        padding-right: 0;
+        background: linear-gradient(rgba(4, 8, 20, 0.6), rgba(4, 8, 20, 0.8)), 
+                    url("images/robot_banner.jpg") no-repeat center center;
+    }
 }
 
-.logo{
-
-width:90px;
-
-margin-bottom:20px;
-
+/* ==========================================
+   3. TRUE GLASSMORPHISM CARD
+   ========================================== */
+.form-container {
+    z-index: 2;
 }
 
-.card h2{
-
-color:white;
-
-margin-bottom:25px;
-
+.login-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 45px 40px;
+    width: 420px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    text-align: center;
+    
+    /* Smooth Entrance Animation */
+    animation: fadeInUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-input{
-
-width:100%;
-
-padding:15px;
-
-margin-bottom:18px;
-
-border:none;
-
-border-radius:10px;
-
-font-size:16px;
-
+/* Entrance Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-button{
-
-width:100%;
-
-padding:15px;
-
-background:#00d4ff;
-
-border:none;
-
-border-radius:10px;
-
-font-size:18px;
-
-color:white;
-
-cursor:pointer;
-
-transition:.3s;
-
+.login-card h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    letter-spacing: -0.5px;
 }
 
-button:hover{
-
-background:white;
-
-color:#071623;
-
+.login-card .subtitle {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-bottom: 35px;
 }
 
-p{
-
-margin-top:20px;
-
-color:white;
-
+/* ==========================================
+   4. INPUT FIELDS WITH ICONS
+   ========================================== */
+.input-box {
+    position: relative;
+    margin-bottom: 22px;
+    text-align: left;
+    display: flex;
+    align-items: center;
 }
 
-a{
+.input-box i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 1.05rem;
+    transition: color 0.3s ease;
+}
 
-color:#00d4ff;
+.input-box input {
+    width: 100%;
+    padding: 16px 16px 16px 52px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    color: #fff;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
 
-text-decoration:none;
+.input-box input:focus {
+    border-color: #00b4d8;
+    background: rgba(15, 23, 42, 0.8);
+    outline: none;
+    box-shadow: 0 0 20px rgba(0, 180, 216, 0.3);
+    transform: translateY(-1px); /* Chhota sa lift effect */
+}
 
-font-weight:bold;
+.login-btn:active {
+    transform: scale(0.98); /* Click karne par dabne wala effect */
+}
 
+.input-box input:focus ~ i {
+    color: #00b4d8; /* Focus hone par icon ka color cyan ho jayega */
+}
+
+/* Password Eye Icon Wrapper */
+.toggle-password {
+    position: absolute;
+    right: 18px; /* Yeh padding input ke andar le aayegi */
+    cursor: pointer;
+    color: #64748b;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+}
+.toggle-password:hover i {
+    color: #fff;
+}
+
+/* ==========================================
+   5. BUTTON & LINKS
+   ========================================== */
+.login-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(90deg, #0056b3, #0077b6);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 119, 182, 0.3);
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 180, 216, 0.5);
+}
+
+.login-btn:disabled {
+    background: #1e293b;
+    color: #64748b;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    font-size: 0.88rem;
+    padding: 0 5px; /* Side se halka sa gap */
+}
+
+.links a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.links a:hover {
+    color: #00b4d8;
+    text-decoration: underline;
+}
+
+/* ==========================================
+   6. FLASH MESSAGES (Alert Cards)
+   ========================================== */
+.flash-messages {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.flash {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-align: left;
+    animation: fadeIn 0.4s ease;
+}
+
+.flash.error {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid #ef4444;
+    color: #f87171;
+}
+
+.flash.success {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid #10b981;
+    color: #34d399;
+}
+
+/* ==========================================
+   7. INTERACTIVE EFFECTS (Cursor Glow)
+   ========================================== */
+.cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0, 180, 216, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Card ke andar wale logo ka size aur spacing */
+.card-logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 20px;
+    animation: logoPulse 3s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 8px rgba(0, 180, 216, 0.3));
+    }
+    50% {
+        filter: drop-shadow(0 0 18px rgba(0, 180, 216, 0.6));
+    }
 }
