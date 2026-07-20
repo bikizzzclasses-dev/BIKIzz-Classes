@@ -1,6 +1,6 @@
 import os
 import secrets
-from flask import Flask, render_template, request, redirect, flash, session, abort
+from flask import Flask, render_template, request, redirect, flash, session, abort, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 from flask_mail import Message
@@ -98,6 +98,13 @@ def add_security_headers(response):
     response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     if request.is_secure:
         response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    return response
+
+
+@app.route("/sw.js")
+def service_worker():
+    response = send_from_directory(app.static_folder, "sw.js", mimetype="application/javascript")
+    response.headers["Service-Worker-Allowed"] = "/"
     return response
 
 # --- GLOBAL SCOPE MEIN TABLES AUR DEFAULT ADMIN BANANE KA LOGIC ---
