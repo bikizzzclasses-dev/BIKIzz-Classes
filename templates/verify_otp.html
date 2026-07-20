@@ -40,6 +40,7 @@
         {% endwith %}
 
         <form action="/verify-otp" method="POST">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
             <input type="text" name="otp" placeholder="000000" maxlength="6" required autocomplete="off">
             <button type="submit" class="btn">Verify & Continue</button>
         </form>

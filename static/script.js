@@ -1,5 +1,40 @@
+// ================= OPEN / REFRESH POSITION =================
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+
+function resetPageToTop() {
+    if (window.location.hash) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+
+    window.scrollTo(0, 0);
+
+    requestAnimationFrame(function () {
+        window.scrollTo(0, 0);
+    });
+
+    setTimeout(function () {
+        window.scrollTo(0, 0);
+    }, 50);
+
+    setTimeout(function () {
+        window.scrollTo(0, 0);
+    }, 250);
+}
+
+resetPageToTop();
+
+window.addEventListener("pageshow", resetPageToTop);
+
+window.addEventListener("beforeunload", function () {
+    window.scrollTo(0, 0);
+});
+
 // ================= LOADER =================
 window.addEventListener("load", function () {
+
+    resetPageToTop();
 
     setTimeout(function () {
 
@@ -75,11 +110,11 @@ window.addEventListener("scroll", function () {
 
     if (window.scrollY > 300) {
 
-        topBtn.style.display = "flex";
+        topBtn.style.setProperty("display", "flex", "important");
 
     } else {
 
-        topBtn.style.display = "none";
+        topBtn.style.setProperty("display", "none", "important");
 
     }
 
@@ -120,7 +155,7 @@ window.addEventListener("scroll", () => {
 
     });
 
-    navLinks.forEach(link => {
+navLinks.forEach(link => {
 
         link.classList.remove("active");
 
@@ -131,3 +166,28 @@ window.addEventListener("scroll", () => {
     });
 
 });
+
+// ================= SCROLL 3D UP REVEAL =================
+const revealItems = document.querySelectorAll(
+    ".course-card, .why-box, .faculty-card, .step, .faq-box, .video-box, .footer-col"
+);
+
+if ("IntersectionObserver" in window) {
+    revealItems.forEach(item => item.classList.add("scroll-3d"));
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.16,
+        rootMargin: "0px 0px -60px 0px"
+    });
+
+    revealItems.forEach(item => revealObserver.observe(item));
+} else {
+    revealItems.forEach(item => item.classList.add("is-visible"));
+}

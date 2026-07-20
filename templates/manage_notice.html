@@ -28,7 +28,8 @@
         <h1>📢 Notice Management</h1>
         <p class="subtitle">Create and publish official notices for the student dashboard.</p>
         
-        <form action="/add-notice" method="POST" class="notice-form">
+        <form action="/manage-notice" method="POST" class="notice-form">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
             <div class="form-group">
                 <label for="notice_title">Notice Title</label>
                 <input type="text" id="notice_title" name="title" placeholder="e.g., Live Class Rescheduled" required>

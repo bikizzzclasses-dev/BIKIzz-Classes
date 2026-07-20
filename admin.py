@@ -3,6 +3,7 @@
 # AUTHOR: BIKIzz' Classes Setup
 # ==========================================================
 import os
+import secrets
 from datetime import datetime, timedelta
 from flask import (
     Blueprint,
@@ -30,6 +31,16 @@ from models import (
 )
 
 admin_bp = Blueprint("admin", __name__)
+
+ALLOWED_PDF_MIMES = {"application/pdf"}
+
+
+def secure_pdf_upload(file):
+    filename = secure_filename(file.filename)
+    if not filename.lower().endswith(".pdf") or file.mimetype not in ALLOWED_PDF_MIMES:
+        return None
+    unique_name = f"{secrets.token_hex(8)}_{filename}"
+    return unique_name
 
 
 # ==========================================================
@@ -125,7 +136,7 @@ def students():
     return render_template("students.html", students=students)
 
 
-@admin_bp.route("/delete/<int:id>")
+@admin_bp.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
     if "admin" not in session:
         return redirect("/admin-login")
@@ -161,7 +172,7 @@ def payments():
     return render_template("payments.html", students=students)
 
 
-@admin_bp.route("/approve/<int:id>")
+@admin_bp.route("/approve/<int:id>", methods=["POST"])
 def approve(id):
     if "admin" not in session:
         return redirect("/admin-login")
@@ -173,7 +184,7 @@ def approve(id):
     return redirect("/payments")
 
 
-@admin_bp.route("/reject/<int:id>")
+@admin_bp.route("/reject/<int:id>", methods=["POST"])
 def reject(id):
     if "admin" not in session:
         return redirect("/admin-login")
@@ -200,7 +211,10 @@ def upload_notes():
         file = request.files["pdf"]
 
         if file and file.filename != "":
-            filename = secure_filename(file.filename)
+            filename = secure_pdf_upload(file)
+            if not filename:
+                flash("Only PDF files are allowed.")
+                return redirect("/upload-notes")
             file.save(os.path.join(current_app.config["UPLOAD_FOLDER"], filename))
 
             note = Notes(
@@ -263,7 +277,10 @@ def edit_note(note_id):
             except Exception as e:
                 print("Purani file hatane me error:", e)
 
-            filename = secure_filename(file.filename)
+            filename = secure_pdf_upload(file)
+            if not filename:
+                flash("Only PDF files are allowed.")
+                return redirect("/upload-notes")
             file.save(os.path.join(current_app.config["UPLOAD_FOLDER"], filename))
             note.pdf_file = filename
 
@@ -325,12 +342,25 @@ def manage_notices():
             return redirect("/manage-notice")
         return redirect("/admin/notices")
 
-    try:
-        notices = Notice.query.order_by(Notice.created_at.desc()).all()
-    except:
-        notices = Notice.query.all()
+    notices = Notice.query.order_by(Notice.id.desc()).all()
 
     return render_template("admin_notices.html", notices=notices)
+
+
+@admin_bp.route("/admin/notices/delete/<int:notice_id>", methods=["POST"])
+def delete_notice(notice_id):
+    if "admin" not in session:
+        return redirect("/admin-login")
+
+    notice = db.session.get(Notice, notice_id)
+    if notice:
+        db.session.delete(notice)
+        db.session.commit()
+        flash("Notice Deleted Successfully!")
+    else:
+        flash("Notice not found!")
+
+    return redirect("/admin/notices")
 
 
 # ==========================================================

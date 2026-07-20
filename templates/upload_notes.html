@@ -24,6 +24,7 @@
     <h1>📚 Upload Study Notes</h1>
 
     <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
         <input type="text" name="subject" placeholder="Subject" required>
         <br><br>
         <input type="text" name="chapter" placeholder="Chapter Name" required>
@@ -64,6 +65,7 @@
     </button>
     
     <form action="/admin/notes/delete/{{ note.id }}" method="POST" style="display: inline !important; margin: 0 !important; padding: 0 !important; background: transparent !important; border: none !important; box-shadow: none !important;">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
         <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; display: inline-block;">
             Delete
         </button>
@@ -76,6 +78,7 @@
                 <h3 style="color: #fff; margin-top: 0;">✏️ Edit Study Note</h3>
                 
                 <form action="/admin/notes/edit/{{ note.id }}" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                     <div style="margin-bottom: 15px;">
                         <label style="color: #00d4ff; display: block; margin-bottom: 5px; font-size: 14px;">Subject</label>
                         <input type="text" name="subject" value="{{ note.subject }}" style="width: 100%; padding: 10px; background: #0d2648; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; box-sizing: border-box;" required>

@@ -28,6 +28,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <p>Secure Login Portal</p>
 
 <form method="POST">
+<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
 
 <div class="input-box">
 

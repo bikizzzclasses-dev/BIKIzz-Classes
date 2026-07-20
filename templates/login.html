@@ -35,6 +35,7 @@
 
             <!-- Login Form -->
             <form action="/login" method="POST">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                 <div class="input-box">
                     <i class="fa-solid fa-envelope"></i>
                     <input type="email" name="email" placeholder="Email Address" required>

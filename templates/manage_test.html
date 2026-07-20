@@ -26,6 +26,7 @@
 <h1>📝 Test Management</h1>
 
 <form method="POST">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
 
     <input type="text" name="question"
            placeholder="Question" required>

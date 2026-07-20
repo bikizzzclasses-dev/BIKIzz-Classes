@@ -67,11 +67,14 @@
             
             <td>
                 <!-- 🔥 Delete Action URL match kiya aapke link ke mutabik -->
-                <a href="/delete/{{ student.id }}" 
-                   onclick="return confirm('Kya aap sure hain ki is student ko delete karna chahte hain?')"
-                   style="background-color: #ff4d4d; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; font-size: 14px; display: inline-block;">
-                   Delete
-                </a>
+                <form action="/delete/{{ student.id }}" method="POST" style="display:inline; background:transparent; padding:0; margin:0; box-shadow:none;">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit"
+                            onclick="return confirm('Kya aap sure hain ki is student ko delete karna chahte hain?')"
+                            style="background-color: #ff4d4d; color: white; padding: 8px 12px; border: none; border-radius: 5px; font-size: 14px; cursor:pointer;">
+                       Delete
+                    </button>
+                </form>
             </td>
         </tr>
         {% endfor %}

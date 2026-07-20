@@ -39,6 +39,7 @@
         {% endwith %}
 
         <form action="/admin/notices" method="POST" class="notice-form">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
             <div class="form-group">
                 <label for="notice_title">Notice Title</label>
                 <input type="text" id="notice_title" name="title" placeholder="e.g., Live Class Rescheduled Today" required>
@@ -62,11 +63,21 @@
         <div style="display: flex; flex-direction: column; gap: 15px;">
             {% for notice in notices %}
             <div style="background: #0d2648; padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); position: relative;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-                    <h3 style="color: #fff; font-size: 18px; margin: 0;">{{ notice.title }}</h3>
-                    <span style="font-size: 12px; color: #a0aec0; background: #07192f; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(0, 212, 255, 0.2);">
-                        📅 {{ notice.created_at.strftime('%d %b %Y') if notice.created_at else 'Recent' }}
-                    </span>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px;">
+                    <div>
+                        <h3 style="color: #fff; font-size: 18px; margin: 0 0 8px 0;">{{ notice.title }}</h3>
+                        <span style="font-size: 12px; color: #a0aec0; background: #07192f; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(0, 212, 255, 0.2);">
+                            📅 {{ notice.created_at.strftime('%d %b %Y') if notice.created_at else 'Recent' }}
+                        </span>
+                    </div>
+                    <form action="/admin/notices/delete/{{ notice.id }}" method="POST" style="background: transparent; padding: 0; margin: 0; box-shadow: none;">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit"
+                                onclick="return confirm('Kya aap is notice ko delete karna chahte hain?')"
+                                style="background: #ff4757; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Delete
+                        </button>
+                    </form>
                 </div>
                 <p style="color: #cbd5e0; font-size: 14px; line-height: 1.5; margin: 0; white-space: pre-wrap;">{{ notice.description }}</p>
             </div>

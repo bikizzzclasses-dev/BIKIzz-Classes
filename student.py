@@ -1,8 +1,9 @@
 import os
-import random 
+import random
 import secrets  
 import requests  # <-- BREVO API
 import base64    # 🔥 Base64 image conversion ke liye jod diya
+from datetime import datetime, timedelta
 
 from flask import (
     Blueprint,
@@ -37,9 +38,54 @@ student_bp = Blueprint("student", __name__)
 
 # 🔥 ONLY IMAGES ALLOWED FILTER
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+ALLOWED_IMAGE_MIMES = {"image/png", "image/jpeg", "image/gif"}
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def allowed_image(file):
+    return (
+        file
+        and allowed_file(file.filename)
+        and file.mimetype in ALLOWED_IMAGE_MIMES
+    )
+
+
+def password_is_strong(password):
+    return (
+        len(password) >= 8
+        and any(ch.islower() for ch in password)
+        and any(ch.isupper() for ch in password)
+        and any(ch.isdigit() for ch in password)
+    )
+
+
+@student_bp.before_request
+def verify_active_student_session():
+    if "student_id" not in session:
+        return
+
+    if request.endpoint in {
+        "student.home",
+        "student.login",
+        "student.register",
+        "student.forgot_password",
+        "student.verify_otp",
+        "student.reset_password",
+    }:
+        return
+
+    token = session.get("session_token")
+    active_session = ActiveSession.query.filter_by(
+        student_id=session["student_id"],
+        session_token=token
+    ).first()
+
+    if not active_session:
+        session.clear()
+        flash("Session expired. Please login again.")
+        return redirect("/login")
 
 
 # ==========================================================
@@ -66,11 +112,16 @@ def register():
             flash("Account already exists with this email!")
             return redirect("/register")
 
+        password = request.form["password"]
+        if not password_is_strong(password):
+            flash("Password must be at least 8 characters with uppercase, lowercase and number.")
+            return redirect("/register")
+
         student = Student(
             name=request.form["name"],
             mobile=request.form["mobile"],
             email=email,
-            password=generate_password_hash(request.form["password"])
+            password=generate_password_hash(password)
         )
 
         db.session.add(student)
@@ -209,11 +260,13 @@ def verify_otp():
             email=session["reset_email"]
         ).first()
 
-        print("Session Email:", session.get("reset_email"))
-        print("DB OTP:", reset.otp if reset else "No OTP Found")
-        print("User OTP:", user_otp)
-
         if not reset:
+            flash("OTP Expired!")
+            return redirect("/forgot-password")
+
+        if reset.created_at and reset.created_at < datetime.utcnow() - timedelta(minutes=10):
+            PasswordResetOTP.query.filter_by(email=session["reset_email"]).delete()
+            db.session.commit()
             flash("OTP Expired!")
             return redirect("/forgot-password")
 
@@ -248,6 +301,10 @@ def reset_password():
 
         if password != confirm:
             flash("Passwords do not match!")
+            return redirect("/reset-password")
+
+        if not password_is_strong(password):
+            flash("Password must be at least 8 characters with uppercase, lowercase and number.")
             return redirect("/reset-password")
 
         student = Student.query.filter_by(
@@ -291,17 +348,21 @@ def dashboard():
 
     live = LiveClass.query.first()
     notes = Notes.query.order_by(Notes.id.desc()).all()
-    notices = Notice.query.order_by(Notice.created_at.desc()).limit(5).all()
+    latest_notice = Notice.query.order_by(Notice.id.desc()).first()
 
-    return render_template(
+    response = current_app.make_response(render_template(
         "dashboard.html",
         student=student,
         name=student.name,
         status=student.payment_status,
         live=live,
         notes=notes,
-        notices=notices
-    )
+        latest_notice=latest_notice
+    ))
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 # ==========================================================
 # ALL STUDY NOTES VIEW (CRASH SAFE)
@@ -379,7 +440,7 @@ def upload_profile():
     file = request.files["photo"]
 
     if file and file.filename != "":
-        if not allowed_file(file.filename):
+        if not allowed_image(file):
             flash("Khatra! Only images (png, jpg, jpeg, gif) are allowed!")
             return redirect("/profile")
 
@@ -421,7 +482,7 @@ def payment():
         file = request.files["payment"]
 
         if file and file.filename != "":
-            if not allowed_file(file.filename):
+            if not allowed_image(file):
                 flash("Security Alert! Only images are allowed as payment screenshots!")
                 return redirect("/payment")
 

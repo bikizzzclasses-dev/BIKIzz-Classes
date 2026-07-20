@@ -53,8 +53,14 @@
             <td>{{ student.payment_status }}</td>
 
             <td>
-                <a href="/approve/{{ student.id }}">✅ Approve</a>
-                <a href="/reject/{{ student.id }}">❌ Reject</a>
+                <form action="/approve/{{ student.id }}" method="POST" style="display:inline; background:transparent; padding:0; margin:0; box-shadow:none;">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" style="background:transparent; border:none; color:#00CFFF; font-weight:600; cursor:pointer;">✅ Approve</button>
+                </form>
+                <form action="/reject/{{ student.id }}" method="POST" style="display:inline; background:transparent; padding:0; margin:0; box-shadow:none;">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" style="background:transparent; border:none; color:#00CFFF; font-weight:600; cursor:pointer;">❌ Reject</button>
+                </form>
             </td>
         </tr>
         {% endfor %}

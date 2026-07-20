@@ -14,6 +14,17 @@
             scroll-behavior: smooth;
         }
     </style>
+    <script>
+        if ("scrollRestoration" in history) {
+            history.scrollRestoration = "manual";
+        }
+
+        if (window.location.hash) {
+            history.replaceState(null, "", window.location.pathname + window.location.search);
+        }
+
+        window.scrollTo(0, 0);
+    </script>
 </head>
 
 <body>
@@ -81,6 +92,15 @@
                 <a href="#course" class="secondary-btn">Explore Course</a>
             </div>
         </div>
+        <div class="hero-visual" aria-hidden="true">
+            <img src="{{ url_for('static', filename='images/math-hero-3d.png') }}" alt="">
+        </div>
+    </div>
+    <div class="container hero-metrics">
+        <div><i class="fas fa-user-graduate"></i><strong>2K+</strong><span>Happy Students</span></div>
+        <div><i class="fas fa-chalkboard-teacher"></i><strong>50+</strong><span>Live Sessions</span></div>
+        <div><i class="fas fa-book-open"></i><strong>100+</strong><span>Study Resources</span></div>
+        <div><i class="fas fa-trophy"></i><strong>95%</strong><span>Success Focus</span></div>
     </div>
 </section>
 
@@ -91,24 +111,44 @@
         <p class="section-subtitle">Learn Mathematics with Concept-Based Teaching</p>
         <div class="course-grid">
             <div class="course-card">
-                <i class="fas fa-book-open"></i>
+                <span class="course-number">01</span>
+                <div class="course-visual course-visual-syllabus">
+                    <i class="fas fa-book-open"></i>
+                    <i class="fas fa-check"></i>
+                </div>
                 <h3>Complete Syllabus</h3>
                 <p>Entire HSLC Mathematics syllabus covered chapter-wise.</p>
+                <a href="/register" class="course-learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="course-card">
-                <i class="fas fa-video"></i>
+                <span class="course-number">02</span>
+                <div class="course-visual course-visual-live">
+                    <i class="fas fa-desktop"></i>
+                    <i class="fas fa-video"></i>
+                </div>
                 <h3>Live Classes</h3>
                 <p>Interactive Zoom classes with doubt solving.</p>
+                <a href="/register" class="course-learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="course-card">
-                <i class="fas fa-file-alt"></i>
+                <span class="course-number">03</span>
+                <div class="course-visual course-visual-notes">
+                    <i class="fas fa-book"></i>
+                    <i class="fas fa-pen"></i>
+                </div>
                 <h3>Handwritten Notes</h3>
                 <p>Easy notes with PYQs and important questions.</p>
+                <a href="/register" class="course-learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="course-card">
-                <i class="fas fa-chart-line"></i>
+                <span class="course-number">04</span>
+                <div class="course-visual course-visual-tests">
+                    <i class="fas fa-clipboard-check"></i>
+                    <i class="fas fa-stopwatch"></i>
+                </div>
                 <h3>Weekly Tests</h3>
                 <p>Regular tests with performance analysis.</p>
+                <a href="/register" class="course-learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </div>

@@ -98,13 +98,13 @@
 <section class="student-dashboard">
     <div class="container">
 
-        {% if notices and notices|length > 0 %}
+        {% if latest_notice %}
         <div class="notice-neon-banner" id="dashboardNotice">
             <span class="notice-banner-icon">📢</span>
             
             <div class="marquee-container">
                 <div class="marquee-text">
-                    <strong>{{ notices[0].title }}:</strong> {{ notices[0].description or notices[0].message }}
+                    <strong>{{ latest_notice.title }}:</strong> {{ latest_notice.description }}
                 </div>
             </div>
             
@@ -209,14 +209,12 @@
 
             <div class="dashboard-card">
     <h2>📢 Latest Notices</h2>
-    {% if notices %}
-        {% for notice in notices %}  <div class="notice-item">
-                <strong>{{ notice.title }}</strong><br>
-                <small>{{ notice.created_at.strftime('%d %b %Y') if notice.created_at else notice.date }}</small>
-                <p style="margin-top: 5px; line-height: 1.4;">{{ notice.description or notice.message }}</p>
-                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.08); margin: 10px 0;">
-            </div>
-        {% endfor %}
+    {% if latest_notice %}
+        <div class="notice-item">
+            <strong>{{ latest_notice.title }}</strong><br>
+            <small>{{ latest_notice.created_at.strftime('%d %b %Y') if latest_notice.created_at else 'Recent' }}</small>
+            <p style="margin-top: 5px; line-height: 1.4;">{{ latest_notice.description }}</p>
+        </div>
     {% else %}
         <p>No Notice Available.</p>
     {% endif %}

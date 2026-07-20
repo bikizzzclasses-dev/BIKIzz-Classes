@@ -37,6 +37,7 @@
 
             <!-- Register Form -->
             <form action="/register" method="POST" id="registerForm">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                 <!-- Full Name -->
                 <div class="input-box">
                     <i class="fa-solid fa-user"></i>

@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template, request, redirect, flash, session
+import secrets
+from flask import Flask, render_template, request, redirect, flash, session, abort
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 from flask_mail import Message
@@ -40,7 +41,7 @@ mail.init_app(app)
 # ==========================================================
 # SECURITY CONFIGURATIONS (SESSION PROTECTION)
 # ==========================================================
-app.secret_key = os.environ.get("SECRET_KEY", "biki_fallback_secret_key_2026")
+app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=1)
 
 # Agar Render par hai toh True, local par hai toh False automatically ho jayega
@@ -49,6 +50,7 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' 
 app.config["MAX_LOGIN_ATTEMPTS"] = 5
 app.config["LOCK_TIME"] = 10   # minutes
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 # Notes PDF file upload ke liye folder configuration safe rakha hai
 UPLOAD_FOLDER = "static/uploads"
@@ -68,6 +70,36 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # Database initialize karein
 db.init_app(app)
 
+
+def csrf_token():
+    token = session.get("_csrf_token")
+    if not token:
+        token = secrets.token_urlsafe(32)
+        session["_csrf_token"] = token
+    return token
+
+
+app.jinja_env.globals["csrf_token"] = csrf_token
+
+
+@app.before_request
+def protect_post_requests():
+    if request.method == "POST" and not request.is_json:
+        sent_token = request.form.get("_csrf_token")
+        if not sent_token or sent_token != session.get("_csrf_token"):
+            abort(400)
+
+
+@app.after_request
+def add_security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    if request.is_secure:
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    return response
+
 # --- GLOBAL SCOPE MEIN TABLES AUR DEFAULT ADMIN BANANE KA LOGIC ---
 with app.app_context():
     db.create_all() 
@@ -76,14 +108,18 @@ with app.app_context():
     admin = Admin.query.filter_by(email="bikizzzclasses@gmail.com").first()
     if not admin:
         from werkzeug.security import generate_password_hash
-        admin = Admin(
-            name="BIKIzz Admin",
-            email="bikizzzclasses@gmail.com",
-            password=generate_password_hash("BIKI2488@")
-        )
-        db.session.add(admin)
-        db.session.commit()
-        print("✅ Default Admin Created Successfully on Cloud Database")
+        default_admin_password = os.environ.get("DEFAULT_ADMIN_PASSWORD")
+        if default_admin_password:
+            admin = Admin(
+                name="BIKIzz Admin",
+                email="bikizzzclasses@gmail.com",
+                password=generate_password_hash(default_admin_password)
+            )
+            db.session.add(admin)
+            db.session.commit()
+            print("✅ Default Admin Created Successfully")
+        else:
+            print("⚠️ Default admin not created. Set DEFAULT_ADMIN_PASSWORD first.")
 # -----------------------------------------------------------------
 
 # Blueprints Registration
@@ -106,21 +142,6 @@ def logout():
     session.clear()
     flash("Logged Out Successfully")
     return redirect("/login")
-
-# ==========================================================
-# TEMPORARY DATABASE FIX ROUTE (Tarika 1)
-# ==========================================================
-from sqlalchemy import text
-@app.route("/biki-db-fix")
-def biki_db_fix():
-    try:
-        db.session.execute(text("ALTER TABLE student ALTER COLUMN profile_image TYPE TEXT;"))
-        db.session.execute(text("ALTER TABLE student ALTER COLUMN payment_image TYPE TEXT;"))
-        db.session.commit()
-        return "<h1>🔥 Badhai Ho! Database Columns Successfully TEXT mein badal gaye hain.</h1><p>Ab aap photo upload test kar sakte hain.</p>"
-    except Exception as e:
-        db.session.rollback()
-        return f"<h1>Kuch gadbad hui:</h1><p>{str(e)}</p>"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5105, debug=True)

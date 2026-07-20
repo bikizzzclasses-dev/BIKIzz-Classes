@@ -39,6 +39,7 @@
         <p><strong>Payment Status:</strong> {{ student.payment_status }}</p>
 
         <form action="/upload-profile" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
             <input
                 type="file"
                 id="photo-upload"
