@@ -195,28 +195,45 @@
 <!-- ================= FACULTY ================= -->
 <section class="faculty" id="faculty">
     <div class="container">
-        <h2 class="section-title">Meet Our Faculty</h2>
+        <div class="faculty-heading">
+            <span class="faculty-kicker">Expert Mentors</span>
+            <h2 class="section-title">Meet Our Faculty</h2>
+            <p>Learn from passionate mentors focused on concept clarity, exam strategy, and personal guidance.</p>
+        </div>
         <div class="faculty-grid">
             <div class="faculty-card">
-                <img src="{{ url_for('static', filename='images/biki.jpg') }}">
-                <h3>Biki Bharali</h3>
-                <p>M.Sc, Mathematics</p>
-                <span>Tezpur University</span>
-            </div>
-            <div class="faculty-card">
-                <div class="faculty-img">
-                    <img src="{{ url_for('static', filename='images/manash.png') }}" alt="Senior Faculty">
+                <div class="faculty-photo">
+                    <img src="{{ url_for('static', filename='images/biki.jpg') }}" alt="Biki Bharali">
                 </div>
-                <h3>Manash Pratim Kakati</h3>
-                <p>M.Sc, Mathematics</p>
-                <span>Guwahati University</span>
+                <span class="faculty-badge"><i class="fas fa-square-root-variable"></i> Mathematics</span>
+                <h3>Biki Bharali</h3>
+                <p><i class="fas fa-graduation-cap"></i> M.Sc, Mathematics</p>
+                <span><i class="fas fa-building-columns"></i> Tezpur University</span>
             </div>
             <div class="faculty-card">
-                <img src="{{ url_for('static', filename='images/pranjal.jpg') }}">
-                <h3>Pranjal Borah</h3>
-                <p>B.Tech, ECE</p>
-                <span>Tezpur University</span>
+                <div class="faculty-photo">
+                    <img src="{{ url_for('static', filename='images/manash.png') }}" alt="Manash Pratim Kakati">
+                </div>
+                <span class="faculty-badge"><i class="fas fa-square-root-variable"></i> Mathematics</span>
+                <h3>Manash Pratim Kakati</h3>
+                <p><i class="fas fa-graduation-cap"></i> M.Sc, Mathematics</p>
+                <span><i class="fas fa-building-columns"></i> Guwahati University</span>
             </div>
+            <div class="faculty-card">
+                <div class="faculty-photo">
+                    <img src="{{ url_for('static', filename='images/pranjal.jpg') }}" alt="Pranjal Borah">
+                </div>
+                <span class="faculty-badge"><i class="fas fa-microchip"></i> Electronics</span>
+                <h3>Pranjal Borah</h3>
+                <p><i class="fas fa-graduation-cap"></i> B.Tech, ECE</p>
+                <span><i class="fas fa-building-columns"></i> Tezpur University</span>
+            </div>
+        </div>
+        <div class="faculty-trust-row">
+            <div><i class="fas fa-users"></i><strong>Expert Mentors</strong><span>Experienced & Passionate</span></div>
+            <div><i class="fas fa-book-open-reader"></i><strong>Concept Driven</strong><span>Strong Fundamentals</span></div>
+            <div><i class="fas fa-chart-line"></i><strong>Proven Results</strong><span>Student Success Focused</span></div>
+            <div><i class="fas fa-bullseye"></i><strong>Personal Guidance</strong><span>Learn. Practice. Excel.</span></div>
         </div>
     </div>
 </section>
