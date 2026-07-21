@@ -1,4 +1,4 @@
-const CACHE_NAME = "bikizz-pwa-v1";
+const CACHE_NAME = "bikizz-pwa-v2";
 const STATIC_ASSETS = [
   "/",
   "/login",
@@ -51,6 +51,29 @@ self.addEventListener("fetch", function (event) {
       fetch(request).catch(function () {
         return caches.match("/");
       })
+    );
+    return;
+  }
+
+  if (
+    request.destination === "style" ||
+    request.destination === "script" ||
+    request.url.includes("/static/style.css") ||
+    request.url.includes("/static/pwa.js") ||
+    request.url.includes("/static/script.js")
+  ) {
+    event.respondWith(
+      fetch(request)
+        .then(function (response) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(request, responseClone);
+          });
+          return response;
+        })
+        .catch(function () {
+          return caches.match(request);
+        })
     );
     return;
   }
