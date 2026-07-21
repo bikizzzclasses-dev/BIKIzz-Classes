@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment Banner Control</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <div class="admin-logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-img">
+        <h2>BIKIzz Admin</h2>
+    </div>
+
+    <a href="/admin">🏠 Dashboard</a>
+    <a href="/students">👨 Students</a>
+    <a href="/payments">💳 Payments</a>
+    <a href="/live-class">🎥 Live Class Management</a>
+    <a href="/upload-notes">📄 Notes Management</a>
+    <a href="/manage-test">📝 Test Management</a>
+    <a href="/admin/notices">📢 Manage Notice</a>
+    <a href="/admin/enrollment-banner" class="active">🎯 Enrollment Banner</a>
+    <a href="/admin-logout">🚪 Logout</a>
+</div>
+
+<div class="content">
+    <div class="dashboard-header">
+        <div>
+            <h1>Enrollment Banner Control</h1>
+            <p>Home page aur About page ke top admission/enroll banner ko yahan se control karo.</p>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="admin-flash">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="admin-form-card">
+        <form method="POST" action="/admin/enrollment-banner">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+
+            <label>Banner Text</label>
+            <textarea name="message" rows="3" required>{{ banner.message }}</textarea>
+
+            <label>Button Text</label>
+            <input type="text" name="button_text" value="{{ banner.button_text }}" required>
+
+            <label>Button Link</label>
+            <input type="text" name="button_link" value="{{ banner.button_link }}" required>
+
+            <label class="checkbox-line">
+                <input type="checkbox" name="is_active" {% if banner.is_active %}checked{% endif %}>
+                Show banner on Home and About page
+            </label>
+
+            <div class="banner-preview">
+                <span>🎯 {{ banner.message }}</span>
+                <a href="{{ banner.button_link }}">{{ banner.button_text }}</a>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" name="action" value="save" class="save-btn">Save Changes</button>
+                <button type="submit" name="action" value="delete" class="danger-btn">Hide / Delete Banner</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

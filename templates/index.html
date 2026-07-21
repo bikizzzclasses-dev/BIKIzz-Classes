@@ -42,12 +42,14 @@
 </div>
 
 <!-- ================= TOP BAR ================= -->
+{% if enrollment_banner and enrollment_banner.is_active %}
 <div class="top-bar">
     <div class="container">
-        <p>🎯 Admission Open for HSLC 2027 Mathematics Crash Course</p>
-        <a href="/register">Enroll Now</a>
+        <p>🎯 {{ enrollment_banner.message }}</p>
+        <a href="{{ enrollment_banner.button_link }}">{{ enrollment_banner.button_text }}</a>
     </div>
 </div>
+{% endif %}
 
 <!-- ================= PREMIUM PW-STYLE RESPONISVE NAVBAR ================= -->
 <header class="main-header">

@@ -37,6 +37,10 @@ href="{{ url_for('static', filename='admin.css') }}">
 
 <a href="/admin/notices">📢Manage Notice</a>
 
+{% if is_main_admin %}
+<a href="/admin/enrollment-banner">🎯 Enrollment Banner</a>
+{% endif %}
+
 <a href="/admin-logout">🚪 Logout</a>
 </div>
 

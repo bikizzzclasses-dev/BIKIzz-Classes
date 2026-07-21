@@ -26,6 +26,7 @@ from models import (
     Notes,
     LiveClass,
     Notice,
+    EnrollmentBanner,
     Test,
     ActiveSession  
 )
@@ -33,6 +34,7 @@ from models import (
 admin_bp = Blueprint("admin", __name__)
 
 ALLOWED_PDF_MIMES = {"application/pdf"}
+MAIN_ADMIN_EMAIL = "bikizzzclasses@gmail.com"
 
 
 def secure_pdf_upload(file):
@@ -41,6 +43,10 @@ def secure_pdf_upload(file):
         return None
     unique_name = f"{secrets.token_hex(8)}_{filename}"
     return unique_name
+
+
+def is_main_admin():
+    return session.get("admin_email") == MAIN_ADMIN_EMAIL
 
 
 # ==========================================================
@@ -69,6 +75,7 @@ def admin_login():
 
             session["admin"] = True
             session["admin_name"] = admin.name
+            session["admin_email"] = admin.email
             flash("Admin Login Successful")
             return redirect("/admin")
 
@@ -90,6 +97,7 @@ def admin_login():
 def admin_logout():
     session.pop("admin", None)
     session.pop("admin_name", None)
+    session.pop("admin_email", None)
     flash("Admin Logged Out Successfully")
     return redirect("/admin-login")
 
@@ -120,8 +128,51 @@ def admin_dashboard():
         rejected_students=rejected_students,
         total_notes=total_notes,
         total_tests=total_tests,
-        total_notices=total_notices
+        total_notices=total_notices,
+        is_main_admin=is_main_admin()
     )
+
+
+@admin_bp.route("/admin/enrollment-banner", methods=["GET", "POST"])
+def enrollment_banner_settings():
+    if "admin" not in session:
+        return redirect("/admin-login")
+
+    if not is_main_admin():
+        flash("Only main admin can control enrollment banner.")
+        return redirect("/admin")
+
+    banner = EnrollmentBanner.query.get(1)
+    if not banner:
+        banner = EnrollmentBanner(id=1)
+        db.session.add(banner)
+        db.session.commit()
+
+    if request.method == "POST":
+        action = request.form.get("action", "save")
+
+        if action == "delete":
+            banner.is_active = False
+            flash("Enrollment banner hidden successfully.")
+        else:
+            banner.message = request.form.get("message", "").strip()
+            banner.button_text = request.form.get("button_text", "").strip()
+            banner.button_link = request.form.get("button_link", "").strip()
+            banner.is_active = request.form.get("is_active") == "on"
+
+            if not banner.message:
+                banner.message = "Admission Open for HSLC 2027 Mathematics Crash Course"
+            if not banner.button_text:
+                banner.button_text = "Enroll Now"
+            if not banner.button_link:
+                banner.button_link = "/register"
+
+            flash("Enrollment banner updated successfully.")
+
+        db.session.commit()
+        return redirect("/admin/enrollment-banner")
+
+    return render_template("admin_enrollment_banner.html", banner=banner)
 
 
 # ==========================================================

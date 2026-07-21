@@ -233,14 +233,16 @@ header .logo-group img {
 <body>
 
 <!-- ================= TOP BAR (CONTINUOUS SCROLLING BANNER) ================= -->
+{% if enrollment_banner and enrollment_banner.is_active %}
 <div class="top-bar">
     <div class="marquee-wrapper">
         <div class="marquee-content">
-            📢 Admission Open For <strong>HSLC 2027 Mathematics Crash Course</strong> <a href="/register">Enroll Now</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            📢 Admission Open For <strong>HSLC 2027 Mathematics Crash Course</strong> <a href="/register">Enroll Now</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            📢 {{ enrollment_banner.message }} <a href="{{ enrollment_banner.button_link }}">{{ enrollment_banner.button_text }}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            📢 {{ enrollment_banner.message }} <a href="{{ enrollment_banner.button_link }}">{{ enrollment_banner.button_text }}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
     </div>
 </div>
+{% endif %}
 
 <!-- ================= NAVBAR ================= -->
 <header>

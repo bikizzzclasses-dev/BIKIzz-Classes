@@ -20,6 +20,7 @@ from models import (
     Notes,
     LiveClass,
     Notice,
+    EnrollmentBanner,
     Test,
     ActiveSession  
 )
@@ -51,6 +52,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config["MAX_LOGIN_ATTEMPTS"] = 5
 app.config["LOCK_TIME"] = 10   # minutes
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+app.config["MAIN_ADMIN_EMAIL"] = "bikizzzclasses@gmail.com"
 
 # Notes PDF file upload ke liye folder configuration safe rakha hai
 UPLOAD_FOLDER = "static/uploads"
@@ -107,10 +109,23 @@ def service_worker():
     response.headers["Service-Worker-Allowed"] = "/"
     return response
 
+
+@app.context_processor
+def inject_site_settings():
+    banner = EnrollmentBanner.query.get(1)
+    return {"enrollment_banner": banner}
+
 # --- GLOBAL SCOPE MEIN TABLES AUR DEFAULT ADMIN BANANE KA LOGIC ---
 with app.app_context():
     db.create_all() 
     print("✅ Database tables checked/created in the current database")
+
+    banner = EnrollmentBanner.query.get(1)
+    if not banner:
+        banner = EnrollmentBanner(id=1)
+        db.session.add(banner)
+        db.session.commit()
+        print("✅ Enrollment banner setting created")
     
     admin = Admin.query.filter_by(email="bikizzzclasses@gmail.com").first()
     if not admin:

@@ -115,6 +115,36 @@ class Notice(db.Model):
         default=db.func.current_timestamp()
     )
 
+
+# ==========================================================
+# ENROLLMENT BANNER MODEL
+# FILE: models.py
+# ==========================================================
+
+class EnrollmentBanner(db.Model):
+
+    __tablename__ = "enrollment_banner"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    message = db.Column(
+        db.String(300),
+        nullable=False,
+        default="Admission Open for HSLC 2027 Mathematics Crash Course"
+    )
+
+    button_text = db.Column(db.String(80), nullable=False, default="Enroll Now")
+
+    button_link = db.Column(db.String(300), nullable=False, default="/register")
+
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+
+    updated_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow
+    )
+
 # ==========================================================
 # LOGIN ATTEMPT MODEL
 # FILE: models.py
