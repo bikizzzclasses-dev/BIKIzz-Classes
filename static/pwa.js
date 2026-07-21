@@ -26,9 +26,7 @@
     const installButton = document.getElementById("installAppBtn");
     if (!installButton || isStandalone) return;
 
-    if (isIos) {
-      installButton.hidden = false;
-    }
+    installButton.hidden = false;
 
     installButton.addEventListener("click", async function () {
       installButton.classList.add("is-downloading");
