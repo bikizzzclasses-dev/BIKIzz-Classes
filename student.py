@@ -33,7 +33,7 @@ from models import (
     PasswordResetOTP,
     ActiveSession  
 )
-from email_utils import send_resend_email
+from email_utils import send_brevo_email
 
 student_bp = Blueprint("student", __name__)
 
@@ -63,7 +63,7 @@ def password_is_strong(password):
 
 
 def send_welcome_email(student):
-    send_resend_email(
+    send_brevo_email(
         student.email,
         "Welcome to BIKIzz Classes",
         (
@@ -82,7 +82,7 @@ def send_welcome_email(student):
 
 
 def send_payment_upload_emails(student):
-    send_resend_email(
+    send_brevo_email(
         student.email,
         "Payment Screenshot Received",
         (
@@ -101,7 +101,7 @@ def send_payment_upload_emails(student):
 
     admin_email = current_app.config.get("MAIN_ADMIN_EMAIL")
     if admin_email:
-        send_resend_email(
+        send_brevo_email(
             admin_email,
             "New Payment Screenshot Uploaded",
             (

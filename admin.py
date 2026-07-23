@@ -30,7 +30,7 @@ from models import (
     Test,
     ActiveSession  
 )
-from email_utils import send_resend_email
+from email_utils import send_brevo_email
 
 admin_bp = Blueprint("admin", __name__)
 
@@ -51,7 +51,7 @@ def is_main_admin():
 
 
 def send_payment_approval_email(student):
-    send_resend_email(
+    send_brevo_email(
         student.email,
         "Payment Approved - BIKIzz Classes",
         (
