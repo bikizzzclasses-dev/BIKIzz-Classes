@@ -16,7 +16,7 @@
 
     <p>Course Fee : <strong>₹999</strong></p>
 
-    <img src="{{ url_for('static', filename='images/qr.png') }}" class="qr">
+    <img src="{{ url_for('static', filename='images/qr.png', v='payment-qr-20260723') }}" class="qr" alt="Payment QR code">
 
     {% if student and student.payment_image %}
         <div style="margin: 15px 0;">
