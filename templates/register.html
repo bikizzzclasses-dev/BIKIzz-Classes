@@ -7,21 +7,25 @@
     {% include 'pwa_head.html' %}
     
     <!-- CSS and Fonts (Same as Login) -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth.css', v='login-mentor-2') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
 
-<div class="login-wrapper">
-    <!-- Right Side: Translucent Glassmorphism Register Card -->
+<div class="login-wrapper login-page register-page">
+    <a class="login-home-link" href="/" aria-label="Back to home">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Back to Home</span>
+    </a>
+
     <div class="form-container">
-        <div class="login-card">
-            <!-- Branded Logo with Pulse Effect -->
-            <img src="{{ url_for('static', filename='images/logo.png') }}" class="card-logo" alt="Logo">
+        <div class="login-card login-page-card register-page-card">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="card-logo" alt="BIKIzz' Classes logo">
             
-            <h2>Create Account 🚀</h2>
-            <p class="subtitle">Join us to start your learning journey.</p>
+            <p class="portal-label">NEW STUDENT</p>
+            <h2>Create Account</h2>
+            <p class="subtitle">Start your Mathematics journey with BIKIzz' Classes.</p>
 
             <!-- Flask Flash Messages -->
             {% with messages = get_flashed_messages() %}
@@ -41,26 +45,30 @@
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                 <!-- Full Name -->
                 <div class="input-box">
+                    <label for="name">Full Name</label>
                     <i class="fa-solid fa-user"></i>
-                    <input type="text" name="name" placeholder="Full Name" required>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" autocomplete="name" required>
                 </div>
 
                 <!-- Mobile Number -->
                 <div class="input-box">
+                    <label for="mobile">Mobile Number</label>
                     <i class="fa-solid fa-phone"></i>
-                    <input type="tel" name="mobile" placeholder="Mobile Number" pattern="[0-9]{10}" maxlength="10" required>
+                    <input type="tel" id="mobile" name="mobile" placeholder="Enter 10 digit mobile number" pattern="[0-9]{10}" maxlength="10" autocomplete="tel" required>
                 </div>
 
                 <!-- Email Address -->
                 <div class="input-box">
+                    <label for="email">Email Address</label>
                     <i class="fa-solid fa-envelope"></i>
-                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="email" required>
                 </div>
 
                 <!-- Password -->
                 <div class="input-box">
+                    <label for="password">Password</label>
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <input type="password" id="password" name="password" placeholder="Create a password" autocomplete="new-password" required>
                     <span class="toggle-password" style="cursor: pointer;">
                         <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
                     </span>
@@ -80,6 +88,7 @@
                 <span style="color: #94a3b8;">Already have an account?</span>
                 <a href="/login" style="color: #00b4d8; font-weight: 500;">Login</a>
             </div>
+            <p class="secure-access"><i class="fa-solid fa-shield-halved"></i> Secure registration</p>
         </div>
     </div>
 </div>

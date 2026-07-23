@@ -7,19 +7,24 @@
     {% include 'pwa_head.html' %}
     
     <!-- CSS and Fonts -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth.css', v='login-mentor-2') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
 
-<div class="login-wrapper">
-    <!-- Right Side: Translucent Glassmorphism Login Card -->
+<div class="login-wrapper login-page">
+    <a class="login-home-link" href="/" aria-label="Back to home">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Back to Home</span>
+    </a>
+
     <div class="form-container">
-        <div class="login-card">
-<img src="{{ url_for('static', filename='images/logo.png') }}" class="card-logo" alt="Logo">
-            <h2>Welcome Back 👋</h2>
-            <p class="subtitle">Login to continue your learning journey.</p>
+        <div class="login-card login-page-card">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="card-logo" alt="BIKIzz' Classes logo">
+            <p class="portal-label">STUDENT PORTAL</p>
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Continue your Mathematics journey.</p>
 
             <!-- Flask Flash Messages -->
             {% with messages = get_flashed_messages() %}
@@ -38,13 +43,15 @@
             <form action="/login" method="POST">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                 <div class="input-box">
+                    <label for="email">Email Address</label>
                     <i class="fa-solid fa-envelope"></i>
-                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="email" required>
                 </div>
 
                 <div class="input-box">
+                    <label for="password">Password</label>
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
                     <span class="toggle-password" style="cursor: pointer;">
                         <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
                     </span>
@@ -63,6 +70,7 @@
                 <a href="{{ url_for('student.forgot_password') }}">Forgot Password?</a>
                 <a href="/register">Create Account</a>
             </div>
+            <p class="secure-access"><i class="fa-solid fa-shield-halved"></i> Secure student access</p>
         </div>
     </div>
 </div>
