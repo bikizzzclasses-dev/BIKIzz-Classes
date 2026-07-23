@@ -33,6 +33,7 @@ from models import (
     PasswordResetOTP,
     ActiveSession  
 )
+from email_utils import send_resend_email
 
 student_bp = Blueprint("student", __name__)
 
@@ -59,6 +60,65 @@ def password_is_strong(password):
         and any(ch.isupper() for ch in password)
         and any(ch.isdigit() for ch in password)
     )
+
+
+def send_welcome_email(student):
+    send_resend_email(
+        student.email,
+        "Welcome to BIKIzz Classes",
+        (
+            f"Hello {student.name},\n\n"
+            "Welcome to BIKIzz Classes. Your account has been created successfully.\n\n"
+            "You can now login, complete your payment, and start your Mathematics learning journey.\n\n"
+            "BIKIzz Classes"
+        ),
+        (
+            f"<p>Hello {student.name},</p>"
+            "<p>Welcome to <strong>BIKIzz Classes</strong>. Your account has been created successfully.</p>"
+            "<p>You can now login, complete your payment, and start your Mathematics learning journey.</p>"
+            "<p>BIKIzz Classes</p>"
+        ),
+    )
+
+
+def send_payment_upload_emails(student):
+    send_resend_email(
+        student.email,
+        "Payment Screenshot Received",
+        (
+            f"Hello {student.name},\n\n"
+            "We received your payment screenshot. Your payment is now pending admin verification.\n\n"
+            "You will receive another email after approval.\n\n"
+            "BIKIzz Classes"
+        ),
+        (
+            f"<p>Hello {student.name},</p>"
+            "<p>We received your payment screenshot. Your payment is now pending admin verification.</p>"
+            "<p>You will receive another email after approval.</p>"
+            "<p>BIKIzz Classes</p>"
+        ),
+    )
+
+    admin_email = current_app.config.get("MAIN_ADMIN_EMAIL")
+    if admin_email:
+        send_resend_email(
+            admin_email,
+            "New Payment Screenshot Uploaded",
+            (
+                "A student uploaded a payment screenshot.\n\n"
+                f"Name: {student.name}\n"
+                f"Email: {student.email}\n"
+                f"Mobile: {student.mobile}\n\n"
+                "Please login to admin panel and verify the payment."
+            ),
+            (
+                "<p>A student uploaded a payment screenshot.</p>"
+                f"<p><strong>Name:</strong> {student.name}<br>"
+                f"<strong>Email:</strong> {student.email}<br>"
+                f"<strong>Mobile:</strong> {student.mobile}</p>"
+                "<p>Please login to admin panel and verify the payment.</p>"
+            ),
+        )
 
 
 @student_bp.before_request
@@ -126,6 +186,8 @@ def register():
 
         db.session.add(student)
         db.session.commit()
+
+        send_welcome_email(student)
 
         flash("Registration Successful! Please Login.")
         return redirect("/login")
@@ -493,6 +555,8 @@ def payment():
             student.payment_image = base64_string
             student.payment_status = "Pending"  
             db.session.commit()
+
+            send_payment_upload_emails(student)
 
             flash("Payment Screenshot Uploaded Successfully!")
             return redirect("/payment")

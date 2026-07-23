@@ -30,6 +30,7 @@ from models import (
     Test,
     ActiveSession  
 )
+from email_utils import send_resend_email
 
 admin_bp = Blueprint("admin", __name__)
 
@@ -47,6 +48,25 @@ def secure_pdf_upload(file):
 
 def is_main_admin():
     return session.get("admin_email") == MAIN_ADMIN_EMAIL
+
+
+def send_payment_approval_email(student):
+    send_resend_email(
+        student.email,
+        "Payment Approved - BIKIzz Classes",
+        (
+            f"Hello {student.name},\n\n"
+            "Your payment has been approved successfully.\n\n"
+            "You can now access your premium study materials, live class details, tests, and dashboard features.\n\n"
+            "BIKIzz Classes"
+        ),
+        (
+            f"<p>Hello {student.name},</p>"
+            "<p>Your payment has been <strong>approved successfully</strong>.</p>"
+            "<p>You can now access your premium study materials, live class details, tests, and dashboard features.</p>"
+            "<p>BIKIzz Classes</p>"
+        ),
+    )
 
 
 # ==========================================================
@@ -231,6 +251,9 @@ def approve(id):
     student = Student.query.get_or_404(id)
     student.payment_status = "Approved"
     db.session.commit()
+
+    send_payment_approval_email(student)
+
     flash("Payment Approved Successfully!")
     return redirect("/payments")
 
